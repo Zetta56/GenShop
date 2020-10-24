@@ -1,0 +1,29 @@
+/*.ui.active.modal {
+	padding: 10px 20px 0 20px;
+}
+
+.ui.active.modal .header,
+.ui.active.modal .actions {
+	border: none;
+}
+
+.ui.active.modal .header {
+	font-size: 24px;
+	padding-bottom: 0;
+}
+
+.ui.active.modal .content {
+	font-size: 18px;
+}
+
+.ui.active.modal label,
+.ui.active.modal input {
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+
+.ui.active.modal .ui.button {
+	font-size: 15px;
+	height: 40px;
+	vertical-align: top;
+}*/

@@ -1,0 +1,43 @@
+.ui.main.container {
+	margin-top: 3rem;
+}
+
+#errorMessage {
+	position: absolute;
+	top: 4rem;
+	text-align: center;
+	width: 100%;
+}
+
+/*Header*/
+#header {
+	border: 0;
+	box-shadow: 0;
+	font-size: 20px;
+	margin: 0;
+}
+
+/*Colors*/
+body {
+	background-color: #dbe6f7;  /*lightest blue*/
+}
+
+#header {
+	background-color: #586cdc;  /*indigo*/
+}
+
+.blue {
+	background-color: #4982d5 !important;	/*blue*/
+}
+
+#userForm {
+	background-color: white;
+}
+
+#header .item {
+	color: white !important;
+}
+
+.errorLabel {
+	color: red;
+}

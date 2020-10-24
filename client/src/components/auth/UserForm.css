@@ -1,0 +1,74 @@
+#userForm {
+	border-radius: .75rem;
+	box-shadow: 0 .5rem 2rem .1rem lightgray;
+	margin: 6rem auto !important;
+}
+
+#userForm > .column {
+	padding: 3.25rem;
+}
+
+#userForm h2 {
+	letter-spacing: .1rem;
+	text-align: center;
+}
+
+#userForm .googleLogin,
+#userForm .ui.button {
+	font-size: 18px;
+	height: 3.5rem;
+	margin: .75rem 0;
+	width: 100%;
+}
+
+#userForm .field {
+	font-size: 18px;
+	margin: 1.5rem 0;
+}
+
+#userForm .field input {
+	border: 0;
+	border-bottom: 1px solid rgba(34,36,38,.15);
+	border-radius: 0;
+	font-size: 20px;
+	line-height: 1rem;
+	padding: 1rem 0 0 0;
+}
+
+#userForm .field .errorLabel {
+	font-size: 14px;
+	margin-top: .5rem;
+}
+
+#userForm .googleLogin {
+	background: white url("/google-normal.png") no-repeat center;
+	border-radius: .3rem;
+	height: 3.5rem;
+}
+
+#userForm .googleLogin:hover {
+	background: #eeeeee url("/google-hover.png") no-repeat center;
+}
+
+#userForm .field.red > input {
+	border-color: red;
+}
+
+@media only screen and (min-width: 768px) {
+	.ui.stackable.grid {
+		width: 70%;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#userForm > .column {
+		padding:  2rem !important;
+	}
+
+	#userForm .ui.form .googleLogin,
+	#userForm .ui.form input,
+	#userForm .ui.form .ui.button {
+		height: 3rem;
+		margin: .5rem 0;
+	}
+}
