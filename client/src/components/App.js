@@ -21,13 +21,12 @@ const App = ({error, resetError, login, logout}) => {
 		const loadAuth = async () => {
 			await axios.post("/api/refresh");
 			const response = await axios.get("/api/access");
-			
 			if(response.data) {
-				login(response.data._id);
+				login(response.data);
 			} else if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
-				login({googleId: window.gapi.auth2.getAuthInstance().currentUser.get().getId()});
+				login({googleId: window.gapi.auth2.getAuthInstance().currentUser.get()});
 			} else {
-				logout("initial");
+				logout();
 			};
 		};
 		
@@ -63,7 +62,7 @@ const App = ({error, resetError, login, logout}) => {
 			<Header />
 			<div className="ui main container">
 				<Switch>
-					<ProtectedRoute path="/" exact component={Landing}></ProtectedRoute>
+					<Route path="/" exact component={Landing}></Route>
 					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>
 					<ProtectedRoute path="/login" exact component={Login}></ProtectedRoute>
 					<Route path="/products" exact component={ProductList}></Route>

@@ -25,7 +25,7 @@ const Register = ({handleSubmit, createUser}) => {
 	}, []);
 	
 	return (
-		<div className="register ui one column stackable grid" id="userForm">
+		<div className="ui one column stackable grid" id="userForm">
 			<div className="column">
 				<h2>Create An Account</h2>
 				<form className="ui form" onSubmit={handleSubmit(({username, password}) => createUser({username, password}))}>

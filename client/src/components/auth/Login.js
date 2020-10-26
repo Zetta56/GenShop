@@ -31,7 +31,7 @@ const Login = ({handleSubmit, login, match}) => {
 	}, []);
 	
 	return (
-		<div className="login ui one column stackable grid" id="userForm">
+		<div className="ui one column stackable grid" id="userForm">
 			<div className="column">
 				<h2>Login</h2>
 				{renderGoogle()}

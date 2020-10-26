@@ -1,14 +1,22 @@
 import React from "react";
-import {connect} from "react-redux"
+import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import history from "../history";
 import {logout} from "../actions";
 
-const Header = ({isLoggedIn, sets, logout}) => {
+const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 	const onLogoutClick = (e) => {
 		e.preventDefault();
 		logout();
 		if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
 			window.gapi.auth2.getAuthInstance().signOut();
+		};
+		history.push("/products");
+	};
+
+	const renderCreate = () => {
+		if(isAdmin) {
+			return <Link to="/products/new" className="create item"><i className="plus icon" /></Link>
 		};
 	};
 
@@ -30,8 +38,9 @@ const Header = ({isLoggedIn, sets, logout}) => {
 	return (
 		<div className="ui inverted secondary pointing menu" id="header">
 			<div className="ui container">
-				<Link to="/" className="item">KnickKnackr</Link>
+				<Link to="/" className="item">GenShop</Link>
 				<div className="right menu">
+					{renderCreate()}
 					{renderAuth()}
 				</div>
 			</div>
@@ -40,7 +49,7 @@ const Header = ({isLoggedIn, sets, logout}) => {
 };
 
 const mapStateToProps = (state) => {
-	return {isLoggedIn: state.auth.isLoggedIn}
+	return {isLoggedIn: state.auth.isLoggedIn, isAdmin: state.auth.isAdmin}
 };
 
 export default connect(mapStateToProps, {logout})(Header);

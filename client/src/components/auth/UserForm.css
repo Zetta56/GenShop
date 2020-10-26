@@ -21,20 +21,6 @@
 	width: 100%;
 }
 
-#userForm .field {
-	font-size: 18px;
-	margin: 1.5rem 0;
-}
-
-#userForm .field input {
-	border: 0;
-	border-bottom: 1px solid rgba(34,36,38,.15);
-	border-radius: 0;
-	font-size: 20px;
-	line-height: 1rem;
-	padding: 1rem 0 0 0;
-}
-
 #userForm .field .errorLabel {
 	font-size: 14px;
 	margin-top: .5rem;

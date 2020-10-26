@@ -9,12 +9,29 @@
 	width: 100%;
 }
 
+.ui.form .field {
+	font-size: 18px;
+	margin: 1.5rem 0;
+}
+
+.ui.form .field input {
+	border: 0;
+	border-bottom: 1px solid rgba(34,36,38,.15);
+	border-radius: 0;
+	font-size: 20px;
+	padding: 1rem 0 0 0;
+}
+
 /*Header*/
 #header {
 	border: 0;
 	box-shadow: 0;
 	font-size: 20px;
 	margin: 0;
+}
+
+#header .create.item {
+	padding: 17px 0;
 }
 
 /*Colors*/
@@ -30,7 +47,8 @@ body {
 	background-color: #4982d5 !important;	/*blue*/
 }
 
-#userForm {
+#userForm,
+#productForm {
 	background-color: white;
 }
 

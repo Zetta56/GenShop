@@ -19,6 +19,7 @@ const User = require("./models/User");
 
 //Routes
 const indexRoutes = require("./routes/index");
+const productRoutes = require("./routes/products");
 
 //DB Config
 mongoose.connect(process.env.DATABASEURL || "mongodb://localhost/genshop", {useNewUrlParser: true, useUnifiedTopology: true});
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 
 //Run Routes
 app.use("/api", indexRoutes);
+app.use("/api/products", productRoutes);
 app.use((req, res) => {
 	res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });

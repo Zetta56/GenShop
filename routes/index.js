@@ -7,7 +7,7 @@ const express = require("express"),
 	  User = require("../models/User");
 	  Token = require("../models/Token");
 
-router.post("/register", middleware.isNotLoggedIn, (req, res) => {
+router.post("/register", (req, res) => {
 	const user = {email: req.body.email, username: req.body.username};
 	User.register(user, req.body.password, (err, newUser) => {
 		if(err) {
@@ -18,10 +18,11 @@ router.post("/register", middleware.isNotLoggedIn, (req, res) => {
 	});
 });
 
-//Uses custom authenticate callback for error handling
-router.post("/login", middleware.isNotLoggedIn, (req, res) => {
+//Uses custom authenticate function for better error handling
+router.post("/login", (req, res) => {
 	let currentUser = null;
 	passport.authenticate("local", async(err, user) => {
+		//Google OAuth2
 		if(process.env.GOOGLE_CLIENTID && req.body.googleToken) {
 			try {
 				//Verifies that google token is valid
@@ -29,19 +30,20 @@ router.post("/login", middleware.isNotLoggedIn, (req, res) => {
 					idToken: req.body.googleToken,
 					audience: process.env.GOOGLE_CLIENTID
 				});
-				//ticket.getPayload().sub represents google id
+				//Finds user by google id
 				const foundUser = await User.findOne({googleId: ticket.getPayload().sub});
 				currentUser = foundUser ? foundUser : await User.create({googleId: ticket.getPayload().sub});
 			} catch(err) {
 				return res.status(500).json(err);
 			};
+		//Local Auth
 		} else if(err) {
 			return res.status(500).json(err);
 		} else if(!user) {
 			return res.status(401).json({message: "Username or password is incorrect"});
 		} else {
 			await req.logIn(user, {session: false});
-			currentUser = user
+			currentUser = user;
 		};
 
 		//Creates JWT
@@ -49,10 +51,10 @@ router.post("/login", middleware.isNotLoggedIn, (req, res) => {
 		const accessToken = jwt.sign({sub: currentUser._id}, process.env.ACCESS_KEY, {expiresIn: "15min"});
 		await Token.create({token: refreshToken, userId: currentUser._id});
 		
-		//Sends JWT in cookie
+		//Sends Cookies
 		res.cookie("refresh_token", refreshToken, {httpOnly: true, sameSite: "none", secure: true});
 		res.cookie("access_token", accessToken, {httpOnly: true, sameSite: "none", secure: true});
-		res.json(currentUser._id);
+		res.json(currentUser);
 	})(req, res);
 });
 
