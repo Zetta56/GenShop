@@ -34,6 +34,26 @@
 	padding: 17px 0;
 }
 
+/*Modal*/
+.ui.active.modal {
+	padding: .5rem 1rem;
+}
+
+.ui.active.modal .header,
+.ui.active.modal .actions {
+	border: none;
+}
+
+.ui.active.modal .header {
+	font-size: 20px;
+	padding-bottom: 0;
+}
+
+.ui.active.modal .content,
+.ui.active.modal .ui.button {
+	font-size: 16px;
+}
+
 /*Colors*/
 body {
 	background-color: #dbe6f7;  /*lightest blue*/

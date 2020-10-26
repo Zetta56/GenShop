@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./App.css";
-import "./Modal.css";
 
 const Modal = ({header, content, actions, onDismiss, id}) => {
 	return ReactDOM.createPortal(

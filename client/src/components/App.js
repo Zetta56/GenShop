@@ -6,11 +6,14 @@ import history from "../history";
 import {resetError, login, logout} from "../actions";
 import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
-import Landing from "./Landing";
+// import Landing from "./Landing";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ProductList from "./products/ProductList";
 import ProductCreate from "./products/ProductCreate";
+import ProductEdit from "./products/ProductEdit";
+import ProductDetails from "./products/ProductDetails";
+import ProductDelete from "./products/ProductDelete";
 import "./App.css";
 
 const App = ({error, resetError, login, logout}) => {
@@ -62,11 +65,14 @@ const App = ({error, resetError, login, logout}) => {
 			<Header />
 			<div className="ui main container">
 				<Switch>
-					<Route path="/" exact component={Landing}></Route>
+					<Route path="/" exact component={ProductList}></Route>
 					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>
 					<ProtectedRoute path="/login" exact component={Login}></ProtectedRoute>
 					<Route path="/products" exact component={ProductList}></Route>
-					<Route path="/products/new" exact component={ProductCreate}></Route>
+					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>
+					<ProtectedRoute path="/products/:productId/edit" exact component={ProductEdit} adminReq></ProtectedRoute>
+					<ProtectedRoute path="/products/:productId/delete" exact component={ProductDelete} adminReq></ProtectedRoute>
+					<Route path="/products/:productId" exact component={ProductDetails}></Route>
 				</Switch>
 			</div>
 		</Router>

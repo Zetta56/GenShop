@@ -7,6 +7,10 @@
 	padding: 2rem 2.75rem;
 }
 
+#productForm input[type="number"] {
+	width: 20%;
+}
+
 @media only screen and (min-width: 1200px) {
 	#productForm > .column {
 		padding: 2.5rem 3.5rem !important;

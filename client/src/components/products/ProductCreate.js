@@ -5,11 +5,11 @@ import {createProduct} from "../../actions";
 import "./ProductForm.css";
 
 const ProductCreate = ({handleSubmit, createProduct}) => {
-	const renderInput = useCallback(({input, label}) => {
+	const renderInput = useCallback(({input, label, inputType}) => {
 		return (
 			<div className="field">
 				<label>{label}</label>
-				<input type="text" {...input} placeholder={label} required />
+				<input type={inputType} {...input} placeholder={label} step="any" required />
 			</div>
 		);
 	}, []);
@@ -19,7 +19,8 @@ const ProductCreate = ({handleSubmit, createProduct}) => {
 			<div className="column">
 				<h2>Create New Listing</h2>
 				<form className="ui form" onSubmit={handleSubmit(formValues => createProduct(formValues))}>
-					<Field name="title" component={renderInput} label="Title" />
+					<Field name="title" component={renderInput} label="Title" inputType="text" />
+					<Field name="price" component={renderInput} label="Price" inputType="number" />
 					<button className="ui blue button">Create</button>
 				</form>
 			</div>
