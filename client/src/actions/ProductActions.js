@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "../history";
-import {error} from "./ErrorActions";
+import {error} from "./AlertActions";
 
 export const fetchProducts = () => {
 	return async (dispatch) => {

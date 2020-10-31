@@ -1,12 +1,12 @@
 import {combineReducers} from "redux";
 import {reducer as FormReducer} from "redux-form";
-import ErrorReducer from "./ErrorReducer";
-import AuthReducer from "./AuthReducer";
+import alertReducer from "./AlertReducer";
+import userReducer from "./UserReducer";
 import ProductReducer from "./ProductReducer";
 
 export default combineReducers({
 	form: FormReducer,
-	error: ErrorReducer,
-	auth: AuthReducer,
+	alert: alertReducer,
+	user: userReducer,
 	products: ProductReducer
 });

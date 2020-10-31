@@ -16,7 +16,7 @@ const ProtectedRoute = ({isLoggedIn, isAdmin, authenticateReq, adminReq, path, c
 };
 
 const mapStateToProps = (state) => {
-	return {isLoggedIn: state.auth.isLoggedIn, isAdmin: state.auth.isAdmin};
+	return {isLoggedIn: state.user.isLoggedIn, isAdmin: state.user.isAdmin};
 };
 
 export default connect(mapStateToProps)(ProtectedRoute);

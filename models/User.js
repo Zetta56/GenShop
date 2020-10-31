@@ -6,7 +6,13 @@ const userSchema = new mongoose.Schema({
 	username: String,
 	password: String,
 	googleId: String,
-	isAdmin: {type: Boolean, default: false}
+	isAdmin: {type: Boolean, default: false},
+	cart: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Product"
+		}
+	]
 });
 
 userSchema.plugin(passportLocalMongoose);

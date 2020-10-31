@@ -1,9 +1,9 @@
 .ui.main.container {
-	margin-top: 3rem;
+	margin-top: 4rem;
 }
 
-#errorMessage {
-	position: absolute;
+.alertMessage {
+	position: absolute !important;
 	top: 4rem;
 	text-align: center;
 	width: 100%;

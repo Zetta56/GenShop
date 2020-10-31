@@ -3,7 +3,7 @@ import {Router, Switch, Route} from "react-router-dom";
 import {connect} from "react-redux";
 import axios from "axios"
 import history from "../history";
-import {resetError, login, logout} from "../actions";
+import {resetAlerts, login, logout} from "../actions";
 import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
 // import Landing from "./Landing";
@@ -16,7 +16,7 @@ import ProductDetails from "./products/ProductDetails";
 import ProductDelete from "./products/ProductDelete";
 import "./App.css";
 
-const App = ({error, resetError, login, logout}) => {
+const App = ({error, confirm, resetAlerts, login, logout}) => {
 	useEffect(() => {
 		window.refreshCooldown = false;
 		window.setInterval(() => window.refreshCooldown = false, 180000);
@@ -47,21 +47,24 @@ const App = ({error, resetError, login, logout}) => {
 		
 		//Removes error messages upon navigation
 		history.listen(async (location) => {
-			if(error) {
-				resetError();
+			if(error || confirm) {
+				resetAlerts();
 			};
 		});
-	}, [error, resetError, login, logout]);
+	}, [error, confirm, resetAlerts, login, logout]);
 
-	const renderError = () => {
+	const renderMessage = () => {
 		if(error) {
-			return <div className="ui negative message" id="errorMessage">{error}</div>
+			return <div className="ui negative message alertMessage">{error}</div>
+		};
+		if(confirm) {
+			return <div className="ui positive message alertMessage">{confirm}</div>
 		};
 	};
 	
 	return (
 		<Router history={history}>
-			{renderError()}
+			{renderMessage()}
 			<Header />
 			<div className="ui main container">
 				<Switch>
@@ -80,7 +83,7 @@ const App = ({error, resetError, login, logout}) => {
 };
 
 const mapStateToProps = (state) => {
-	return {error: state.error.message}
+	return {error: state.alert.error, confirm: state.alert.confirm}
 };
 
-export default connect(mapStateToProps, {resetError, login, logout})(App);
+export default connect(mapStateToProps, {resetAlerts, login, logout})(App);

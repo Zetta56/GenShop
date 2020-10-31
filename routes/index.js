@@ -1,11 +1,13 @@
 const express = require("express"),
 	  router = express.Router(),
+	  stripe = require("stripe")(process.env.STRIPE_SECRET),
 	  passport = require("passport"),
 	  jwt = require("jsonwebtoken"),
 	  OAuth2Client = require("google-auth-library").OAuth2Client,
-	  middleware = require("../middleware");
-	  User = require("../models/User");
-	  Token = require("../models/Token");
+	  middleware = require("../middleware"),
+	  User = require("../models/User"),
+	  Token = require("../models/Token"),
+	  Product = require("../models/Product");
 
 router.post("/register", (req, res) => {
 	const user = {email: req.body.email, username: req.body.username};
@@ -90,6 +92,49 @@ router.post("/refresh", (req, res) => {
 			res.json(token.sub);
 		});
 	});
+});
+
+router.post("/add-to-cart/:productId", async(req, res) => {
+	try{
+		const foundUser = await User.findById(req.user._id);
+
+		if(foundUser.cart.includes(req.params.productId)) {
+			await foundUser.cart.pull(req.params.productId);
+		} else {
+			await foundUser.cart.push(req.params.productId);
+		}
+
+		foundUser.save();
+		res.json(foundUser);
+	} catch(err) {
+		res.status(500).json(err);
+	}
+});
+
+//Stripe Logic
+router.post("/checkout", async (req, res) => {
+	const foundUser = await User.findById(req.user._id).populate("cart");
+
+	const session = await stripe.checkout.sessions.create({
+		payment_method_types: ["card"],
+		line_items: foundUser.cart.map(product => {
+			return {
+				price_data: {
+					currency: "usd",
+					product_data: {
+						name: product.title
+					},
+					unit_amount_decimal: (product.price * 100)
+				},
+				quantity: 1
+			}
+		}),
+		mode: "payment",
+		success_url: `${process.env.BASE_URL}/checkout?success=true`,
+		cancel_url: `${process.env.BASE_URL}/checkout?cancel=true`
+	})
+
+	res.json({id: session.id});
 });
 
 module.exports = router;

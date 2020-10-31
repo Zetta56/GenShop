@@ -49,7 +49,7 @@ const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 };
 
 const mapStateToProps = (state) => {
-	return {isLoggedIn: state.auth.isLoggedIn, isAdmin: state.auth.isAdmin}
+	return {isLoggedIn: state.user.isLoggedIn};
 };
 
 export default connect(mapStateToProps, {logout})(Header);
