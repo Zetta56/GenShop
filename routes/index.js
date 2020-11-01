@@ -23,8 +23,8 @@ router.post("/register", (req, res) => {
 router.post("/login", async (req, res) => {
 	//Handles page reload with jwt
 	if(req.user) {
-		const foundUser = await User.findById(req.user._id).populate("cart");
-		return res.json(foundUser);
+		const populatedUser = await User.findById(req.user._id).populate("cart");
+		return res.json(populatedUser);
 	};
 
 	let currentUser = null;
@@ -39,8 +39,8 @@ router.post("/login", async (req, res) => {
 					audience: process.env.GOOGLE_CLIENTID
 				});
 				//Finds user by google id
-				const foundUser = await User.findOne({googleId: ticket.getPayload().sub});
-				currentUser = foundUser ? foundUser : await User.create({googleId: ticket.getPayload().sub});
+				const googleUser = await User.findOne({googleId: ticket.getPayload().sub});
+				currentUser = googleUser ? googleUser : await User.create({googleId: ticket.getPayload().sub});
 			} catch(err) {
 				return res.status(500).json(err);
 			};
@@ -62,7 +62,11 @@ router.post("/login", async (req, res) => {
 		//Sends Cookies
 		res.cookie("refresh_token", refreshToken, {httpOnly: true, sameSite: "none", secure: true});
 		res.cookie("access_token", accessToken, {httpOnly: true, sameSite: "none", secure: true});
-		res.json(currentUser.populate("cart"));
+		
+		//Sends populated user
+		User.populate(currentUser, {path: "cart"}, (err, populatedUser) => {
+			res.json(populatedUser);
+		});
 	})(req, res);
 });
 
@@ -103,15 +107,31 @@ router.post("/refresh", (req, res) => {
 router.post("/add-to-cart/:productId", async(req, res) => {
 	try{
 		const foundUser = await User.findById(req.user._id);
-
+		
 		if(foundUser.cart.includes(req.params.productId)) {
 			await foundUser.cart.pull(req.params.productId);
 		} else {
 			await foundUser.cart.push(req.params.productId);
 		}
-
 		foundUser.save();
-		res.json(foundUser.populate("cart"));
+		
+		User.populate(foundUser, {path: "cart"}, (err, populatedUser) => {
+			res.json(populatedUser);
+		});
+	} catch(err) {
+		res.status(500).json(err);
+	}
+});
+
+router.post("/reset-cart", async(req, res) => {
+	try{
+		const foundUser = await User.findById(req.user._id);
+		foundUser.cart = [];
+		foundUser.save();
+
+		User.populate(foundUser, {path: "cart"}, (err, populatedUser) => {
+			res.json(populatedUser);
+		});
 	} catch(err) {
 		res.status(500).json(err);
 	}
@@ -119,28 +139,31 @@ router.post("/add-to-cart/:productId", async(req, res) => {
 
 //Stripe Logic
 router.post("/checkout", async (req, res) => {
-	const foundUser = await User.findById(req.user._id).populate("cart");
+	try {
+		const foundUser = await User.findById(req.user._id).populate("cart");
 
-	const session = await stripe.checkout.sessions.create({
-		payment_method_types: ["card"],
-		line_items: foundUser.cart.map(product => {
-			return {
-				price_data: {
-					currency: "usd",
-					product_data: {
-						name: product.title
+		const session = await stripe.checkout.sessions.create({
+			payment_method_types: ["card"],
+			line_items: foundUser.cart.map(product => {
+				return {
+					price_data: {
+						currency: "usd",
+						product_data: {
+							name: product.title
+						},
+						unit_amount_decimal: (product.price * 100)
 					},
-					unit_amount_decimal: (product.price * 100)
-				},
-				quantity: 1
-			}
-		}),
-		mode: "payment",
-		success_url: `${process.env.BASE_URL}/checkout?success=true`,
-		cancel_url: `${process.env.BASE_URL}/checkout?cancel=true`
-	})
-
-	res.json({id: session.id});
+					quantity: 1
+				}
+			}),
+			mode: "payment",
+			success_url: `${process.env.BASE_URL}/checkout?success=true`,
+			cancel_url: `${process.env.BASE_URL}/checkout?cancel=true`
+		})
+		res.json(session.id);
+	} catch(err) {
+		res.status(500).json(err);
+	}
 });
 
 module.exports = router;

@@ -45,8 +45,8 @@ const Login = ({handleSubmit, login, match}) => {
 	);
 };
 
-const reduxWrapped = reduxForm({
+const formWrapped = reduxForm({
 	form: "Login"
 })(Login);
 
-export default connect(null, {login})(reduxWrapped);
+export default connect(null, {login})(formWrapped);

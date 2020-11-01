@@ -36,7 +36,7 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product}) 
 	);
 };
 
-const reduxWrapped = reduxForm({
+const formWrapped = reduxForm({
 	form: "EditProduct"
 })(ProductEdit);
 
@@ -47,4 +47,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, {fetchProduct, editProduct})(reduxWrapped);
+export default connect(mapStateToProps, {fetchProduct, editProduct})(formWrapped);

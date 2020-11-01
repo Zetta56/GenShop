@@ -10,6 +10,7 @@ import Header from "./Header";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import Cart from "./Cart";
+import Checkout from "./Checkout";
 import ProductList from "./products/ProductList";
 import ProductCreate from "./products/ProductCreate";
 import ProductEdit from "./products/ProductEdit";
@@ -73,6 +74,7 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>
 					<ProtectedRoute path="/login" exact component={Login}></ProtectedRoute>
 					<ProtectedRoute path="/cart" exact component={Cart} authenticateReq></ProtectedRoute>
+					<ProtectedRoute path="/checkout" exact component={Checkout} authenticateReq></ProtectedRoute>
 					<Route path="/products" exact component={ProductList}></Route>
 					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/edit" exact component={ProductEdit} adminReq></ProtectedRoute>

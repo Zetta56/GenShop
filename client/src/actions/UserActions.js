@@ -44,11 +44,11 @@ export const logout = (initial) => {
 	};
 };
 
-export const addToCart = (productId, newItem) => {
+export const addToCart = (adding, productId, formValues) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.post(`/api/add-to-cart/${productId}`);
-			const message = newItem ? "added to" : "removed from";
+			const response = await axios.post(`/api/add-to-cart/${productId}`, formValues);
+			const message = adding ? "added to" : "removed from";
 
 			dispatch({
 				type: "ADD_TO_CART",
@@ -57,8 +57,22 @@ export const addToCart = (productId, newItem) => {
 
 			dispatch(confirm(`Product successfully ${message} cart.`));
 		} catch(err) {
-			// await history.push("/products");
 			await dispatch(error(err.response.data.message));
 		}
 	}
+};
+
+export const resetCart = () => {
+	return async (dispatch) => {
+		try {
+			const response = await axios.post("/api/reset-cart");
+
+			dispatch({
+				type: "RESET_CART",
+				payload: response.data
+			});
+		} catch(err) {
+			await dispatch(error(err.response.data.message));
+		}
+	};
 };

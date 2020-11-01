@@ -28,8 +28,8 @@ const ProductCreate = ({handleSubmit, createProduct}) => {
 	);
 };
 
-const reduxWrapped = reduxForm({
+const formWrapped = reduxForm({
 	form: "CreateProduct"
 })(ProductCreate);
 
-export default connect(null, {createProduct})(reduxWrapped);
+export default connect(null, {createProduct})(formWrapped);
