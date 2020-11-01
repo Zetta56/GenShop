@@ -14,16 +14,7 @@ export const createUser = (formValues) => {
 	};
 };
 
-export const login = (formValues) => {
-	//Accessed when reloaded or first load
-	if(formValues && !formValues.password && !formValues.googleToken) {
-		return {
-			type: "LOGIN",
-			payload: formValues
-		}
-	};
-
-	//Accessed from login form
+export const login = (formValues, initial) => {
 	return async (dispatch) => {
 		try {
 			const response = await axios.post("/api/login", formValues);
@@ -33,7 +24,9 @@ export const login = (formValues) => {
 				payload: response.data
 			});
 			
-			history.push("/products");
+			if(!initial) {
+				history.push("/products");
+			}
 		} catch(err) {
 			await history.push("/login");
 			await dispatch(error(err.response.data.message));
@@ -64,8 +57,8 @@ export const addToCart = (productId, newItem) => {
 
 			dispatch(confirm(`Product successfully ${message} cart.`));
 		} catch(err) {
-			await history.push("/products");
-			dispatch(error(err.response.data.message));
+			// await history.push("/products");
+			await dispatch(error(err.response.data.message));
 		}
 	}
 };

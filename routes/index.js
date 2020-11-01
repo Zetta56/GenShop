@@ -20,9 +20,15 @@ router.post("/register", (req, res) => {
 	});
 });
 
-//Uses custom authenticate function for better error handling
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
+	//Handles page reload with jwt
+	if(req.user) {
+		const foundUser = await User.findById(req.user._id).populate("cart");
+		return res.json(foundUser);
+	};
+
 	let currentUser = null;
+	//Uses custom authenticate function for better error handling
 	passport.authenticate("local", async(err, user) => {
 		//Google OAuth2
 		if(process.env.GOOGLE_CLIENTID && req.body.googleToken) {
@@ -56,7 +62,7 @@ router.post("/login", (req, res) => {
 		//Sends Cookies
 		res.cookie("refresh_token", refreshToken, {httpOnly: true, sameSite: "none", secure: true});
 		res.cookie("access_token", accessToken, {httpOnly: true, sameSite: "none", secure: true});
-		res.json(currentUser);
+		res.json(currentUser.populate("cart"));
 	})(req, res);
 });
 
@@ -105,7 +111,7 @@ router.post("/add-to-cart/:productId", async(req, res) => {
 		}
 
 		foundUser.save();
-		res.json(foundUser);
+		res.json(foundUser.populate("cart"));
 	} catch(err) {
 		res.status(500).json(err);
 	}

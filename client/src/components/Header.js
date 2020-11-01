@@ -24,7 +24,12 @@ const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 		if(isLoggedIn === null) {
 			return;
 		} else if(isLoggedIn) {
-			return <Link to="#" className="item" onClick={(e) => onLogoutClick(e)}>Logout</Link>
+			return (
+				<React.Fragment>
+					<Link to="/cart" className="item"><i className="shopping cart icon"/></Link>
+					<Link to="#" className="item" onClick={(e) => onLogoutClick(e)}>Logout</Link>
+				</React.Fragment>
+			);
 		} else {
 			return (
 				<React.Fragment>
@@ -49,7 +54,7 @@ const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 };
 
 const mapStateToProps = (state) => {
-	return {isLoggedIn: state.user.isLoggedIn};
+	return {isLoggedIn: state.user.isLoggedIn, isAdmin: state.user.isAdmin};
 };
 
 export default connect(mapStateToProps, {logout})(Header);

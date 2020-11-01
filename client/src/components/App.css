@@ -30,8 +30,8 @@
 	margin: 0;
 }
 
-#header .create.item {
-	padding: 17px 0;
+#header .item {
+	padding: 1.25rem 1rem;
 }
 
 /*Modal*/

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Router, Switch, Route} from "react-router-dom";
 import {connect} from "react-redux";
 import axios from "axios"
@@ -9,6 +9,7 @@ import Header from "./Header";
 // import Landing from "./Landing";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
+import Cart from "./Cart";
 import ProductList from "./products/ProductList";
 import ProductCreate from "./products/ProductCreate";
 import ProductEdit from "./products/ProductEdit";
@@ -17,15 +18,13 @@ import ProductDelete from "./products/ProductDelete";
 import "./App.css";
 
 const App = ({error, confirm, resetAlerts, login, logout}) => {
-	useEffect(() => {
-		window.refreshCooldown = false;
-		window.setInterval(() => window.refreshCooldown = false, 180000);
-
+	const loadAuth = useCallback(() => {
 		const loadAuth = async () => {
 			await axios.post("/api/refresh");
 			const response = await axios.get("/api/access");
+
 			if(response.data) {
-				login(response.data);
+				login(response.data, true);
 			} else if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
 				login({googleId: window.gapi.auth2.getAuthInstance().currentUser.get()});
 			} else {
@@ -47,11 +46,13 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 		
 		//Removes error messages upon navigation
 		history.listen(async (location) => {
-			if(error || confirm) {
-				resetAlerts();
-			};
+			resetAlerts();
 		});
-	}, [error, confirm, resetAlerts, login, logout]);
+	}, [resetAlerts, login, logout]);
+
+	useEffect(() => {
+		loadAuth();
+	}, [loadAuth]);
 
 	const renderMessage = () => {
 		if(error) {
@@ -71,6 +72,7 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 					<Route path="/" exact component={ProductList}></Route>
 					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>
 					<ProtectedRoute path="/login" exact component={Login}></ProtectedRoute>
+					<ProtectedRoute path="/cart" exact component={Cart} authenticateReq></ProtectedRoute>
 					<Route path="/products" exact component={ProductList}></Route>
 					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/edit" exact component={ProductEdit} adminReq></ProtectedRoute>

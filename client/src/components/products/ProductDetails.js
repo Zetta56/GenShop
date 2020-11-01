@@ -40,7 +40,6 @@ const ProductDetails = ({fetchProduct, addToCart, match, product, user}) => {
 			{product.price}
 			{renderAuth()}
 			{renderCartButton()}
-			{user.cart}
 			<button onClick={() => axios.post("/api/checkout")} className="ui blue button">To Checkout</button>
 		</div>
 	);
