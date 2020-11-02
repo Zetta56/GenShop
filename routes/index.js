@@ -23,7 +23,7 @@ router.post("/register", (req, res) => {
 router.post("/login", async (req, res) => {
 	//Handles page reload with jwt
 	if(req.user) {
-		const populatedUser = await User.findById(req.user._id).populate("cart");
+		const populatedUser = await User.findById(req.user._id).populate({path: "cart", populate: {path: "product"}});
 		return res.json(populatedUser);
 	};
 
@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
 		res.cookie("access_token", accessToken, {httpOnly: true, sameSite: "none", secure: true});
 		
 		//Sends populated user
-		User.populate(currentUser, {path: "cart"}, (err, populatedUser) => {
+		User.populate(currentUser, {path: "cart", populate: {path: "product"}}, (err, populatedUser) => {
 			res.json(populatedUser);
 		});
 	})(req, res);
@@ -107,15 +107,16 @@ router.post("/refresh", (req, res) => {
 router.post("/add-to-cart/:productId", async(req, res) => {
 	try{
 		const foundUser = await User.findById(req.user._id);
+		const productIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
 		
-		if(foundUser.cart.includes(req.params.productId)) {
-			await foundUser.cart.pull(req.params.productId);
+		if(productIndex >= 0) {
+			await foundUser.cart.splice(productIndex, 1);
 		} else {
-			await foundUser.cart.push(req.params.productId);
+			await foundUser.cart.push({product: req.params.productId, amount: req.body.amount});
 		}
 		foundUser.save();
 		
-		User.populate(foundUser, {path: "cart"}, (err, populatedUser) => {
+		User.populate(foundUser, {path: "cart", populate: {path: "product"}}, (err, populatedUser) => {
 			res.json(populatedUser);
 		});
 	} catch(err) {
@@ -129,7 +130,7 @@ router.post("/reset-cart", async(req, res) => {
 		foundUser.cart = [];
 		foundUser.save();
 
-		User.populate(foundUser, {path: "cart"}, (err, populatedUser) => {
+		User.populate(foundUser, {path: "cart", populate: {path: "product"}}, (err, populatedUser) => {
 			res.json(populatedUser);
 		});
 	} catch(err) {
@@ -140,20 +141,20 @@ router.post("/reset-cart", async(req, res) => {
 //Stripe Logic
 router.post("/checkout", async (req, res) => {
 	try {
-		const foundUser = await User.findById(req.user._id).populate("cart");
+		const foundUser = await User.findById(req.user._id).populate({path: "cart", populate: {path: "product"}});
 
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
-			line_items: foundUser.cart.map(product => {
+			line_items: foundUser.cart.map(item => {
 				return {
 					price_data: {
 						currency: "usd",
 						product_data: {
-							name: product.title
+							name: item.product.title
 						},
-						unit_amount_decimal: (product.price * 100)
+						unit_amount_decimal: (item.product.price * 100)
 					},
-					quantity: 1
+					quantity: item.amount
 				}
 			}),
 			mode: "payment",

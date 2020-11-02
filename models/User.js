@@ -9,8 +9,11 @@ const userSchema = new mongoose.Schema({
 	isAdmin: {type: Boolean, default: false},
 	cart: [
 		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Product"
+			product: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Product"
+			},
+			amount: Number
 		}
 	]
 });

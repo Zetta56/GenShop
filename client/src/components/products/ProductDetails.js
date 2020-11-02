@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import {connect} from "react-redux";
 import {Field, reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
@@ -20,24 +20,24 @@ const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, 
 		};
 	};
 
-	const renderInput = ({input, label, inputType}) => {
+	const renderInput = useCallback(({input, label, inputType}) => {
 		return (
 			<div className="field">
 				<label>{label}</label>
-				<input {...input} type={inputType} min={0} step={1} />
+				<input {...input} type={inputType} min={0} step={1} required />
 			</div>
 		);
-	};
+	}, []);
 
 	const renderCartForm = () => {
 		if(!user.isLoggedIn) {
 			return <Link to="/login" className="ui button">Sign in to add to cart</Link>
-		} else if(user.cart && user.cart.filter(product => product._id === match.params.productId).length > 0) {
+		} else if(user.cart && user.cart.filter(item => item.product === match.params.productId).length > 0) {
 			return <button onClick={() => addToCart(false, match.params.productId)} className="ui red button">Remove from Cart</button>
 		} else {
 			return (
 				<form>
-					<Field name="amount" component={renderInput} label="Amount" inputType="number" required />
+					<Field name="amount" component={renderInput} label="Amount" inputType="number" />
 					<button 
 						onClick={handleSubmit(formValues => addToCart(true, match.params.productId, formValues))} 
 						className="ui blue button"
@@ -68,7 +68,11 @@ const formWrapped = reduxForm({
 })(ProductDetails);
 
 const mapStateToProps = (state, ownProps) => {
-	return {product: state.products[ownProps.match.params.productId], user: state.user};
+	return {
+		initialValues: {amount: 1},
+		product: state.products[ownProps.match.params.productId], 
+		user: state.user
+	};
 };
 
 export default connect(mapStateToProps, {fetchProduct, addToCart})(formWrapped);

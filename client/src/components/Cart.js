@@ -22,11 +22,14 @@ const Cart = ({fetchProduct, addToCart, error, match, cartItems}) => {
 	};
 
 	const renderList = () => {
-		return cartItems.map(product => {
+		return cartItems.map(item => {
 			return (
-				<div key={product._id}>
-					<Link to={`/products/${product._id}`}>{product.title}</Link>
-					{product.price}
+				<div key={item.product._id}>
+					<Link to={`/products/${item.product._id}`}>{item.product.title}</Link>
+					<br />
+					{item.product.price}
+					<br />
+					{item.amount}
 				</div>
 			);
 		});
