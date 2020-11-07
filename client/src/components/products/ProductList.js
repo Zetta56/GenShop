@@ -9,11 +9,14 @@ const ProductList = ({fetchProducts, products, isAdmin}) => {
 	}, [fetchProducts]);
 
 	const renderList = () => {
-		return products.map((product) => {
+		return products.map(product => {
+			const imageData = `data:${product.image.contentType};base64,${arrayBufferToBase64(product.image.data.data)}`;
+			
 			return (
 				<div key={product._id}>
 					<Link to={`/products/${product._id}`}>{product.title}</Link>
 					{product.price}
+					<img src={`${imageData}`} alt={product.title} />
 				</div>
 			);
 		});
@@ -28,6 +31,16 @@ const ProductList = ({fetchProducts, products, isAdmin}) => {
 			{renderList()}
 		</div>
 	);
+};
+
+const arrayBufferToBase64 = (buffer) => {
+    let characters = "";
+    //Convert binary buffer to 8-bit array (0-255) by calling Array.Prototype.slice (from start to end)
+    const bytes = [].slice.call(new Uint8Array(buffer));
+    //Convert byte number to UTF-16 character
+    bytes.forEach(b => characters += String.fromCharCode(b));
+    //Convert UTF-16 character to Base64 (printable) ASCII character
+    return window.btoa(characters);
 };
 
 const mapStateToProps = (state) => {

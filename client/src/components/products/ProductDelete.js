@@ -33,7 +33,7 @@ const ProductDelete = ({fetchProduct, deleteProduct, match, product}) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-	return {product: state.products[ownProps.match.params.productId], isAdmin: state.auth.isAdmin};
+	return {product: state.products[ownProps.match.params.productId], isAdmin: state.user.isAdmin};
 };
 
 export default connect(mapStateToProps, {fetchProduct, deleteProduct})(ProductDelete);

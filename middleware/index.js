@@ -1,7 +1,20 @@
 const passport = require("passport"),
-	  mongoose = require("mongoose");
+	  mongoose = require("mongoose"),
+	  multer = require("multer");
 
 const middleware = {};
+
+//Stores temporary image in uploads
+middleware.upload = multer({
+	storage: multer.diskStorage({ 
+	    destination: (req, file, cb) => {
+	    	cb(null, "uploads")
+	    }, 
+	    filename: (req, file, cb) => {
+	    	cb(null, file.fieldname + "-" + Date.now() + ".png")
+	    }
+	})
+});
 
 middleware.isLoggedIn = (req, res, next) => {
 	if(!req.user) {

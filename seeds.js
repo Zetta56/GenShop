@@ -10,7 +10,7 @@ const seeds = async () => {
 	await User.deleteOne({username: "a"});
 	User.register({email: "a@a.com", username: "a"}, "a");
 	User.register({username: process.env.ADMIN_USERNAME, isAdmin: true}, process.env.ADMIN_PASSWORD, (err, newUser) => {
-		console.log("Database Seeded");
+		console.log("Users Seeded");
 	});
 };
 

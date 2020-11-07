@@ -35,8 +35,13 @@ export const fetchProduct = (productId) => {
 export const createProduct = (formValues) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.post("/api/products", formValues);
-			
+			const fd = new FormData();
+			for(const key in formValues) {
+				fd.append(key, formValues[key]);
+			};
+
+			const response = await axios.post("/api/products", fd, {headers: {"Content-Type": "multipart/form-data"}});
+
 			dispatch({
 				type: "CREATE_PRODUCT",
 				payload: response.data

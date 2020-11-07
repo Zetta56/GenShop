@@ -13,7 +13,16 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product}) 
 		return (
 			<div className="field">
 				<label>{label}</label>
-				<input type={inputType} {...input} placeholder={label} step="any" required />
+				<input 
+					type={inputType} 
+					value={input.value}
+					placeholder={label} 
+					step="any" 
+					accept=".jpg, .png, .jpeg"
+					onChange={inputType === "file" 
+								? e => input.onChange(e.target.files[0])
+								: e => input.onChange(e)}
+					required />
 			</div>
 		);
 	}, []);

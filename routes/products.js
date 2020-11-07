@@ -1,8 +1,11 @@
 const express = require("express"),
 	  router = express.Router(),
+	  path = require("path"),
+	  fs = require("fs"),
+	  middleware = require("../middleware"),
 	  Product = require("../models/Product"),
-	  User = require("../models/User");
-
+	  User = require("../models/User"); 
+  
 router.get("/", async (req, res) => {
 	try {
 		const foundProducts = await Product.find();
@@ -21,13 +24,29 @@ router.get("/:productId", async (req, res) => {
 	};
 });
 
-router.post("/", async (req, res) => {
+router.post("/", middleware.upload.single("image"), async (req, res) => {
 	try {
-		//Rounds price to 2 decimal places
-		req.body.price = parseFloat(req.body.price).toFixed(2);
-		const newProduct = await Product.create({...req.body, seller: req.user._id});
-		res.json(newProduct);
+		//Price rounded to 2 decimal places + Image read from local file
+		const product = {
+			title: req.body.title,
+			price: parseFloat(req.body.price).toFixed(2),
+			image: {
+				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
+				contentType: req.file.mimetype
+			},
+			seller: req.user._id
+		};
+		const newProduct = await Product.create(product);
+
+		//Cleans uploads folder
+		fs.unlink(req.file.path, (err) => {
+			if(err) {
+				res.status(500).json(err);
+			};
+			res.json(newProduct);
+		});
 	} catch(err) {
+		console.log(err)
 		res.status(500).json(err);
 	};
 });
