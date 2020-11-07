@@ -24,7 +24,7 @@ const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, 
 		return (
 			<div className="field">
 				<label>{label}</label>
-				<input {...input} type={inputType} min={0} step={1} required />
+				<input {...input} type={inputType} min={1} step={1} required />
 			</div>
 		);
 	}, []);
@@ -32,12 +32,12 @@ const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, 
 	const renderCartForm = () => {
 		if(!user.isLoggedIn) {
 			return <Link to="/login" className="ui button">Sign in to add to cart</Link>
-		} else if(user.cart && user.cart.filter(item => item.product === match.params.productId).length > 0) {
+		} else if(user.cart && user.cart.filter(item => item.product._id === match.params.productId).length > 0) {
 			return <button onClick={() => addToCart(false, match.params.productId)} className="ui red button">Remove from Cart</button>
 		} else {
 			return (
 				<form>
-					<Field name="amount" component={renderInput} label="Amount" inputType="number" />
+					<Field name="amount" component={renderInput} label="Amount" inputType="number" required />
 					<button 
 						onClick={handleSubmit(formValues => addToCart(true, match.params.productId, formValues))} 
 						className="ui blue button"

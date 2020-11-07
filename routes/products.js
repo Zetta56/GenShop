@@ -38,7 +38,7 @@ router.post("/", middleware.upload.single("image"), async (req, res) => {
 		};
 		const newProduct = await Product.create(product);
 
-		//Cleans uploads folder
+		//Cleans temp file
 		fs.unlink(req.file.path, (err) => {
 			if(err) {
 				res.status(500).json(err);

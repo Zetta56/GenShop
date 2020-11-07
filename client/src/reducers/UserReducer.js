@@ -5,7 +5,9 @@ export default (state = {isLoggedIn: null}, action) => {
 		case "LOGOUT":
 			return {isLoggedIn: false};
 		case "ADD_TO_CART":
-			return {...state, ...action.payload}
+			return {...state, ...action.payload};
+		case "RESET_CART":
+			return {...state, ...action.payload};
 		default:
 			return state;
 	};

@@ -66,7 +66,7 @@ export const resetCart = () => {
 	return async (dispatch) => {
 		try {
 			const response = await axios.post("/api/reset-cart");
-
+			
 			dispatch({
 				type: "RESET_CART",
 				payload: response.data

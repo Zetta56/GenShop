@@ -27,13 +27,13 @@
 }
 
 #userForm .googleLogin {
-	background: white url("/google-normal.png") no-repeat center;
+	background: white url("../../assets/google-normal.png") no-repeat center;
 	border-radius: .3rem;
 	height: 3.5rem;
 }
 
 #userForm .googleLogin:hover {
-	background: #eeeeee url("/google-hover.png") no-repeat center;
+	background: #eeeeee url("../../assets/google-hover.png") no-repeat center;
 }
 
 #userForm .field.red > input {
