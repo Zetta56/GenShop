@@ -37,7 +37,7 @@ const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, 
 		} else {
 			return (
 				<form>
-					<Field name="amount" component={renderInput} label="Amount" inputType="number" />
+					<Field name="amount" component={renderInput} label="Amount" inputType="number" required />
 					<button 
 						onClick={handleSubmit(formValues => addToCart(true, match.params.productId, formValues))} 
 						className="ui blue button"

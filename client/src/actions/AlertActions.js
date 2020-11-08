@@ -9,11 +9,23 @@ export const confirm = (confirm) => {
 	return {
 		type: "CONFIRM",
 		payload: confirm
-	}
-}
+	};
+};
 
 export const resetAlerts = () => {
 	return {
 		type: "RESET_ALERTS"
+	};
+};
+
+export const loading = () => {
+	return {
+		type: "LOADING"
+	};
+};
+
+export const finishLoading  = () => {
+	return {
+		type: "FINISH_LOADING"
 	};
 };

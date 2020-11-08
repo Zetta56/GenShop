@@ -1,4 +1,4 @@
-export default (state = {isLoggedIn: null}, action) => {
+const userReducer = (state = {isLoggedIn: null}, action) => {
 	switch(action.type) {
 		case "LOGIN":
 			return {...state, isLoggedIn: true, ...action.payload};
@@ -12,3 +12,5 @@ export default (state = {isLoggedIn: null}, action) => {
 			return state;
 	};
 };
+
+export default userReducer;

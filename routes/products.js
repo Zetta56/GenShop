@@ -46,17 +46,30 @@ router.post("/", middleware.upload.single("image"), async (req, res) => {
 			res.json(newProduct);
 		});
 	} catch(err) {
-		console.log(err)
 		res.status(500).json(err);
 	};
 });
 
-router.put("/:productId", async (req, res) => {
+router.put("/:productId", middleware.upload.single("image"), async (req, res) => {
 	try {
-		req.body.price = parseFloat(req.body.price).toFixed(2);
-		const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, req.body, {new: true});
-		res.json(updatedProduct);
+		const product = {
+			title: req.body.title,
+			price: parseFloat(req.body.price).toFixed(2),
+			image: {
+				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
+				contentType: req.file.mimetype
+			}
+		};
+		const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, product, {new: true});
+		
+		fs.unlink(req.file.path, (err) => {
+			if(err) {
+				res.status(500).json(err);
+			};
+			res.json(updatedProduct);
+		});
 	} catch(err) {
+		console.log(err)
 		res.status(500).json(err);
 	};
 });

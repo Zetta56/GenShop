@@ -1,16 +1,18 @@
 import axios from "axios";
 import history from "../history";
-import {error} from "./AlertActions";
+import {error, loading, finishLoading} from "./AlertActions";
 
 export const fetchProducts = () => {
 	return async (dispatch) => {
 		try {
+			dispatch(loading());
 			const response = await axios.get("/api/products");
 
 			dispatch({
 				type: "FETCH_PRODUCTS",
 				payload: response.data
 			});
+			dispatch(finishLoading());
 		} catch(err) {
 			dispatch(error(err.response.data.message));
 		}
@@ -35,17 +37,18 @@ export const fetchProduct = (productId) => {
 export const createProduct = (formValues) => {
 	return async (dispatch) => {
 		try {
+			dispatch(loading());
 			const fd = new FormData();
 			for(const key in formValues) {
 				fd.append(key, formValues[key]);
 			};
-
 			const response = await axios.post("/api/products", fd, {headers: {"Content-Type": "multipart/form-data"}});
 
 			dispatch({
 				type: "CREATE_PRODUCT",
 				payload: response.data
 			});
+			dispatch(finishLoading());
 
 			history.push("/products");
 		} catch(err) {
@@ -58,12 +61,20 @@ export const createProduct = (formValues) => {
 export const editProduct = (formValues, productId) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.put(`/api/products/${productId}`, formValues);
-			
+			dispatch(loading());
+			const fd = new FormData();
+			for(const key in formValues) {
+				fd.append(key, formValues[key]);
+			};
+
+			const response = await axios.put(`/api/products/${productId}`, fd, {headers: {"Content-Type": "multipart/form-data"}});
+			console.log(response)
+
 			dispatch({
 				type: "EDIT_PRODUCT",
 				payload: response.data
 			});
+			dispatch(finishLoading());
 
 			history.push("/products");
 		} catch(err) {
@@ -76,12 +87,14 @@ export const editProduct = (formValues, productId) => {
 export const deleteProduct = (productId) => {
 	return async (dispatch) => {
 		try {
+			dispatch(loading());
 			const response = await axios.delete(`/api/products/${productId}`);
 			
 			dispatch({
 				type: "DELETE_PRODUCT",
 				payload: response.data
 			});
+			dispatch(finishLoading());
 
 			history.push("/products");
 		} catch(err) {

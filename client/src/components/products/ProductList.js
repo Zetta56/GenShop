@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {fetchProducts} from "../../actions";
 
-const ProductList = ({fetchProducts, products, isAdmin}) => {
+const ProductList = ({fetchProducts, products, loading}) => {
 	useEffect(() => {
 		fetchProducts();
 	}, [fetchProducts]);
@@ -22,8 +22,8 @@ const ProductList = ({fetchProducts, products, isAdmin}) => {
 		});
 	};
 
-	if(!products) {
-		return null;
+	if(!products || loading) {
+		return <div className="ui active centered inline loader"></div>;
 	};
 
 	return (
@@ -44,7 +44,7 @@ const arrayBufferToBase64 = (buffer) => {
 };
 
 const mapStateToProps = (state) => {
-	return {products: Object.values(state.products)};
+	return {products: Object.values(state.products), loading: state.alert.loading};
 };
 
 export default connect(mapStateToProps, {fetchProducts})(ProductList);

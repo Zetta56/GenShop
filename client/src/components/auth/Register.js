@@ -28,7 +28,7 @@ const Register = ({handleSubmit, createUser}) => {
 		<div className="ui one column stackable grid" id="userForm">
 			<div className="column">
 				<h2>Create An Account</h2>
-				<form className="ui form" onSubmit={handleSubmit(({username, password}) => createUser({username, password}))}>
+				<form className="ui form" onSubmit={handleSubmit(({email, username, password}) => createUser({email, username, password}))}>
 					<Field name="email" component={renderInput} label="Email" inputType="email" />
 					<Field name="username" component={renderInput} label="Username" inputType="text" />
 					<Field name="password" component={renderInput} label="Password" inputType="password" />
