@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {fetchProduct, addToCart, error} from "../actions";
@@ -6,7 +6,15 @@ import axios from "axios";
 import {loadStripe} from "@stripe/stripe-js";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE);
 
-const Cart = ({fetchProduct, addToCart, error, match, cartItems}) => {
+const Cart = ({fetchProduct, addToCart, error, match, cartItems, products}) => {
+	const cartRef = useRef(cartItems);
+
+	useEffect(() => {
+		cartRef.current.forEach(item => {
+			fetchProduct(item.product);
+		});
+	}, [fetchProduct, cartRef]);
+
 	const onCheckoutClick = async () => {
 		//Waits for stripe to finish loading
 		const stripe = await stripePromise;
@@ -22,19 +30,26 @@ const Cart = ({fetchProduct, addToCart, error, match, cartItems}) => {
 	};
 
 	const renderList = () => {
-		return cartItems.map(item => {
+		return products.map(product => {
+			const cartQuantity = cartItems.find(item => item.product === product._id).quantity;
+
 			return (
-				<div key={item.product._id}>
-					<Link to={`/products/${item.product._id}`}>{item.product.title}</Link>
+				<div key={product._id}>
+					<img src={`data:${product.image.contentType};base64,${product.image}`} alt={product.title} />
+					<Link to={`/products/${product._id}`}>{product.title}</Link>
 					<br />
-					{item.product.price}
+					{product.price}
 					<br />
-					{item.amount}
+					{cartQuantity}
 				</div>
 			);
 		});
 	};
 	
+	if(!products) {
+		return null;
+	}
+
 	return (
 		<div>
 			{renderList()}
@@ -44,7 +59,16 @@ const Cart = ({fetchProduct, addToCart, error, match, cartItems}) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-	return {cartItems: state.user.cart};
+	const cartIds = state.user.cart.map(item => {
+		return item.product;
+	});
+
+	return {
+		cartItems: state.user.cart, 
+		products: Object.values(state.products).filter(product => {
+			return cartIds.includes(product._id)
+		})
+	};
 };
 
 export default connect(mapStateToProps, {fetchProduct, addToCart, error})(Cart);

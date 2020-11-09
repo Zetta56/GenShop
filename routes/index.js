@@ -23,8 +23,8 @@ router.post("/register", (req, res) => {
 router.post("/login", async (req, res) => {
 	//Handles page reload with jwt
 	if(req.user) {
-		const populatedUser = await User.findById(req.user._id).populate({path: "cart", populate: {path: "product"}});
-		return res.json(populatedUser);
+		const foundUser = await User.findById(req.user._id);
+		return res.json(foundUser);
 	};
 
 	let currentUser = null;
@@ -63,10 +63,9 @@ router.post("/login", async (req, res) => {
 		res.cookie("refresh_token", refreshToken, {httpOnly: true, sameSite: "none", secure: true});
 		res.cookie("access_token", accessToken, {httpOnly: true, sameSite: "none", secure: true});
 		
-		//Sends populated user
-		User.populate(currentUser, {path: "cart", populate: {path: "product"}}, (err, populatedUser) => {
-			res.json(populatedUser);
-		});
+		//Sends necessary user info
+		const foundUser = await User.findById(currentUser._id);
+		res.json(foundUser);
 	})(req, res);
 });
 
@@ -107,18 +106,16 @@ router.post("/refresh", (req, res) => {
 router.post("/add-to-cart/:productId", async(req, res) => {
 	try{
 		const foundUser = await User.findById(req.user._id);
-		const productIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
+		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
 		
-		if(productIndex >= 0) {
-			await foundUser.cart.splice(productIndex, 1);
+		if(cartIndex >= 0) {
+			await foundUser.cart.splice(cartIndex, 1);
 		} else {
-			await foundUser.cart.push({product: req.params.productId, amount: req.body.amount});
+			await foundUser.cart.push({product: req.params.productId, quantity: req.body.quantity});
 		}
+
 		foundUser.save();
-		
-		User.populate(foundUser, {path: "cart", populate: {path: "product"}}, (err, populatedUser) => {
-			res.json(populatedUser);
-		});
+		res.json(foundUser);
 	} catch(err) {
 		res.status(500).json(err);
 	}
@@ -127,12 +124,10 @@ router.post("/add-to-cart/:productId", async(req, res) => {
 router.post("/reset-cart", async(req, res) => {
 	try{
 		const foundUser = await User.findById(req.user._id);
+
 		foundUser.cart = [];
 		foundUser.save();
-
-		User.populate(foundUser, {path: "cart", populate: {path: "product"}}, (err, populatedUser) => {
-			res.json(populatedUser);
-		});
+		res.json(foundUser);
 	} catch(err) {
 		res.status(500).json(err);
 	}
@@ -154,7 +149,7 @@ router.post("/checkout", async (req, res) => {
 						},
 						unit_amount_decimal: (item.product.price * 100)
 					},
-					quantity: item.amount
+					quantity: item.quantity
 				}
 			}),
 			mode: "payment",

@@ -4,7 +4,9 @@ import {Field, reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
 import {fetchProduct, addToCart} from "../../actions";
 
-const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, user}) => {
+const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, user, loading}) => {
+	const addContent = loading ? <div className="ui mini active inverted inline loader"></div> : "Add to Cart";
+
 	useEffect(() => {
 		fetchProduct(match.params.productId);
 	}, [fetchProduct, match]);
@@ -32,17 +34,17 @@ const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, 
 	const renderCartForm = () => {
 		if(!user.isLoggedIn) {
 			return <Link to="/login" className="ui button">Sign in to add to cart</Link>
-		} else if(user.cart && user.cart.filter(item => item.product._id === match.params.productId).length > 0) {
+		} else if(user.cart && user.cart.filter(item => item.product === match.params.productId).length > 0) {
 			return <button onClick={() => addToCart(false, match.params.productId)} className="ui red button">Remove from Cart</button>
 		} else {
 			return (
 				<form>
-					<Field name="amount" component={renderInput} label="Amount" inputType="number" required />
+					<Field name="quantity" component={renderInput} label="Quantity" inputType="number" required />
 					<button 
 						onClick={handleSubmit(formValues => addToCart(true, match.params.productId, formValues))} 
 						className="ui blue button"
 					>
-						Add to Cart
+						{addContent}
 					</button>
 				</form>
 			);
@@ -57,6 +59,7 @@ const ProductDetails = ({handleSubmit, fetchProduct, addToCart, match, product, 
 		<div>
 			{product.title}
 			{product.price}
+			<img src={`data:${product.image.contentType};base64,${product.image}`} alt={product.title} />
 			{renderAuth()}
 			{renderCartForm()}
 		</div>
@@ -69,9 +72,10 @@ const formWrapped = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		initialValues: {amount: 1},
+		initialValues: {quantity: 1},
 		product: state.products[ownProps.match.params.productId], 
-		user: state.user
+		user: state.user,
+		loading: state.alert.loading
 	};
 };
 

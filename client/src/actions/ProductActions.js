@@ -68,7 +68,6 @@ export const editProduct = (formValues, productId) => {
 			};
 
 			const response = await axios.put(`/api/products/${productId}`, fd, {headers: {"Content-Type": "multipart/form-data"}});
-			console.log(response)
 
 			dispatch({
 				type: "EDIT_PRODUCT",

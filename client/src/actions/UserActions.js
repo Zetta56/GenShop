@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "../history";
-import {error, confirm} from "./AlertActions";
+import {error, confirm, loading, finishLoading} from "./AlertActions";
 
 export const createUser = (formValues) => {
 	return async (dispatch) => {
@@ -47,6 +47,7 @@ export const logout = (initial) => {
 export const addToCart = (adding, productId, formValues) => {
 	return async (dispatch) => {
 		try {
+			dispatch(loading());
 			const response = await axios.post(`/api/add-to-cart/${productId}`, formValues);
 			const message = adding ? "added to" : "removed from";
 
@@ -54,8 +55,8 @@ export const addToCart = (adding, productId, formValues) => {
 				type: "ADD_TO_CART",
 				payload: response.data
 			});
-
 			dispatch(confirm(`Product successfully ${message} cart.`));
+			dispatch(finishLoading());
 		} catch(err) {
 			await dispatch(error(err.response.data.message));
 		}

@@ -1,6 +1,7 @@
 const passport = require("passport"),
 	  mongoose = require("mongoose"),
-	  multer = require("multer");
+	  multer = require("multer"),
+	  path = require("path");
 
 const middleware = {};
 
@@ -13,7 +14,22 @@ middleware.upload = multer({
 	    filename: (req, file, cb) => {
 	    	cb(null, file.fieldname + "-" + Date.now() + ".png")
 	    }
-	})
+	}),
+	fileFilter: (req, file, cb) => {
+		const allowedTypes = /jpeg|jpg|png/;
+		const extension = path.extname(file.originalname).toLowerCase();
+		const mimetype = file.mimetype;
+
+		if(allowedTypes.test(extension) && allowedTypes.test(mimetype)) {
+			return cb(null, true);
+		} else {
+			return cb("That is not an image file.");
+		}
+	},
+	limit: {
+		//Max: 5MB
+		fileSize: 1024 * 1024 * 5
+	}
 });
 
 middleware.isLoggedIn = (req, res, next) => {

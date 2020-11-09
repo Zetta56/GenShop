@@ -1,0 +1,24 @@
+#productList .content {
+	border: none;
+	font-size: 16px;
+	overflow-wrap: break-word;
+}
+
+#productList .meta {
+	margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+	#productList img {
+		height: 20rem;
+		padding: 1rem;
+		object-fit: contain;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	#productList .card {
+		margin: 1rem 2.5%;
+		width: 40%;
+	}
+}

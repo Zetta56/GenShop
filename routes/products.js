@@ -4,12 +4,17 @@ const express = require("express"),
 	  fs = require("fs"),
 	  middleware = require("../middleware"),
 	  Product = require("../models/Product"),
-	  User = require("../models/User"); 
+	  User = require("../models/User");
   
 router.get("/", async (req, res) => {
 	try {
 		const foundProducts = await Product.find();
-		res.json(foundProducts);
+		const encodedProducts = foundProducts.map(product => {
+			//Takes object version of product and converts image from binary buffer to base64 string
+			return {...product.toObject(), image: Buffer.from(product.image.data.buffer, "binary").toString("base64")};
+		});
+		
+		res.json(encodedProducts);
 	} catch(err) {
 		res.status(500).json(err);
 	};
@@ -18,7 +23,11 @@ router.get("/", async (req, res) => {
 router.get("/:productId", async (req, res) => {
 	try {
 		const foundProduct = await Product.findById(req.params.productId);
-		res.json(foundProduct);
+
+		res.json({
+			...foundProduct.toObject(), 
+			image: Buffer.from(foundProduct.image.data.buffer, "binary").toString("base64")
+		});
 	} catch(err) {
 		res.status(500).json(err);
 	};

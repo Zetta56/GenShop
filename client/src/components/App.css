@@ -82,10 +82,15 @@ body {
 }
 
 #userForm,
-#productForm {
+#productForm,
+#productList .image {
 	background-color: white;
 }
 
 #header .item {
 	color: white !important;
+}
+
+#productList .meta {
+	color: #333333;		/*black*/
 }
