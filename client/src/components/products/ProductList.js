@@ -32,7 +32,7 @@ const ProductList = ({fetchProducts, products, loading}) => {
 	};
 
 	return (
-		<div className="ui stackable three cards" id="productList">
+		<div className="ui stackable four cards" id="productList">
 			{renderList()}
 		</div>
 	);

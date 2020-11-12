@@ -2,11 +2,11 @@ import axios from "axios";
 import history from "../history";
 import {error, loading, finishLoading} from "./AlertActions";
 
-export const fetchProducts = () => {
+export const fetchProducts = (search) => {
 	return async (dispatch) => {
 		try {
 			dispatch(loading());
-			const response = await axios.get("/api/products");
+			const response = await axios.get("/api/products", {params: {user: search}});
 
 			dispatch({
 				type: "FETCH_PRODUCTS",
@@ -75,7 +75,7 @@ export const editProduct = (formValues, productId) => {
 			});
 			dispatch(finishLoading());
 
-			history.push("/products");
+			history.push(`/products/${productId}`);
 		} catch(err) {
 			await history.push("/products");
 			dispatch(error(err.response.data.message));

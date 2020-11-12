@@ -1,5 +1,6 @@
-.ui.main.container {
-	margin-top: 4rem;
+.main.container {
+	margin: 4rem auto;
+	width: 90%;
 }
 
 .alertMessage {
@@ -10,9 +11,10 @@
 }
 
 .centered.inline.loader {
-	margin-top: 25rem;
+	margin-top: 15rem;
 }
 
+/*Form Theme*/
 .ui.form .field {
 	font-size: 18px;
 	margin: 1.5rem 0;
@@ -23,7 +25,7 @@
 	border-bottom: 1px solid rgba(34,36,38,.15);
 	border-radius: 0;
 	font-size: 20px;
-	padding: 1rem 0 0 0;
+	padding: .5rem 0;
 }
 
 /*Header*/
@@ -32,6 +34,7 @@
 	box-shadow: 0;
 	font-size: 20px;
 	margin: 0;
+	padding: 0 5%;
 }
 
 #header .item {
@@ -59,6 +62,16 @@
 	font-size: 16px;
 }
 
+@media only screen and (min-width: 1600px) {
+	.main.container {
+		width: 75%;
+	}
+
+	#header {
+		padding: 0 12.5%;
+	}
+}
+
 /*Colors*/
 body {
 	background-color: #dbe6f7;  /*lightest blue*/
@@ -83,7 +96,9 @@ body {
 
 #userForm,
 #productForm,
-#productList .image {
+#productList .image,
+#productDetails,
+#cart .item {
 	background-color: white;
 }
 

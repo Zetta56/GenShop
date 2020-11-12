@@ -8,7 +8,19 @@ const express = require("express"),
   
 router.get("/", async (req, res) => {
 	try {
-		const foundProducts = await Product.find();
+		let foundProducts = [];
+		//Populate user's cart
+		if(req.query.user) {
+			const foundUser = await User.findById(req.query.user);
+			for(const item of foundUser.cart) {
+				const product = await Product.findById(item.product);
+				foundProducts.push(product);
+			}
+		//Get all products
+		} else {
+			foundProducts = await Product.find();
+		};
+
 		const encodedProducts = foundProducts.map(product => {
 			//Takes object version of product and converts image from binary buffer to base64 string
 			return {...product.toObject(), image: Buffer.from(product.image.data.buffer, "binary").toString("base64")};
@@ -38,6 +50,7 @@ router.post("/", middleware.upload.single("image"), async (req, res) => {
 		//Price rounded to 2 decimal places + Image read from local file
 		const product = {
 			title: req.body.title,
+			description: req.body.description,
 			price: parseFloat(req.body.price).toFixed(2),
 			image: {
 				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
@@ -63,6 +76,7 @@ router.put("/:productId", middleware.upload.single("image"), async (req, res) =>
 	try {
 		const product = {
 			title: req.body.title,
+			description: req.body.description,
 			price: parseFloat(req.body.price).toFixed(2),
 			image: {
 				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),

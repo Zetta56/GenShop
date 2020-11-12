@@ -4,7 +4,7 @@ const userReducer = (state = {isLoggedIn: null}, action) => {
 			return {...state, isLoggedIn: true, ...action.payload};
 		case "LOGOUT":
 			return {isLoggedIn: false};
-		case "ADD_TO_CART":
+		case "ALTER_CART":
 			return {...state, ...action.payload};
 		case "RESET_CART":
 			return {...state, ...action.payload};

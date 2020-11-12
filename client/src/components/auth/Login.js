@@ -21,11 +21,11 @@ const Login = ({handleSubmit, login, match}) => {
 		};
 	};
 
-	const renderInput = useCallback(({input, label, inputType}) => {
+	const renderInput = useCallback(({input, placeholder, inputType, icon}) => {
 		return (
-			<div className="field">
-				<label>{label}</label>
-				<input {...input}  type={inputType} placeholder={label} required />
+			<div className="ui left icon input field">
+				<input {...input} type={inputType} placeholder={placeholder} required />
+				<i className={`${icon} icon`} />
 			</div>
 		)
 	}, []);
@@ -36,8 +36,8 @@ const Login = ({handleSubmit, login, match}) => {
 				<h2>Login</h2>
 				{renderGoogle()}
 				<form className="ui form" onSubmit={handleSubmit((formValues) => login(formValues))}>
-					<Field name="username" component={renderInput} label="Username" inputType="text" />
-					<Field name="password" component={renderInput} label="Password" inputType="password" />
+					<Field name="username" component={renderInput} placeholder="Username" inputType="text" icon="user" />
+					<Field name="password" component={renderInput} placeholder="Password" inputType="password" icon="lock" />
 					<button className="ui blue submit button" id="submitButton">Submit</button>
 				</form>
 			</div>

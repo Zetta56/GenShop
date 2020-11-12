@@ -12,13 +12,13 @@ const Register = ({handleSubmit, createUser}) => {
 	};
 
 	//useCallback prevents renderInput from constantly re-rendering
-	const renderInput = useCallback(({input, label, inputType, meta}) => {
+	const renderInput = useCallback(({input, meta, placeholder, inputType, icon}) => {
 		const error = meta.error && meta.touched ? "red" : "";
 
 		return (
-			<div className={`${error} field`}>
-				<label>{label}</label>
-				<input {...input}  type={inputType} placeholder={label} required />
+			<div className={`${error} ui left icon input field`}>
+				<input {...input}  type={inputType} placeholder={placeholder} required />
+				<i className={`${icon} icon`} />
 				{renderError(meta)}
 			</div>
 		);
@@ -29,10 +29,10 @@ const Register = ({handleSubmit, createUser}) => {
 			<div className="column">
 				<h2>Create An Account</h2>
 				<form className="ui form" onSubmit={handleSubmit(({email, username, password}) => createUser({email, username, password}))}>
-					<Field name="email" component={renderInput} label="Email" inputType="email" />
-					<Field name="username" component={renderInput} label="Username" inputType="text" />
-					<Field name="password" component={renderInput} label="Password" inputType="password" />
-					<Field name="confirmPassword" component={renderInput} label="Confirm Password" inputType="password" />
+					<Field name="email" component={renderInput} placeholder="Email" inputType="email" icon="envelope" />
+					<Field name="username" component={renderInput} placeholder="Username" inputType="text" icon="user" />
+					<Field name="password" component={renderInput} placeholder="Password" inputType="password" icon="lock" />
+					<Field name="confirmPassword" component={renderInput} placeholder="Confirm Password" inputType="password" icon="lock" />
 					<button className="ui blue submit button" id="submitButton">Create</button>
 				</form>
 			</div>

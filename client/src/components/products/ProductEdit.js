@@ -1,9 +1,10 @@
 import React, {useEffect, useCallback} from "react";
 import {connect} from "react-redux";
+import _ from "lodash";
 import {fetchProduct, editProduct} from "../../actions";
 import ProductForm from "./ProductForm";
 
-const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product}) => {
+const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product, initialValues}) => {
 	useEffect(() => {
 		fetchProduct(match.params.productId);
 	}, [fetchProduct, match]);
@@ -15,7 +16,7 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product}) 
 	return (
 		<ProductForm 
 			onFormSubmit={formValues => editProduct(formValues, product._id)}
-			initial={product}
+			initial={initialValues}
 			header={`Edit '${product.title}'`}
 			buttonText="Update" />
 	);
@@ -23,7 +24,7 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product}) 
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		initialValues: state.products[ownProps.match.params.productId], 
+		initialValues: _.omit(state.products[ownProps.match.params.productId], "image"), 
 		product: state.products[ownProps.match.params.productId]
 	};
 };

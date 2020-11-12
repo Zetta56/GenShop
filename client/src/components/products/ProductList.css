@@ -1,5 +1,4 @@
 #productList .content {
-	border: none;
 	font-size: 16px;
 	overflow-wrap: break-word;
 }
@@ -11,8 +10,15 @@
 @media only screen and (min-width: 768px) {
 	#productList img {
 		height: 20rem;
-		padding: 1rem;
+		padding: 1.5rem;
 		object-fit: contain;
+	}
+}
+
+@media only screen and (max-width: 1200px) {
+	#productList .card {
+		margin: 1rem 1.6%;
+		width: 30%;
 	}
 }
 

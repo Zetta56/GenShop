@@ -68,7 +68,7 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 		<Router history={history}>
 			{renderMessage()}
 			<Header />
-			<div className="ui main container">
+			<div className="main container">
 				<Switch>
 					<Route path="/" exact component={ProductList}></Route>
 					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>

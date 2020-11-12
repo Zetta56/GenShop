@@ -103,8 +103,10 @@ router.post("/refresh", (req, res) => {
 	});
 });
 
-router.post("/add-to-cart/:productId", async(req, res) => {
+router.post("/alter-cart/:productId", async(req, res) => {
 	try{
+		console.log(req.body)
+		console.log("a")
 		const foundUser = await User.findById(req.user._id);
 		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
 		
@@ -117,6 +119,7 @@ router.post("/add-to-cart/:productId", async(req, res) => {
 		foundUser.save();
 		res.json(foundUser);
 	} catch(err) {
+		console.log(err)
 		res.status(500).json(err);
 	}
 });
@@ -158,6 +161,7 @@ router.post("/checkout", async (req, res) => {
 		})
 		res.json(session.id);
 	} catch(err) {
+		console.log(err)
 		res.status(500).json(err);
 	}
 });

@@ -44,15 +44,15 @@ export const logout = (initial) => {
 	};
 };
 
-export const addToCart = (adding, productId, formValues) => {
+export const alterCart = (adding, productId, formValues) => {
 	return async (dispatch) => {
 		try {
 			dispatch(loading());
-			const response = await axios.post(`/api/add-to-cart/${productId}`, formValues);
+			const response = await axios.post(`/api/alter-cart/${productId}`, formValues);
 			const message = adding ? "added to" : "removed from";
 
 			dispatch({
-				type: "ADD_TO_CART",
+				type: "ALTER_CART",
 				payload: response.data
 			});
 			dispatch(confirm(`Product successfully ${message} cart.`));

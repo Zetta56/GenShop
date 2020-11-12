@@ -42,12 +42,10 @@ const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 
 	return (
 		<div className="ui inverted secondary pointing menu" id="header">
-			<div className="ui container">
-				<Link to="/" className="item">GenShop</Link>
-				<div className="right menu">
-					{renderCreate()}
-					{renderAuth()}
-				</div>
+			<Link to="/" className="item">GenShop</Link>
+			<div className="right menu">
+				{renderCreate()}
+				{renderAuth()}
 			</div>
 		</div>
 	);
