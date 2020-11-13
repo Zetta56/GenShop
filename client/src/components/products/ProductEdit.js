@@ -10,7 +10,7 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product, i
 	}, [fetchProduct, match]);
 
 	if(!product) {
-		return null;
+		return <div className="ui active centered inline loader"></div>
 	};
 
 	return (

@@ -6,6 +6,7 @@
 	padding: 2rem 2.75rem;
 }
 
+/*Text Inputs*/
 #productForm .field:not(.number) {
 	width: 100%;
 }
@@ -22,6 +23,7 @@
 	padding-bottom: 0;
 }
 
+/*File Upload*/
 #productForm .fileUploader .uploadPictureContainer {
 	margin: 2rem;
 	padding: 0;

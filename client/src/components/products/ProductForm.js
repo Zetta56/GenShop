@@ -8,6 +8,8 @@ import "./ProductForm.css";
 const ProductForm = ({handleSubmit, onFormSubmit, loading, header, buttonText, initial}) => {
 	const [imageMissing, setImageMissing] = useState(null);
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
+	
+	//Creates description ref for use in useEffect dependencies
 	let descriptionRef = useRef("");
 	if(initial && initial.description) {
 		descriptionRef = initial.description;

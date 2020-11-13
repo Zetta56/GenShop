@@ -1,3 +1,4 @@
+/*General*/
 .main.container {
 	margin: 4rem auto;
 	width: 90%;
@@ -14,6 +15,16 @@
 	margin-top: 15rem;
 }
 
+@media only screen and (min-width: 1600px) {
+	.main.container {
+		width: 75%;
+	}
+
+	#header {
+		padding: 0 12.5%;
+	}
+}
+
 /*Form Theme*/
 .ui.form .field {
 	font-size: 18px;
@@ -28,20 +39,6 @@
 	padding: .5rem 0;
 }
 
-/*Header*/
-#header {
-	border: 0;
-	box-shadow: 0;
-	font-size: 20px;
-	margin: 0;
-	padding: 0 5%;
-}
-
-#header .item {
-	outline: none;
-	padding: 1.25rem 1rem;
-}
-
 /*Modal*/
 .ui.active.modal {
 	padding: .5rem 1rem;
@@ -52,24 +49,9 @@
 	border: none;
 }
 
-.ui.active.modal .header {
-	font-size: 20px;
-	padding-bottom: 0;
-}
-
 .ui.active.modal .content,
 .ui.active.modal .ui.button {
 	font-size: 16px;
-}
-
-@media only screen and (min-width: 1600px) {
-	.main.container {
-		width: 75%;
-	}
-
-	#header {
-		padding: 0 12.5%;
-	}
 }
 
 /*Colors*/
@@ -97,13 +79,16 @@ body {
 #userForm,
 #productForm,
 #productList .image,
-#productDetails,
-#cart .item {
+#productDetails {
 	background-color: white;
 }
 
 #header .item {
 	color: white !important;
+}
+
+#cart {
+	background-color: #fafafa;
 }
 
 #productList .meta {

@@ -1,62 +1,115 @@
+/*Header*/
 #cart {
-	font-size: 16px;
+	font-size: 18px;
 	margin: 0 auto;
-	width: 60%;
+	width: 70%;
 }
 
-#cart .item {
-	padding: 0;
+#cart .header,
+#cart .empty {
+	margin: 0;
+	padding: 1.5rem;
 }
 
-#cart #productImage {
-	height: 10rem;
-	object-fit: cover;
+#cart .header .ui.button {
+	float: right;
 }
 
-#cart .image .button {
-	border-radius: 0;
-	width: 100%;
+/*Table*/
+#cart .table {
+	margin: 0;
 }
 
-#cart .header {
-	width: 100%;
-	overflow-wrap: break-word;
+#cart thead,
+#cart td:not(.name) {
+	text-align: center;
 }
 
-#cart .aligned.content {
-	padding: 1rem 1.5rem;
+#cart tbody {
+	word-wrap: break-word;
 }
 
-#cart .total.item {
-	justify-content: right;
-	padding: 1.5rem !important;
+#cart .table .image,
+#cart .remove {
+	padding: 0 !important;
+}
+
+#cart .remove .ui.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#cart .icon {
+	margin: 0;
+}
+
+#cart .total {
+	padding: 1rem 0;
 	text-align: right;
 }
 
-@media only screen and (max-width: 768px) {
-	#cart .item {
-		margin: .25rem 0;
+@media only screen and (max-width: 1200px) {
+	#cart {
+		width: 90%;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	#cart .table,
+	#cart .table *:not(span) {
+		display: block;
 	}
 
-	#cart .item > *,
-	#productImage {
-		width: 100% !important;
+	#cart .table thead {
+		display: none;
 	}
 
-	#cart .image {
-		order: 2;
+	#cart .table td:not(.image):not(.remove) {
+		margin: .5rem 1rem;
+		text-align: left;
 	}
 
-	#cart #productImage {
-		height: 16rem;
+	#cart img,
+	#cart .remove .ui.button {
+		width: 100%;
 	}
+}
 
-	#cart .image .button {
+@media only screen and (min-width: 993px) {
+	#cart td {
 		position: relative;
-		top: -1rem;
+		width: 10%;
 	}
 
-	#cart .aligned.content {
-		padding: 2rem 1rem;
+	#cart .remove {
+		width: 3%;
+	}
+
+	#cart .remove .ui.button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+	}
+
+	#cart .image img {
+		height: 50%;
+		width: 100%;
+	}
+
+	#cart .name {
+		max-width: 20rem;
+	}
+
+	#cart .label {
+		display: none;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	#cart .name {
+		max-width: 25rem;
 	}
 }

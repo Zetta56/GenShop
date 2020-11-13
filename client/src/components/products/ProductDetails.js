@@ -52,7 +52,7 @@ const ProductDetails = ({handleSubmit, fetchProduct, alterCart, match, product, 
 	}
 
 	if(!product) {
-		return null;
+		return <div className="ui active centered inline loader"></div>
 	};
 
 	return (

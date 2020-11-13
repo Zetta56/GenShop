@@ -1,7 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
+import history from "../history";
 import {resetCart} from "../actions";
+import Modal from "./Modal";
 
 const Checkout = ({resetCart, match}) => {
 	let message = "";
@@ -18,11 +20,15 @@ const Checkout = ({resetCart, match}) => {
 			return <Redirect to="/" />
 	};
 
+	const renderButton = () => {
+		return <Link to="/" className="ui button">Close</Link>
+	};
+
 	return (
-		<div>
-			<h1>Checkout</h1>
-			{message}
-		</div>
+		<Modal 
+			header="Checkout"
+			content={`${message}`}
+			actions={renderButton()} />
 	);
 };
 

@@ -40,6 +40,7 @@ const Register = ({handleSubmit, createUser}) => {
 	);
 };
 
+//Checks if all fields are valid
 const validate = ({email, username, password, confirmPassword}) => {
 	const err = {};
 	const emailRegex = RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g);

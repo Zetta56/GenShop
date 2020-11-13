@@ -6,6 +6,7 @@ import "./UserForm.css";
 
 const Login = ({handleSubmit, login, match}) => {
 	const renderGoogle = () => {
+		//Loads google oauth2 client
 		if(process.env.REACT_APP_GOOGLE_CLIENTID && match && match.path === "/login") {
 			const onGoogleClick = async () => {
 				await window.gapi.auth2.getAuthInstance().signIn();

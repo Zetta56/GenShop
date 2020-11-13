@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import history from "../history";
 import {logout} from "../actions";
+import "./Header.css";
 
 const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
+	const [sidebarOpen, setSidebarOpen] = useState(false);
+
 	const onLogoutClick = (e) => {
 		e.preventDefault();
 		logout();
@@ -14,12 +17,14 @@ const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 		history.push("/products");
 	};
 
+	//Renders product create button for admins
 	const renderCreate = () => {
 		if(isAdmin) {
 			return <Link to="/products/new" className="create item"><i className="plus icon" /></Link>
 		};
 	};
 
+	//Renders login & logout buttons
 	const renderAuth = () => {
 		if(isLoggedIn === null) {
 			return;
@@ -41,13 +46,26 @@ const Header = ({isLoggedIn, userId, isAdmin, sets, logout}) => {
 	};
 
 	return (
-		<div className="ui inverted secondary pointing menu" id="header">
-			<Link to="/" className="item">GenShop</Link>
-			<div className="right menu">
+		<React.Fragment>
+			<div className="ui inverted secondary pointing menu" id="header">
+				<Link to="/" className="item">GenShop</Link>
+				<div className="ui search">
+					<div className="ui icon input">
+						<input type="text" placeholder="Search..." />
+						<i className="ui search icon" />
+					</div>
+				</div>
+				<div className="right menu">
+					{renderCreate()}
+					{renderAuth()}
+				</div>
+			</div>
+			<div className="ui right sidebar vertical menu" id="sidebar">
+				<i className="fas fa-bars"></i>
 				{renderCreate()}
 				{renderAuth()}
 			</div>
-		</div>
+		</React.Fragment>
 	);
 };
 

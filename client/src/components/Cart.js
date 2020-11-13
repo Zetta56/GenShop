@@ -15,11 +15,6 @@ const Cart = ({fetchProducts, alterCart, error, match, user, products, total}) =
 		};
 	}, [fetchProducts, user]);
 
-	const onRemoveClick = (e, product) => {
-		e.preventDefault();
-		alterCart(false, product._id, null);
-	};
-
 	const onCheckoutClick = async () => {
 		//Waits for stripe to finish loading
 		const stripe = await stripePromise;
@@ -39,40 +34,83 @@ const Cart = ({fetchProducts, alterCart, error, match, user, products, total}) =
 			const cartQuantity = user.cart.find(item => item.product === product._id).quantity;
 
 			return (
-				<div className="item" key={product._id}>
-					<div className="image">
+				<tr key={product._id}>
+					<td className="image">
 						<img 
 							src={`data:${product.image.contentType};base64,${product.image}`} 
 							alt={product.title}
 							id="productImage" />
-						<button onClick={e => onRemoveClick(e, product)} className="ui red button">Remove from Cart</button>
-					</div>
-					<div className="middle aligned content">
-						<div className="header">
+					</td>
+					<td className="name">
+						<strong>
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
-						</div>
-						<div className="description">
-							<div>Unit Price: ${product.price}</div>
-							<div>Quantity: {cartQuantity}</div>
-							<div className="right floated content">${cartQuantity * product.price}</div>
-						</div>
-					</div>
-				</div>
+						</strong>
+					</td>
+					<td className="price">
+						<span className="label">Price: </span>${product.price}
+					</td>
+					<td className="quantity">
+						<span className="label">Quantity: </span>{cartQuantity}
+					</td>
+					<td className="subtotal">
+						<span className="label">Subtotal: </span>${cartQuantity * product.price}
+					</td>
+					<td className="remove">
+						<button onClick={e => alterCart(false, product._id, null)} className="ui red button">
+							<i className="trash icon" />
+						</button>
+					</td>
+				</tr>
 			);
 		});
 	};
-	
-	if(!products || !user) {
-		return <div className="ui active centered inline loader"></div>
-	}
+
+	const renderTable = () => {
+		if(products.length > 0)
+			return (
+				<table className="ui table">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Name</th>
+							<th>Price</th>
+							<th>Qty.</th>
+							<th>Item Total</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{renderList()}
+						<tr>
+							<td colspan="5">
+								<div className="total">Total: ${total}</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			);
+		else {
+			return <div className="empty">Your cart is empty</div>
+		};
+	};
+
+	const renderCheckout = () => {
+		if(products.length > 0) {
+			return (
+				<button className="ui blue button" onClick={onCheckoutClick}>
+					Checkout <i className="angle right icon" />
+				</button>
+			);
+		}
+	};
 
 	return (
 		<div id="cart">
-			<div className="ui divided items">
-				{renderList()}
-				<div className="total item">Total: ${total}</div>
-			</div>
-			<button className="ui blue button" onClick={onCheckoutClick}>Checkout</button>
+			<h2 className="header">
+				<span>My Cart</span>
+				{renderCheckout()}
+			</h2>
+			{renderTable()}
 		</div>
 	);
 };

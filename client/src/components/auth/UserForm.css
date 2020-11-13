@@ -26,6 +26,8 @@
 }
 
 #userForm .field .errorLabel {
+	position: absolute;
+	top: 2.5rem;
 	font-size: 14px;
 	margin-top: .5rem;
 }
@@ -44,15 +46,19 @@
 	border-color: red;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 992px) {
 	#userForm {
-		width: 60%;
+		width: 50%;
 	}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 992px) {
 	#userForm > .column {
 		padding:  2rem !important;
+	}
+
+	#userForm .field .errorLabel {
+		top: 3.5rem;
 	}
 
 	#userForm .ui.form .googleLogin,
