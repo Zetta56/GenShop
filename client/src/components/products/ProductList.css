@@ -4,7 +4,7 @@
 }
 
 #productList .meta {
-	margin-bottom: 1rem;
+	margin-top: 1rem;
 }
 
 @media only screen and (min-width: 768px) {
@@ -24,7 +24,7 @@
 
 @media only screen and (max-width: 992px) {
 	#productList .card {
-		margin: 1rem 2.5%;
-		width: 40%;
+		margin: 1rem 3%;
+		width: 44%;
 	}
 }

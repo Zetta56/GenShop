@@ -2,7 +2,7 @@ import React, {useEffect, useCallback} from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
 import {fetchProduct, editProduct} from "../../actions";
-import ProductForm from "./ProductForm";
+import ProductUpsertForm from "./ProductUpsertForm";
 
 const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product, initialValues}) => {
 	useEffect(() => {
@@ -14,7 +14,7 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product, i
 	};
 
 	return (
-		<ProductForm 
+		<ProductUpsertForm 
 			onFormSubmit={formValues => editProduct(formValues, product._id)}
 			initial={initialValues}
 			header={`Edit '${product.title}'`}

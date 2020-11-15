@@ -2,27 +2,20 @@ import React, {useEffect, useCallback} from "react";
 import {connect} from "react-redux";
 import {Field, reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
-import {fetchProduct, alterCart} from "../../actions";
+import {fetchProduct} from "../../actions";
+import ProductCartForm from "./ProductCartForm";
 import "./ProductDetails.css";
 
-const ProductDetails = ({handleSubmit, fetchProduct, alterCart, match, product, user, loading}) => {
-	const addButtonContent = loading 
-		  ? <div className="ui mini active inverted inline loader"></div> 
-		  : "Add to Cart";
-
+const ProductDetails = ({fetchProduct, match, product, user}) => {
 	useEffect(() => {
 		fetchProduct(match.params.productId);
 	}, [fetchProduct, match]);
 
-	const onRemoveClick = (e) => {
-		e.preventDefault();
-		alterCart(false, match.params.productId, null);
-	};
-
-	const renderAuth = () => {
+	//Renders edit & delete buttons
+	const renderAdmin = () => {
 		if(user.isAdmin) { 
 			return (
-				<div className="ui auth buttons">
+				<div className="ui admin buttons">
 					<Link to={`/products/${product._id}/edit`} className="ui tiny yellow button">Edit</Link>
 					<Link to={`/products/${product._id}/delete`} className="ui tiny red button">Delete</Link>
 				</div>
@@ -30,34 +23,13 @@ const ProductDetails = ({handleSubmit, fetchProduct, alterCart, match, product, 
 		};
 	};
 
-	const renderInput = useCallback(({input, label, inputType}) => {
-		return (
-			<div className="field">
-				<label>{label}</label>
-				<input {...input} type={inputType} min={1} step={1} required />
-			</div>
-		);
-	}, []);
-
-	const renderCartButton = () => {
-		if(!user.isLoggedIn) {
-			return <Link to="/login" className="ui button">Sign in to add to cart</Link>
-		} else if(user.cart && user.cart.filter(item => item.product === match.params.productId).length > 0) {
-			return <button onClick={e => onRemoveClick(e)} className="ui red button">Remove from Cart</button>
-		} else {
-			return (
-				<button className="ui blue button">{addButtonContent}</button>
-			);
-		}
-	}
-
 	if(!product) {
 		return <div className="ui active centered inline loader"></div>
 	};
 
 	return (
 		<div id="productDetails">
-			{renderAuth()}
+			{renderAdmin()}
 			<h1 className="ui header">{product.title}</h1>
 			<div className="ui divider"></div>
 			<div className="ui stackable grid">
@@ -70,11 +42,10 @@ const ProductDetails = ({handleSubmit, fetchProduct, alterCart, match, product, 
 						</div>
 					</div>
 					<div className="ui divider"></div>
-					<form className="cartForm" onSubmit={handleSubmit(formValues => alterCart(true, match.params.productId, formValues))}>
-						<div className="price">Unit Price: ${product.price}</div>
-						<Field name="quantity" component={renderInput} label="Quantity: " inputType="number" required />
-						{renderCartButton()}
-					</form>
+					<ProductCartForm 
+						product={product} 
+						user={user} 
+						match={match} />
 				</div>
 				<div className="eight wide image column">
 					<div className="ui fluid image">
@@ -94,9 +65,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		initialValues: {quantity: 1},
 		product: state.products[ownProps.match.params.productId], 
-		user: state.user,
-		loading: state.alert.loading
+		user: state.user
 	};
 };
 
-export default connect(mapStateToProps, {fetchProduct, alterCart})(formWrapped);
+export default connect(mapStateToProps, {fetchProduct})(formWrapped);

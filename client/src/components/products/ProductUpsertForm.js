@@ -3,7 +3,8 @@ import {reduxForm, Field} from "redux-form";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import ImageUpload from "react-images-upload";
-import "./ProductForm.css";
+import Input from "../Input"
+import "./ProductUpsertForm.css";
 
 const ProductForm = ({handleSubmit, onFormSubmit, loading, header, buttonText, initial}) => {
 	const [imageMissing, setImageMissing] = useState(null);
@@ -15,19 +16,11 @@ const ProductForm = ({handleSubmit, onFormSubmit, loading, header, buttonText, i
 		descriptionRef = initial.description;
 	};
 
+	//Fills out image file in form field
 	const onImageChange = (input, pics) => {
 		input.onChange(pics[0]);
 		setImageMissing(null);
 	};
-
-	const renderInput = useCallback(({input, label, inputType}) => {
-		return (
-			<div className="field">
-				<label>{label}</label>
-				<input {...input} type={inputType} placeholder={label} step="any" required />
-			</div>
-		);
-	}, []);
 
 	const renderTextArea = useCallback(({input, label}) => {
 		return (
@@ -62,9 +55,9 @@ const ProductForm = ({handleSubmit, onFormSubmit, loading, header, buttonText, i
 					onSubmit={handleSubmit(formValues => formValues.image ? onFormSubmit(formValues) : setImageMissing("*Please choose an image"))} 
 					encType="multipart/form-data"
 				>
-					<Field name="title" component={renderInput} label="Name" inputType="text" />
+					<Field name="title" component={Input} label="Name" inputType="text" />
 					<Field name="description" component={renderTextArea} label="Description" />
-					<Field name="price" component={renderInput} label="Price" inputType="number" />
+					<Field name="price" component={Input} label="Price" inputType="number" min={0} step={0.01} />
 					<Field name="image" component={renderImageUpload} label="Image" />
 					{imageMissing && <div className="errorLabel">{imageMissing}</div>}
 					<button className="ui blue button">{buttonContent}</button>

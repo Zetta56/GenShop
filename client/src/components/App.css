@@ -1,18 +1,28 @@
 /*General*/
 .main.container {
-	margin: 4rem auto;
+	margin: 0 auto;
+	padding: 8rem 0;
 	width: 90%;
 }
 
 .alertMessage {
-	position: absolute !important;
+	position: fixed !important;
 	top: 4rem;
 	text-align: center;
 	width: 100%;
+	z-index: 5;
 }
 
 .centered.inline.loader {
 	margin-top: 15rem;
+}
+
+.hidden {
+	display: none;
+}
+
+a {
+	outline: none;
 }
 
 @media only screen and (min-width: 1600px) {
@@ -76,6 +86,7 @@ body {
 	margin-bottom: .5rem;
 }
 
+#header .resultBox,
 #userForm,
 #productForm,
 #productList .image,

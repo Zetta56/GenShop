@@ -2,11 +2,11 @@ import axios from "axios";
 import history from "../history";
 import {error, loading, finishLoading} from "./AlertActions";
 
-export const fetchProducts = (search) => {
+export const fetchProducts = (query) => {
 	return async (dispatch) => {
 		try {
 			dispatch(loading());
-			const response = await axios.get("/api/products", {params: {user: search}});
+			const response = await axios.get("/api/products", {params: query});
 
 			dispatch({
 				type: "FETCH_PRODUCTS",

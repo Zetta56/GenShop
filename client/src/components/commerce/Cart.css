@@ -11,10 +11,6 @@
 	padding: 1.5rem;
 }
 
-#cart .header .ui.button {
-	float: right;
-}
-
 /*Table*/
 #cart .table {
 	margin: 0;
@@ -29,7 +25,6 @@
 	word-wrap: break-word;
 }
 
-#cart .table .image,
 #cart .remove {
 	padding: 0 !important;
 }
@@ -47,6 +42,15 @@
 #cart .total {
 	padding: 1rem 0;
 	text-align: right;
+}
+
+#cart .checkout {
+	text-align: right;
+}
+
+#cart .checkout .button {
+	position: relative;
+	margin: 1rem;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -83,7 +87,7 @@
 	}
 
 	#cart .remove {
-		width: 3%;
+		width: 2%;
 	}
 
 	#cart .remove .ui.button {
@@ -97,10 +101,6 @@
 	#cart .image img {
 		height: 50%;
 		width: 100%;
-	}
-
-	#cart .name {
-		max-width: 20rem;
 	}
 
 	#cart .label {

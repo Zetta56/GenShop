@@ -105,8 +105,6 @@ router.post("/refresh", (req, res) => {
 
 router.post("/alter-cart/:productId", async(req, res) => {
 	try{
-		console.log(req.body)
-		console.log("a")
 		const foundUser = await User.findById(req.user._id);
 		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
 		

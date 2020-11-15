@@ -1,38 +1,20 @@
-import React, {useCallback} from "react";
+import React from "react";
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
 import {createUser} from "../../actions";
+import Input from "../Input";
 import "./UserForm.css";
 
 const Register = ({handleSubmit, createUser}) => {
-	const renderError = ({touched, error}) => {
-		if(touched && error) {
-			return <div className="errorLabel">{error}</div>
-		};
-	};
-
-	//useCallback prevents renderInput from constantly re-rendering
-	const renderInput = useCallback(({input, meta, placeholder, inputType, icon}) => {
-		const error = meta.error && meta.touched ? "red" : "";
-
-		return (
-			<div className={`${error} ui left icon input field`}>
-				<input {...input}  type={inputType} placeholder={placeholder} required />
-				<i className={`${icon} icon`} />
-				{renderError(meta)}
-			</div>
-		);
-	}, []);
-	
 	return (
 		<div className="ui one column stackable grid" id="userForm">
 			<div className="column">
 				<h2>Create An Account</h2>
 				<form className="ui form" onSubmit={handleSubmit(({email, username, password}) => createUser({email, username, password}))}>
-					<Field name="email" component={renderInput} placeholder="Email" inputType="email" icon="envelope" />
-					<Field name="username" component={renderInput} placeholder="Username" inputType="text" icon="user" />
-					<Field name="password" component={renderInput} placeholder="Password" inputType="password" icon="lock" />
-					<Field name="confirmPassword" component={renderInput} placeholder="Confirm Password" inputType="password" icon="lock" />
+					<Field name="email" component={Input} label="Email" inputType="email" icon="envelope" />
+					<Field name="username" component={Input} label="Username" inputType="text" icon="user" />
+					<Field name="password" component={Input} label="Password" inputType="password" icon="lock" />
+					<Field name="confirmPassword" component={Input} label="Confirm Password" inputType="password" icon="lock" />
 					<button className="ui blue submit button" id="submitButton">Create</button>
 				</form>
 			</div>

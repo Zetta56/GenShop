@@ -3,11 +3,10 @@
 	box-shadow: 0;
 	font-size: 20px;
 	margin: 0;
-	padding: 0 15%;
+	padding: 0 5%;
 }
 
 #header .item {
-	outline: none;
 	padding: 1.25rem 1rem;
 }
 
@@ -15,12 +14,35 @@
 	display: flex;
 	align-items: center;
 	font-size: 18px;
-	margin-left: 1rem;
 }
 
 #header .search input {
 	height: 2.5rem;
 	padding: 0 1rem;
+}
+
+#header .search .resultBox {
+	position: absolute;
+	top: 2rem;
+	left: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+#header .search .resultBox a {
+	display: block;
+	padding: 1rem;
+	width: 285px;
+}
+
+#header .hamburger {
+	margin-left: auto;
+}
+
+#sidebar {
+	height: calc(100% - 57px) !important;
+	margin-top: 57px !important;
+	transition: .3s;
 }
 
 #sidebar a {
@@ -29,6 +51,23 @@
 	font-size: 20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 769px) {
+	#header .search {
+		margin-left: 1rem;
+	}
 
+	#header .hamburger,
+	#sidebar {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#header {
+		padding: 0;
+	}
+
+	#header .right.menu {
+		display: none;
+	}
 }

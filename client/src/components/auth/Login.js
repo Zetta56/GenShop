@@ -2,6 +2,7 @@ import React, {useCallback} from "react";
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
 import {login} from "../../actions";
+import Input from "../Input";
 import "./UserForm.css";
 
 const Login = ({handleSubmit, login, match}) => {
@@ -21,15 +22,6 @@ const Login = ({handleSubmit, login, match}) => {
 			);
 		};
 	};
-
-	const renderInput = useCallback(({input, placeholder, inputType, icon}) => {
-		return (
-			<div className="ui left icon input field">
-				<input {...input} type={inputType} placeholder={placeholder} required />
-				<i className={`${icon} icon`} />
-			</div>
-		)
-	}, []);
 	
 	return (
 		<div className="ui one column stackable grid" id="userForm">
@@ -37,8 +29,8 @@ const Login = ({handleSubmit, login, match}) => {
 				<h2>Login</h2>
 				{renderGoogle()}
 				<form className="ui form" onSubmit={handleSubmit((formValues) => login(formValues))}>
-					<Field name="username" component={renderInput} placeholder="Username" inputType="text" icon="user" />
-					<Field name="password" component={renderInput} placeholder="Password" inputType="password" icon="lock" />
+					<Field name="username" component={Input} label="Username" inputType="text" icon="user" />
+					<Field name="password" component={Input} label="Password" inputType="password" icon="lock" />
 					<button className="ui blue submit button" id="submitButton">Submit</button>
 				</form>
 			</div>

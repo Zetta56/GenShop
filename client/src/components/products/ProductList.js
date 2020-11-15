@@ -4,10 +4,10 @@ import {Link} from "react-router-dom";
 import {fetchProducts} from "../../actions";
 import "./ProductList.css";
 
-const ProductList = ({fetchProducts, products, loading}) => {
+const ProductList = ({fetchProducts, products, loading, location}) => {
 	useEffect(() => {
 		fetchProducts();
-	}, [fetchProducts]);
+	}, [fetchProducts, location]);
 
 	const renderList = () => {
 		return products.map(product => {
@@ -17,10 +17,10 @@ const ProductList = ({fetchProducts, products, loading}) => {
 							<img src={`data:${product.image.contentType};base64,${product.image}`} alt={product.title} />
 					</Link>
 					<div className="content">
-						<div className="meta">${product.price}</div>
 						<div className="header">
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
 						</div>
+						<div className="meta">${product.price}</div>
 					</div>
 				</div>
 			);
@@ -38,10 +38,17 @@ const ProductList = ({fetchProducts, products, loading}) => {
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {products: Object.values(state.products), loading: state.alert.loading};
+const mapStateToProps = (state, ownProps) => {
+	//Finds products that match search
+	const searchRe = new RegExp("^" + ownProps.location.search.substring(ownProps.location.search.indexOf("=") + 1));
+	const filteredProducts = ownProps.location.search
+		? Object.values(state.products).filter(product => searchRe.test(product.title))
+		: Object.values(state.products)
+
+	return {
+		products: filteredProducts, 
+		loading: state.alert.loading
+	};
 };
 
 export default connect(mapStateToProps, {fetchProducts})(ProductList);
-
-//<img src={`${imageData}`} alt={product.title} />
