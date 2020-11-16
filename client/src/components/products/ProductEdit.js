@@ -1,23 +1,16 @@
 import React, {useEffect, useCallback} from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
-import {fetchProduct, editProduct} from "../../actions";
-import ProductUpsertForm from "./ProductUpsertForm";
+import {editProduct} from "../../actions";
+import UpsertForm from "./UpsertForm";
 
-const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product, initialValues}) => {
-	useEffect(() => {
-		fetchProduct(match.params.productId);
-	}, [fetchProduct, match]);
-
-	if(!product) {
-		return <div className="ui active centered inline loader"></div>
-	};
-
+const ProductEdit = ({handleSubmit, editProduct, match, products, initialValues}) => {
 	return (
-		<ProductUpsertForm 
-			onFormSubmit={formValues => editProduct(formValues, product._id)}
+		<UpsertForm 
+			onFormSubmit={formValues => editProduct(formValues, match.params.productId)}
 			initial={initialValues}
-			header={`Edit '${product.title}'`}
+			match={match}
+			header="Edit Product"
 			buttonText="Update" />
 	);
 };
@@ -25,8 +18,8 @@ const ProductEdit = ({handleSubmit, fetchProduct, editProduct, match, product, i
 const mapStateToProps = (state, ownProps) => {
 	return {
 		initialValues: _.omit(state.products[ownProps.match.params.productId], "image"), 
-		product: state.products[ownProps.match.params.productId]
+		products: Object.values(state.products)
 	};
 };
 
-export default connect(mapStateToProps, {fetchProduct, editProduct})(ProductEdit);
+export default connect(mapStateToProps, {editProduct})(ProductEdit);

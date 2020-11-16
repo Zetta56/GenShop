@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Field, reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
 import {fetchProduct} from "../../actions";
-import ProductCartForm from "./ProductCartForm";
+import ProductCartForm from "./CartForm";
 import "./ProductDetails.css";
 
 const ProductDetails = ({fetchProduct, match, product, user}) => {

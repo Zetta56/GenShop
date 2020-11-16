@@ -1,10 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
 import {createProduct} from "../../actions";
-import ProductUpsertForm from "./ProductUpsertForm"
+import UpsertForm from "./UpsertForm"
 
 const ProductCreate = ({handleSubmit, createProduct}) => {
-	return <ProductUpsertForm 
+	return <UpsertForm 
 				onFormSubmit={formValues => createProduct(formValues)} 
 				header="Create New Listing"
 				buttonText="Create" />

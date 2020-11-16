@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
 	description: String,
 	price: Number,
 	created: {type: Date, default: Date.now()},
+	variations: [{type: String}],
 	image: {
 		data: Buffer,
 		contentType: String

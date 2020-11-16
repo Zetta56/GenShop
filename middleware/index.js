@@ -1,5 +1,6 @@
 const passport = require("passport"),
 	  mongoose = require("mongoose"),
+	  Product = require("../models/Product"),
 	  multer = require("multer"),
 	  path = require("path");
 
@@ -36,6 +37,21 @@ middleware.isLoggedIn = (req, res, next) => {
 	if(!req.user) {
 		return res.status(401).json({message: "You must be logged in to do that.", redirect: "/login"});
 	};
+	next();
+};
+
+middleware.hasProductInfo = async (req, res, next) => {
+	const foundProducts = await Product.find({});
+	const ownProduct = req.params 
+		? await Product.findById(req.params.productId)
+		: {title: null};
+
+	if(!req.file || !req.body.title || !req.body.description || !req.body.price) {
+		return res.status(400).json("Missing required fields.");
+	}
+	if(foundProducts.map(product => product.title).includes(req.body.title) && req.body.title !== ownProduct.title) {
+		return res.status(409).json("Product name is already taken.");
+	}
 	next();
 };
 

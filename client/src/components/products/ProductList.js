@@ -40,7 +40,10 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 
 const mapStateToProps = (state, ownProps) => {
 	//Finds products that match search
-	const searchRe = new RegExp("^" + ownProps.location.search.substring(ownProps.location.search.indexOf("=") + 1));
+	const search = decodeURI(ownProps.location.search)
+					.substring(ownProps.location.search.indexOf("=") + 1)
+					.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+	const searchRe = new RegExp("^" + search);
 	const filteredProducts = ownProps.location.search
 		? Object.values(state.products).filter(product => searchRe.test(product.title))
 		: Object.values(state.products)

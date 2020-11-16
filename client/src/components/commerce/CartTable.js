@@ -6,7 +6,7 @@ import {alterCart} from "../../actions";
 const CartTable = ({alterCart, products, user, total}) => {
 	const renderItems = () => {
 		return products.map(product => {
-			const cartQuantity = user.cart.find(item => item.product === product._id).quantity;
+			const cartItem = user.cart.find(item => item.product === product._id);
 
 			return (
 				<tr key={product._id}>
@@ -20,15 +20,16 @@ const CartTable = ({alterCart, products, user, total}) => {
 						<strong>
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
 						</strong>
+						<em> ({cartItem.variation})</em>
 					</td>
 					<td className="price">
 						<span className="label">Price: </span>${product.price}
 					</td>
 					<td className="quantity">
-						<span className="label">Quantity: </span>{cartQuantity}
+						<span className="label">Quantity: </span>{cartItem.quantity}
 					</td>
 					<td className="subtotal">
-						<span className="label">Subtotal: </span>${cartQuantity * product.price}
+						<span className="label">Subtotal: </span>${cartItem.quantity * product.price}
 					</td>
 					<td className="remove">
 						<button onClick={e => alterCart(false, product._id, null)} className="ui red button">

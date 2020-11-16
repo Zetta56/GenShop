@@ -49,6 +49,14 @@
 	width: 7rem;
 }
 
+#productDetails .cartForm .grouped.fields .field {
+	margin: 1rem 0;
+}
+
+#productDetails .cartForm .ui.radio.checkbox {
+	font-size: 18px;
+}
+
 #productDetails .cartForm .ui.button {
 	width: 100%;
 }

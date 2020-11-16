@@ -25,10 +25,9 @@
 	width: 100%;
 }
 
-#userForm .field .errorLabel {
+#userForm .errorLabel {
 	position: absolute;
 	top: 2.5rem;
-	font-size: 14px;
 	margin-top: .5rem;
 }
 

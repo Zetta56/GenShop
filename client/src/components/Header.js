@@ -78,8 +78,7 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 				<Search 
 					searchList={products} 
 					searchProperty="title"
-					searchDest="/"
-					suggestionDest="/products/" />
+					destination="/" />
 				<div className="right menu">
 					{renderCreate(true)}
 					{renderAuth(true)}

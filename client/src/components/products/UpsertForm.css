@@ -7,11 +7,12 @@
 }
 
 /*Text Inputs*/
-#productForm .field:not(.number) {
+#productForm .field {
 	width: 100%;
 }
 
-#productForm label {
+#productForm label,
+#productForm input {
 	margin-bottom: .5rem;
 }
 
@@ -19,8 +20,19 @@
 	width: 12.5rem !important;
 }
 
-#productForm input {
+#productForm input,
+#productForm textarea {
 	padding-bottom: 0;
+	margin-bottom: .25rem;
+}
+
+#productForm .react-tagsinput,
+#productForm .react-tagsinput-tag {
+	border: 0;
+}
+
+#productForm .react-tagsinput-input {
+	width: 20rem;
 }
 
 /*File Upload*/

@@ -111,7 +111,11 @@ router.post("/alter-cart/:productId", async(req, res) => {
 		if(cartIndex >= 0) {
 			await foundUser.cart.splice(cartIndex, 1);
 		} else {
-			await foundUser.cart.push({product: req.params.productId, quantity: req.body.quantity});
+			await foundUser.cart.push({
+				product: req.params.productId, 
+				quantity: req.body.quantity,
+				variation: req.body.variation
+			});
 		}
 
 		foundUser.save();
@@ -146,7 +150,7 @@ router.post("/checkout", async (req, res) => {
 					price_data: {
 						currency: "usd",
 						product_data: {
-							name: item.product.title
+							name: item.product.title + " (" + item.variation + ")"
 						},
 						unit_amount_decimal: (item.product.price * 100)
 					},

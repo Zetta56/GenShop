@@ -45,13 +45,14 @@ router.get("/:productId", async (req, res) => {
 	};
 });
 
-router.post("/", middleware.upload.single("image"), async (req, res) => {
+router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, async (req, res) => {
 	try {
 		//Price rounded to 2 decimal places + Image read from local file
 		const product = {
 			title: req.body.title,
 			description: req.body.description,
 			price: parseFloat(req.body.price).toFixed(2),
+			variations: req.body.variations,
 			image: {
 				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
 				contentType: req.file.mimetype
@@ -72,12 +73,13 @@ router.post("/", middleware.upload.single("image"), async (req, res) => {
 	};
 });
 
-router.put("/:productId", middleware.upload.single("image"), async (req, res) => {
+router.put("/:productId", middleware.upload.single("image"), middleware.hasProductInfo, async (req, res) => {
 	try {
 		const product = {
 			title: req.body.title,
 			description: req.body.description,
 			price: parseFloat(req.body.price).toFixed(2),
+			variations: req.body.variations,
 			image: {
 				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
 				contentType: req.file.mimetype

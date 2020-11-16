@@ -40,7 +40,9 @@ export const createProduct = (formValues) => {
 			dispatch(loading());
 			const fd = new FormData();
 			for(const key in formValues) {
-				fd.append(key, formValues[key]);
+				Array.isArray(formValues[key])
+					? formValues[key].forEach(item => fd.append(key + "[]", item))
+					: fd.append(key, formValues[key]);
 			};
 			const response = await axios.post("/api/products", fd, {headers: {"Content-Type": "multipart/form-data"}});
 
@@ -64,7 +66,9 @@ export const editProduct = (formValues, productId) => {
 			dispatch(loading());
 			const fd = new FormData();
 			for(const key in formValues) {
-				fd.append(key, formValues[key]);
+				Array.isArray(formValues[key])
+					? formValues[key].forEach(item => fd.append(key + "[]", item))
+					: fd.append(key, formValues[key]);
 			};
 
 			const response = await axios.put(`/api/products/${productId}`, fd, {headers: {"Content-Type": "multipart/form-data"}});

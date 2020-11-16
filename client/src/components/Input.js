@@ -1,6 +1,7 @@
 import React from "react"
 
-const Input = ({input, meta, label, inputType, min, step, icon}) => {
+const Input = ({input, meta, label, inputType, min, step, icon, hiddenPlaceholder}) => {
+	const placeholder = hiddenPlaceholder ? "" : label;
 	//Renders error if error exists and user tried to fill in input
 	const error = meta.error && meta.touched ? "red" : "";
 	
@@ -17,7 +18,7 @@ const Input = ({input, meta, label, inputType, min, step, icon}) => {
 				<input 
 					{...input} 
 					type={inputType} 
-					placeholder={label} 
+					placeholder={placeholder} 
 					min={min || 0}
 					step={step || "any"}
 					required />
@@ -33,7 +34,7 @@ const Input = ({input, meta, label, inputType, min, step, icon}) => {
 				<input 
 					{...input} 
 					type={inputType} 
-					placeholder={label} 
+					placeholder={placeholder}
 					min={min || 0}
 					step={step || "any"} 
 					required />
