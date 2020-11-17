@@ -51,7 +51,7 @@ router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, a
 		const product = {
 			title: req.body.title,
 			description: req.body.description,
-			price: parseFloat(req.body.price).toFixed(2),
+			price: Math.round(req.body.price * 100) / 100,
 			variations: req.body.variations,
 			image: {
 				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
@@ -75,18 +75,20 @@ router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, a
 
 router.put("/:productId", middleware.upload.single("image"), middleware.hasProductInfo, async (req, res) => {
 	try {
+		//Undoes formdata conversion between empty array and null
+		const variations = req.body.variations != null ? req.body.variations : [];
 		const product = {
 			title: req.body.title,
 			description: req.body.description,
-			price: parseFloat(req.body.price).toFixed(2),
-			variations: req.body.variations,
+			price: Math.round(req.body.price * 100) / 100,
+			variations: variations,
 			image: {
 				data: fs.readFileSync(path.join(__dirname + "/../uploads/" + req.file.filename)),
 				contentType: req.file.mimetype
 			}
 		};
 		const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, product, {new: true});
-		
+
 		fs.unlink(req.file.path, (err) => {
 			if(err) {
 				res.status(500).json(err);

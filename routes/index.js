@@ -146,11 +146,15 @@ router.post("/checkout", async (req, res) => {
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
 			line_items: foundUser.cart.map(item => {
+				const productName = item.variation && item.variation.length > 0
+					? item.product.title + " (" + item.variation + ")"
+					: item.product.title;
+
 				return {
 					price_data: {
 						currency: "usd",
 						product_data: {
-							name: item.product.title + " (" + item.variation + ")"
+							name: productName
 						},
 						unit_amount_decimal: (item.product.price * 100)
 					},

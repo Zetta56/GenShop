@@ -65,7 +65,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		user: state.user,
 		products: Object.values(state.products).filter(product => cartIds.includes(product._id)),
-		total: total
+		total: Math.round(total * 100) / 100
 	};
 };
 

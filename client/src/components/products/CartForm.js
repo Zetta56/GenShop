@@ -17,27 +17,31 @@ const CartForm = ({handleSubmit, alterCart, match, product, user, loading}) => {
 	};
 
 	const renderRadioInput = useCallback(({input, label}) => {
-		return (
-			<div className="grouped fields">
-				<label>{label}</label>
-				{product.variations.map(option => {
-					return (
-						<div className="field" key={option}>
-							<div className="ui radio checkbox">
-								<input 
-									{...input} 
-									type="radio" 
-									name="variation"
-									value={option}
-									onChange={() => input.onChange(option)} 
-									required />
-								<label>{option}</label>
+		if(product.variations && product.variations.length > 0) {
+			return (
+				<div className="grouped fields">
+					<label>{label}</label>
+					{product.variations.map(option => {
+						return (
+							<div className="field" key={option}>
+								<div className="ui radio checkbox">
+									<input 
+										{...input} 
+										type="radio" 
+										name="variation"
+										value={option}
+										onChange={() => input.onChange(option)} 
+										required />
+									<label>{option}</label>
+								</div>
 							</div>
-						</div>
-					);
-				})}
-			</div>
-		);
+						);
+					})}
+				</div>
+			);
+		} else {
+			return null;
+		}
 	}, [product]);
 
 	//Conditionally renders button in cart form
@@ -59,7 +63,7 @@ const CartForm = ({handleSubmit, alterCart, match, product, user, loading}) => {
 			<Field
 				name="variation"
 				component={renderRadioInput}
-				label="Select Variation: "
+				label="Select An Option: "
 				required />
 			<Field 
 				name="quantity" 

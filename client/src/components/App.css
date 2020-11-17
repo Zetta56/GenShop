@@ -94,7 +94,8 @@ body {
 #userForm,
 #productForm,
 #productList .image,
-#productDetails {
+#productDetails .details,
+#productDetails .reviews {
 	background-color: white;
 }
 

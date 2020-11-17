@@ -10,7 +10,7 @@ import "react-tagsinput/react-tagsinput.css";
 import "./UpsertForm.css";
 
 const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, ownProduct, loading, header, buttonText, initial}) => {
-	const [variations, setVariations] = useState(ownProduct.variations);
+	const [variations, setVariations] = useState(ownProduct.variations || []);
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
 
 	useEffect(() => {

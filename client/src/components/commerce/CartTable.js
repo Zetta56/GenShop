@@ -4,6 +4,12 @@ import {Link} from "react-router-dom";
 import {alterCart} from "../../actions";
 
 const CartTable = ({alterCart, products, user, total}) => {
+	const renderVariation = (cartItem) => {
+		if(cartItem.variation && cartItem.variation.length > 0) {
+			return <em> ({cartItem.variation})</em>;
+		};
+	};
+
 	const renderItems = () => {
 		return products.map(product => {
 			const cartItem = user.cart.find(item => item.product === product._id);
@@ -20,7 +26,7 @@ const CartTable = ({alterCart, products, user, total}) => {
 						<strong>
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
 						</strong>
-						<em> ({cartItem.variation})</em>
+						{renderVariation(cartItem)}
 					</td>
 					<td className="price">
 						<span className="label">Price: </span>${product.price}
