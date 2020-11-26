@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {fetchProducts} from "../../actions";
@@ -7,7 +7,7 @@ import "./ProductList.css";
 const ProductList = ({fetchProducts, products, loading, location}) => {
 	useEffect(() => {
 		fetchProducts();
-	}, [fetchProducts, location]);
+	}, [fetchProducts]);
 
 	const renderList = () => {
 		return products.map(product => {

@@ -4,6 +4,7 @@ const express = require("express"),
 	  fs = require("fs"),
 	  middleware = require("../middleware"),
 	  Product = require("../models/Product"),
+	  Review = require("../models/Review"),
 	  User = require("../models/User");
   
 router.get("/", async (req, res) => {
@@ -96,7 +97,6 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 			res.json(updatedProduct);
 		});
 	} catch(err) {
-		console.log(err)
 		res.status(500).json(err);
 	};
 });
@@ -104,6 +104,7 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 router.delete("/:productId", async (req, res) => {
 	try {
 		await Product.findByIdAndDelete(req.params.productId);
+		await Review.deleteMany({product: req.params.productId});
 		res.json(req.params.productId);
 	} catch(err) {
 		res.status(500).json(err);

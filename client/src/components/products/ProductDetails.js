@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {fetchProduct, fetchReviews} from "../../actions";
 import ProductCartForm from "./CartForm";
-import ReviewSection from "./ReviewSection";
+import ReviewSection from "../reviews/ReviewSection";
 import "./ProductDetails.css";
 
 const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, user}) => {
@@ -56,7 +56,11 @@ const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, us
 					</div>
 				</div>
 			</div>
-			<ReviewSection reviews={reviews} match={match} />
+			<ReviewSection 
+				reviews={reviews} 
+				match={match}
+				user={user}
+				product={product} />
 		</div>
 	);
 };

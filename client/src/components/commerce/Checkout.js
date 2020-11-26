@@ -1,7 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Redirect, Link} from "react-router-dom";
-import history from "../../history";
 import {resetCart} from "../../actions";
 import Modal from "../Modal";
 

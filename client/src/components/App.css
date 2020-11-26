@@ -90,6 +90,18 @@ body {
 	color: red;
 }
 
+#productDetails .fa-star {
+	color: #aaaaaa;		/*dark gray*/
+}
+
+#productDetails .fa-star.yellow {
+	color:  #ffd822;	/*yellow*/
+}
+
+#productDetails .fa-star.orange {
+	color: #fdbe02;		/*orange*/
+}
+
 #header .resultBox,
 #userForm,
 #productForm,
@@ -108,12 +120,19 @@ body {
 }
 
 #productForm .react-tagsinput-tag,
-#productForm .react-tagsinput-remove {
+#productForm .react-tagsinput-remove,
+#productDetails .login.button {
 	background-color: #eeeeee;	/*light-gray*/
 }
 
 #productList .meta,
 #productForm .react-tagsinput-tag,
-#productForm .react-tagsinput-remove {
+#productForm .react-tagsinput-remove,
+#productDetails .dropdown *:not(.fa-ellipsis-v) {
 	color: #333333;		/*black*/
+}
+
+.ratings:not(:checked) > label:hover,
+.ratings:not(:checked) > label:hover ~ label {
+    color: #deb217;  
 }

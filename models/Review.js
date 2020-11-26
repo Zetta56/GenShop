@@ -1,11 +1,19 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-	rating: Number,
+	ratings: Number,
 	comment: String,
+	created: {type: Date, default: Date.now()},
 	product: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Product"
+	},
+	user: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
+		},
+		username: String
 	}
 });
 

@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React from "react";
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
 import {login} from "../../actions";

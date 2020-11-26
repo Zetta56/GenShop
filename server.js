@@ -3,13 +3,15 @@ require("dotenv").config();
 //Packages
 const express = require("express"),
 	  app = express(),
+	  http = require("http").createServer(app),
+	  io = require("socket.io")(http, {cors: {origin: "*"}}),
 	  path = require("path"),
 	  cors = require("cors"),
 	  mongoose = require("mongoose"),
 	  bodyParser = require("body-parser"),
 	  cookieParser = require("cookie-parser"),
 	  multer = require("multer"),
-	  fs = require("fs"),
+	  fs = require("fs")
 	  jwt = require("jsonwebtoken"),
 	  passport = require("passport"),
 	  LocalStrategy = require("passport-local"),
@@ -66,6 +68,18 @@ app.use((req, res, next) => {
 	})(req, res);
 });
 
+// io.on("connection", socket => {
+// 	console.log("Connected");
+// 	socket.on("message", (msg) => {
+// 		io.emit("message", msg);
+// 	});
+
+// 	socket.on("disconnect", () => {
+// 		console.log("Client Disconnected");
+// 	});
+// });
+
+
 //Run Routes
 app.use("/api", indexRoutes);
 app.use("/api/products", productRoutes);
@@ -75,6 +89,6 @@ app.use((req, res) => {
 });
 
 //Start Server
-app.listen(process.env.PORT || 3001, () => {
+http.listen(process.env.PORT || 3001, () => {
 	console.log("Server Started");
 });

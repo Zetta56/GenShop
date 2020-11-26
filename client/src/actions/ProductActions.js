@@ -63,6 +63,7 @@ export const createProduct = (formValues) => {
 export const editProduct = (formValues, productId) => {
 	return async (dispatch) => {
 		try {
+			console.log(formValues)
 			dispatch(loading());
 			const fd = new FormData();
 			for(const key in formValues) {
