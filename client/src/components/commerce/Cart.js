@@ -39,11 +39,12 @@ const Cart = ({fetchProducts, error, user, products, total}) => {
 		}
 	};
 
+	if(!products || products.length < 1) {
+		return <div className="emptyMessage">Your cart is empty.</div>
+	};
+
 	return (
 		<div id="cart">
-			<h2 className="header">
-				<span>My Cart</span>
-			</h2>
 			<CartTable products={products} user={user} total={total} />
 			<div className="checkout">{renderCheckoutButton()}</div>
 		</div>

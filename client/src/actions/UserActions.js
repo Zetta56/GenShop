@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "../history";
-import {error, confirm, loading, finishLoading} from "./AlertActions";
+import {error, loading, finishLoading} from "./AlertActions";
 
 export const createUser = (formValues) => {
 	return async (dispatch) => {
@@ -49,13 +49,11 @@ export const alterCart = (adding, productId, formValues) => {
 		try {
 			dispatch(loading());
 			const response = await axios.post(`/api/alter-cart/${productId}`, formValues);
-			const message = adding ? "added to" : "removed from";
 
 			dispatch({
 				type: "ALTER_CART",
 				payload: response.data
 			});
-			dispatch(confirm(`Product successfully ${message} cart.`));
 			dispatch(finishLoading());
 		} catch(err) {
 			await dispatch(error(err.response.data.message));

@@ -31,7 +31,7 @@ const CartTable = ({alterCart, products, user, total}) => {
 					</td>
 					<td className="price">
 						<span className="label">Price: </span>
-						<Price product={product} />
+						${Math.round((product.price - product.price * (product.discount / 100)) * 100) / 100}
 					</td>
 					<td className="quantity">
 						<span className="label">Quantity: </span>{cartItem.quantity}
@@ -48,10 +48,6 @@ const CartTable = ({alterCart, products, user, total}) => {
 			);
 		});
 	};
-
-	if(!products || products.length <= 0) {
-		return <div className="empty">Your cart is empty</div>
-	}
 
 	return (
 		<table className="ui table">

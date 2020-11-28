@@ -17,6 +17,12 @@
 	margin-top: 15rem;
 }
 
+.emptyMessage {
+	font-size: 20px;
+	padding: 3rem;
+	text-align: center;
+}
+
 .strikeThrough {
 	margin: 0 .5rem;
 	text-decoration: line-through;
@@ -81,7 +87,7 @@ a {
 
 /*Colors*/
 body {
-	background-color: #dbe6f7;  /*lightest blue*/
+	background-color: #e6eef9;
 }
 
 #header {
@@ -101,18 +107,19 @@ body {
 	color: red;
 }
 
-#productDetails .fa-star {
+.fa-star {
 	color: #aaaaaa;		/*dark gray*/
 }
 
-#productDetails .fa-star.yellow {
+.fa-star.yellow {
 	color:  #ffd822;	/*yellow*/
 }
 
-#productDetails .fa-star.orange {
+.fa-star.orange {
 	color: #fdbe02;		/*orange*/
 }
 
+.emptyMessage,
 #header .resultBox,
 #userForm,
 #productForm,
@@ -127,14 +134,14 @@ body {
 	color: white !important;
 }
 
-#cart {
-	background-color: #fafafa;	/*lightest-gray*/
-}
-
 #productForm .react-tagsinput-tag,
 #productForm .react-tagsinput-remove,
 #productDetails .login.button {
-	background-color: #eeeeee;	/*light-gray*/
+	background-color: #eeeeee;	/*lighter-gray*/
+}
+
+#productDetails .dropdown .fa-ellipsis-v {
+	color: #aaaaaa;		/*light-gray*/
 }
 
 #userForm h2,

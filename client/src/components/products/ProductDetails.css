@@ -8,19 +8,33 @@
 	width: 100%;
 }
 
-#productDetails .ui.admin.buttons {
-	float: right;
-	margin-left: 90%;
+#productDetails .dropdown .fa-ellipsis-v {
+	width: 2rem;
 }
 
-#productDetails .divider {
-	margin: 2rem 0;
+#productDetails .dropdown:hover .menu {
+	display: block;
 }
 
 /*Product Details*/
 #productDetails .header {
 	font-size: 24px;
 	overflow-wrap: break-word;
+}
+
+#productDetails .header .dropdown {
+	font-size: 18px;
+	margin-left: .5rem;
+}
+
+#productDetails .header .fa-star {
+	font-size: 16px;
+}
+
+#productDetails .details.column {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #productDetails .content {
@@ -30,9 +44,16 @@
 	word-wrap: break-word;
 }
 
+#productDetails .description {
+	font-size: 18px;
+	line-height: 2em;
+	padding: 2rem;
+	word-wrap: break-word;
+}
+
 /*Cart Form*/
 #productDetails .cartForm {
-	font-size: 18px;
+	font-size: 16px;
 }
 
 #productDetails .cartForm > * {
@@ -61,22 +82,19 @@
 }
 
 @media only screen and (min-width: 993px) {
-	#productDetails .contentTop.divider {
-		display: none;
-	}
-
 	#productDetails .cartForm {
+		font-size: 18px;
 		margin: auto !important;
 		width: 80%;
 	}
 }
 
-@media only screen and (max-width: 992px) {
-	#productDetails .column {
-		width: 100% !important;
-	}
-
+@media only screen and (max-width: 768px) {
 	#productDetails .details.column {
 		order: 2;
+	}
+
+	#productDetails .cartForm {
+		width: 80%;
 	}
 }

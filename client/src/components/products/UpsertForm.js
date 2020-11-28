@@ -10,7 +10,7 @@ import Input from "../Input";
 import "react-tagsinput/react-tagsinput.css";
 import "./UpsertForm.css";
 
-const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, initialValues, loading, header, buttonText}) => {
+const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, initialValues, loading, header, buttonText, cancelURL}) => {
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
 	const variationsRef = useRef(null);
 
@@ -93,7 +93,7 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
 					<Field name="variations" component={renderVariationsInput} label="Variations (Optional)" />
 					<Field name="image" component={renderImageUpload} label="Image" />
 					<button className="ui blue button">{buttonContent}</button>
-					<Link to="/products" className="ui button">Cancel</Link>
+					<Link to={cancelURL} className="ui button">Cancel</Link>
 				</form>
 			</div>
 		</div>

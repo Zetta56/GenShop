@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import {fetchProducts} from "../../actions";
 import Price from "../Price";
+import Stars from "../Stars";
 import "./ProductList.css";
 
 const ProductList = ({fetchProducts, products, loading, location}) => {
@@ -22,6 +23,9 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 						<div className="header">
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
 						</div>
+						{product.ratings.length > 0 &&
+							<Stars rating={product.ratings.reduce((a, b) => a + b) / product.ratings.length} />
+						}
 						<div className="meta">
 							<Price product={product} />
 							{product.discount &&
@@ -39,7 +43,7 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 	};
 
 	if(location && products.length < 1) {
-		return <div className="searchMessage">No products were found that match your search.</div>
+		return <div className="emptyMessage">No products were found that match your search.</div>
 	}
 
 	return (
@@ -57,7 +61,7 @@ const mapStateToProps = (state, ownProps) => {
 	const searchRe = new RegExp("^" + search);
 	const filteredProducts = ownProps.location.search
 		? Object.values(state.products).filter(product => searchRe.test(product.title))
-		: Object.values(state.products)
+		: Object.values(state.products);
 
 	return {
 		products: filteredProducts, 

@@ -49,8 +49,8 @@ const Header = ({searchList, searchProperty, destination}) => {
 	const onSearchPress = (e) => {
 		if(e.key === "Enter") {
 			const path = e.target.value.length > 0 ? `${destination}?search=${e.target.value}` : "";
+			setTerm("");
 			history.push(path);
-			e.target.value = "";
 		};
 	};
 

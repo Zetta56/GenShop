@@ -7,7 +7,8 @@ const ProductCreate = ({createProduct}) => {
 	return <UpsertForm 
 				onFormSubmit={formValues => createProduct(formValues)} 
 				header="Create New Listing"
-				buttonText="Create" />
+				buttonText="Create"
+				cancelURL="/products" />
 };
 
 export default connect(null, {createProduct})(ProductCreate);

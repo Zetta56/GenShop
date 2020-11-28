@@ -18,14 +18,6 @@
 	margin-top: 1rem;
 }
 
-#reviews .comment .dropdown .fa-ellipsis-v {
-	width: 2rem;
-}
-
-#reviews .comment .dropdown:hover .menu {
-	display: block;
-}
-
 #reviews .comment .dropdown .menu {
 	top: 1.85rem;
 	left: -.25rem;

@@ -31,11 +31,13 @@ router.get("/", async (req, res) => {
 			foundProducts.map(async product => {
 				//Retreives associated discount
 				const foundDiscount = await Discount.findOne({product: product._id});
+				const foundReviews = await Review.find({product: product._id});
 				
 				//Discount keys are the same as product upsert form fieldnames
 				if(foundDiscount) {
 					return {
 						...product.toObject(), 
+						ratings: foundReviews.map(review => review.ratings),
 						discount: foundDiscount.percent,
 						expireAt: foundDiscount.expireAt,
 						//Reads and encodes image from file system
@@ -44,6 +46,7 @@ router.get("/", async (req, res) => {
 				} else {
 					return {
 						...product.toObject(), 
+						ratings: foundReviews.map(review => review.ratings),
 						image: Buffer.from(fs.readFileSync(path.join(__dirname + "/../" + product.image)), "binary").toString("base64")
 					}
 				}
@@ -61,11 +64,13 @@ router.get("/:productId", middleware.hasProductId, async (req, res) => {
 	try {
 		const foundProduct = await Product.findById(req.params.productId);
 		const foundDiscount = await Discount.findOne({product: foundProduct._id});
+		const foundReviews = await Review.find({product: foundProduct._id});
 
 		//Gets discount and image
 		if(foundDiscount) {
 			res.json({
-				...foundProduct.toObject(), 
+				...foundProduct.toObject(),
+				ratings: foundReviews.map(review => review.ratings),
 				discount: foundDiscount.percent,
 				expireAt: foundDiscount.expireAt,
 				//Reads and encodes image from file system
@@ -74,6 +79,7 @@ router.get("/:productId", middleware.hasProductId, async (req, res) => {
 		} else {
 			res.json({
 				...foundProduct.toObject(), 
+				ratings: foundReviews.map(review => review.ratings),
 				image: Buffer.from(fs.readFileSync(path.join(__dirname + "/../" + foundProduct.image)), "binary").toString("base64")
 			});
 		};

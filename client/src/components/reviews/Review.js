@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import {editReview, deleteReview} from "../../actions";
 import ReviewForm from "./ReviewForm";
+import Stars from "../Stars";
 import avatar from "../../assets/defaultAvatar.jpg";
 
 const Review = ({editReview, deleteReview, product, review, user}) => {
@@ -36,7 +37,7 @@ const Review = ({editReview, deleteReview, product, review, user}) => {
 		} else {
 			return (
 				<div className="text">
-					<div>{renderStars(review.ratings)}</div>
+					<Stars rating={review.ratings} />
 					<div className="body">{review.comment}</div>
 				</div>
 			);

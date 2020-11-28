@@ -12,7 +12,8 @@ const ProductEdit = ({editProduct, match, initialValues}) => {
 			initial={initialValues}
 			match={match}
 			header="Edit Product"
-			buttonText="Update" />
+			buttonText="Update"
+			cancelURL={`/products/${match.params.productId}`} />
 	);
 };
 
