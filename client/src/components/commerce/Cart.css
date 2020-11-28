@@ -16,17 +16,17 @@
 	margin: 0;
 }
 
+#cart tbody {
+	word-wrap: break-word;
+}
+
 #cart thead,
 #cart td:not(.name) {
 	text-align: center;
 }
 
-#cart tbody {
-	word-wrap: break-word;
-}
-
-#cart .remove {
-	padding: 0 !important;
+#cart .name {
+	max-width: 25rem;
 }
 
 #cart .remove .ui.button {
@@ -94,6 +94,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		padding: 0;
 		height: 100%;
 		width: 100%;
 	}

@@ -104,7 +104,7 @@ router.post("/refresh", (req, res) => {
 	});
 });
 
-router.post("/alter-cart/:productId", async(req, res) => {
+router.post("/alter-cart/:productId", middleware.isLoggedIn, async(req, res) => {
 	try{
 		const foundUser = await User.findById(req.user._id);
 		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
@@ -127,7 +127,7 @@ router.post("/alter-cart/:productId", async(req, res) => {
 	}
 });
 
-router.post("/reset-cart", async(req, res) => {
+router.post("/reset-cart", middleware.isLoggedIn, async(req, res) => {
 	try{
 		const foundUser = await User.findById(req.user._id);
 
@@ -140,7 +140,7 @@ router.post("/reset-cart", async(req, res) => {
 });
 
 //Stripe Logic
-router.post("/checkout", async (req, res) => {
+router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 	try {
 		const foundUser = await User.findById(req.user._id).populate({path: "cart", populate: {path: "product"}});
 
@@ -173,7 +173,6 @@ router.post("/checkout", async (req, res) => {
 		})
 		res.json(session.id);
 	} catch(err) {
-		console.log(err)
 		res.status(500).json(err);
 	}
 });

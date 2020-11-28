@@ -56,9 +56,10 @@ const mapStateToProps = (state, ownProps) => {
 	//Adds product of each product's price and quantity to get grand total
 	let total = 0;
 	for(const item of state.user.cart) {
-		const matchingProduct = Object.values(state.products).filter(product => product._id === item.product);
-		if(matchingProduct[0]) {
-			total += item.quantity * (matchingProduct[0].price - matchingProduct[0].price * (matchingProduct[0].discount / 100));
+		const matchingProduct = Object.values(state.products).find(product => product._id === item.product);
+		const discountPercent = matchingProduct && matchingProduct.discount ? matchingProduct.discount / 100 : 0;
+		if(matchingProduct) {
+			total += item.quantity * (matchingProduct.price - matchingProduct.price * discountPercent);
 		}
 	};
 

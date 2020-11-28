@@ -1,6 +1,5 @@
 /*General*/
-#productDetails .details,
-#productDetails .reviews {
+#productDetails .details {
 	padding: 2.5rem;
 }
 
@@ -10,9 +9,6 @@
 }
 
 #productDetails .ui.admin.buttons {
-	position: relative;
-	top: -2.5rem;
-	right: -2.5rem;
 	float: right;
 	margin-left: 90%;
 }
@@ -24,20 +20,18 @@
 /*Product Details*/
 #productDetails .header {
 	font-size: 24px;
-	margin-top: 0;
 	overflow-wrap: break-word;
 }
 
 #productDetails .content {
 	font-size: 16px;
-	line-height: 2.25rem;
+	line-height: 2rem;
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }
 
 /*Cart Form*/
 #productDetails .cartForm {
-	padding: .5rem 1.5rem;
 	font-size: 18px;
 }
 
@@ -46,16 +40,14 @@
 	margin: 1.5rem 0;
 }
 
-#productDetails .cartForm input {
-	margin-left: 1rem;
+#productDetails .cartForm input,
+#productDetails .cartForm select {
+	margin-left: .5rem;
 	padding: .3rem .5rem;
-	width: 7rem;
+	min-width: 9rem;
+	width: 9rem;
 }
 
-#productDetails .cartForm select {
-	margin-left: 1rem;
-	padding: 0 .5rem;
-}
 
 #productDetails .cartForm .ui.button {
 	width: 100%;

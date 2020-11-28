@@ -13,8 +13,11 @@ router.get("/", async (req, res) => {
 	try {
 		let foundProducts = [];
 		//Populate user's cart
-		if(req.query.user) {
+		if(req.query.user && mongoose.Types.ObjectId.isValid(req.query.user)) {
 			const foundUser = await User.findById(req.query.user);
+			if(!foundUser) {
+				return res.status(404).json({message: "User does not exist."});
+			};
 			for(const item of foundUser.cart) {
 				const product = await Product.findById(item.product);
 				foundProducts.push(product);
@@ -54,7 +57,7 @@ router.get("/", async (req, res) => {
 	};
 });
 
-router.get("/:productId", async (req, res) => {
+router.get("/:productId", middleware.hasProductId, async (req, res) => {
 	try {
 		const foundProduct = await Product.findById(req.params.productId);
 		const foundDiscount = await Discount.findOne({product: foundProduct._id});
@@ -98,7 +101,7 @@ router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, a
 			await Discount.create({
 				percent: Math.round(req.body.discount * 100) / 100,
 				product: newProduct._id,
-				expireAt: new Date(`${req.body.discountDate}T23:59:00`)
+				expireAt: new Date(`${req.body.discountDate}T23:59:00Z`)
 			});
 		};
 		
@@ -109,7 +112,7 @@ router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, a
 	};
 });
 
-router.put("/:productId", middleware.upload.single("image"), middleware.hasProductInfo, async (req, res) => {
+router.put("/:productId", middleware.upload.single("image"), middleware.hasProductId, middleware.hasProductInfo, async (req, res) => {
 	try {
 		//Undoes formdata conversion between empty array and null
 		const variations = req.body.variations != null ? req.body.variations : [];
@@ -128,12 +131,12 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 			if(foundDiscount) {
 				await Discount.findOneAndUpdate({product: updatedProduct._id}, {
 					percent: Math.round(req.body.discount),
-					expireAt: new Date(`${req.body.discountDate}T23:59:00`)
+					expireAt: new Date(`${req.body.discountDate}T23:59:00Z`)
 				}, {new: true});
 			} else {
 				await Discount.create({
 					percent: Math.round(req.body.discount),
-					expireAt: new Date(`${req.body.discountDate}T23:59:00`),
+					expireAt: new Date(`${req.body.discountDate}T23:59:00Z`),
 					product: updatedProduct._id
 				});
 			};
@@ -158,7 +161,7 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 	};
 });
 
-router.delete("/:productId", async (req, res) => {
+router.delete("/:productId", middleware.isAdmin, middleware.hasProductId, async (req, res) => {
 	try {
 		//Pulls product from all users' carts
 		await User.updateMany({"cart.product": {$in: req.params.productId}}, {

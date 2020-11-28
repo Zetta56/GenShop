@@ -1,61 +1,60 @@
 /*Reviews*/
-#productDetails .reviews {
+#reviews {
+	padding: 2.5rem;
 	margin-top: 5rem;
 }
 
-#productDetails .ui.comments {
+#reviews .ui.comments {
 	max-width: 100%;
 }
 
-#productDetails .comment .avatar {
+#reviews .comment .avatar {
 	margin-top: .75rem;
 	width: 3rem;
 	height: 3rem;
 }
 
-#productDetails .comment .body {
+#reviews .comment .body {
 	margin-top: 1rem;
 }
 
-#productDetails .comment .dropdown .fa-ellipsis-v {
+#reviews .comment .dropdown .fa-ellipsis-v {
 	width: 2rem;
 }
 
-#productDetails .comment .dropdown:hover .menu {
+#reviews .comment .dropdown:hover .menu {
 	display: block;
 }
 
-#productDetails .comment .dropdown .menu {
+#reviews .comment .dropdown .menu {
 	top: 1.85rem;
 	left: -.25rem;
 }
 
 /*Review Form*/
-#productDetails .login.button {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+#reviews .login.button {
 	font-size: 24px;
-	height: 10rem;
+	padding: 4rem;
+	width: 100%;
 }
 
-#productDetails .reviews .create.button {
+#reviews .create.button {
 	margin-top: 1rem;
 }
 
-#productDetails .ratings {
+#reviews .ratings {
 	font-size: 20px;
 	margin: 1rem 0;
 }
 
-#productDetails .ratings * {
+#reviews .ratings * {
 	display: inline;
 }
 
-#productDetails .ratings input {
+#reviews .ratings input {
 	display: none;
 }
 
-#productDetails .ratings label {
+#reviews .ratings label {
 	cursor: pointer;
 }

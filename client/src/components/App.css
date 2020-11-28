@@ -119,7 +119,7 @@ body {
 .searchMessage,
 #productList .image,
 #productDetails .details,
-#productDetails .reviews {
+#reviews {
 	background-color: white;
 }
 

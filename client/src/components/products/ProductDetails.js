@@ -30,24 +30,24 @@ const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, us
 
 	return (
 		<div id="productDetails">
+			{renderAdmin()}
 			<div className="details">
-				{renderAdmin()}
 				<h1 className="ui header">{product.title}</h1>
 				<div className="ui divider"></div>
 				<div className="ui stackable grid">
 					<div className="eight wide details column">
 						<div className="ui contentTop divider"></div>
+						<ProductCartForm 
+							product={product} 
+							user={user} 
+							match={match} />
+						<div className="ui divider"></div>
 						<div className="content">
 							<div className="description">
 								<h3>Description:</h3>
 								{product.description}
 							</div>
 						</div>
-						<div className="ui divider"></div>
-						<ProductCartForm 
-							product={product} 
-							user={user} 
-							match={match} />
 					</div>
 					<div className="eight wide image column">
 						<div className="ui fluid image">

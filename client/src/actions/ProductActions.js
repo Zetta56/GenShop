@@ -29,6 +29,7 @@ export const fetchProduct = (productId) => {
 				payload: response.data
 			});
 		} catch(err) {
+			await history.push("/products");
 			dispatch(error(err.response.data.message));
 		}
 	};

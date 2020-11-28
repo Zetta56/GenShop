@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from "react";
+import React, {useEffect, useCallback, useRef} from "react";
 import {reduxForm, Field, formValueSelector} from "redux-form";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
@@ -12,10 +12,18 @@ import "./UpsertForm.css";
 
 const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, initialValues, loading, header, buttonText}) => {
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
-	
+	const variationsRef = useRef(null);
+
 	useEffect(() => {
 		fetchProducts();
 	}, [fetchProducts]);
+
+	//Re-focuses variations input on re-render(ex. when Enter key is pressed)
+	useEffect(() => {
+		if(variationsRef.current) {
+			variationsRef.current.focus();
+		}
+	}, [formValues.variations]);
 
 	const renderError = (meta) => {
 		if(meta.touched && meta.error) {
@@ -45,7 +53,7 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
 					onChange={option => input.onChange(option)}
 					addOnBlur={true}
 					addOnPaste={true}
-					inputProps={{placeholder: "Add option..."}} />
+					inputProps={{placeholder: "Add option...", ref: variationsRef}} />
             </div>
 		);
 	}, [formValues, initialValues]);
@@ -65,16 +73,6 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
             </div>
 		);
 	}, []);
-
-	const renderDiscountDate = () => {
-		if(formValues.discount) {
-			return (
-				<Field name="discountDate" component={Input} label={"Until (date)"} inputType="date" />
-			)
-		} else {
-			return null;
-		};
-	};
 	
 	return (
 		<div className="ui one column stackable grid" id="productForm">
@@ -89,7 +87,9 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
 					<Field name="description" component={renderTextArea} label="Description" />
 					<Field name="price" component={Input} label="Price" inputType="number" min={0} />
 					<Field name="discount" component={Input} label="Discount % (Optional)" placeholder="Discount" inputType="number" min={1} max={100} step={1} required={false} />
-					{renderDiscountDate()}
+					{formValues.discount && 
+						<Field name="discountDate" component={Input} label={"Until (date)"} inputType="date" />
+					}
 					<Field name="variations" component={renderVariationsInput} label="Variations (Optional)" />
 					<Field name="image" component={renderImageUpload} label="Image" />
 					<button className="ui blue button">{buttonContent}</button>

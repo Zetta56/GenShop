@@ -3,7 +3,7 @@ const express = require("express"),
 	  middleware = require("../middleware"),
 	  Review = require("../models/Review");
 
-router.get("/", async (req, res) => {
+router.get("/", middleware.hasProductId, async (req, res) => {
 	try {
 		const foundReviews = await Review.find({product: req.params.productId});
 		res.json(foundReviews);
@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 	};
 });
 
-router.post("/", async (req, res) => {
+router.post("/", middleware.isLoggedIn, middleware.hasProductId, async (req, res) => {
 	try {
 		const newReview = await Review.create({
 			...req.body, 
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 	};
 });
 
-router.put("/:reviewId", async (req, res) => {
+router.put("/:reviewId", middleware.reviewAuthorized, async (req, res) => {
 	try {
 		const updatedReview = await Review.findByIdAndUpdate(req.params.reviewId, {...req.body}, {new: true});
 		res.json(updatedReview);
@@ -35,7 +35,7 @@ router.put("/:reviewId", async (req, res) => {
 	};
 });
 
-router.delete("/:reviewId", async (req, res) => {
+router.delete("/:reviewId", middleware.reviewAuthorized, async (req, res) => {
 	try {
 		await Review.findByIdAndDelete(req.params.reviewId);
 		res.json(req.params.reviewId);

@@ -11,16 +11,6 @@ const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) =
 		cancel();
 	};
 
-	const renderCancel = () => {
-		if(cancel) {
-			return (
-				<button onClick={(e) => onCancelClick(e)} className="ui button">
-					Cancel
-				</button>
-			);
-		};
-	};
-
 	//Renders 5-star rating with radio buttons
 	const renderRatings = () => {
 		const el = [];
@@ -52,15 +42,13 @@ const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) =
 	};
 
 	return (
-		<form 
-			className="ui form" 
-			onSubmit={handleSubmit(formValues => onFormSubmit(formValues))}
-		>
+		<form className="ui form" onSubmit={handleSubmit(formValues => onFormSubmit(formValues))}>
 			{renderRatings()}
 			<Field name="comment" component="textarea" placeholder="Add a comment..." required />
-			
 			<button className="ui blue create button">{buttonText}</button>
-			{renderCancel()}
+			{cancel &&
+				<button onClick={(e) => onCancelClick(e)} className="ui button">Cancel</button>
+			}
 		</form>
 	);
 };

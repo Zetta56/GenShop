@@ -43,7 +43,7 @@ const ReviewSection = ({createReview, product, reviews, user}) => {
 	};
 
 	return (
-		<div className="reviews">
+		<div id="reviews">
 			{renderTop()}
 			<div className="ui comments">
 				{renderReviews()}
