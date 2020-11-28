@@ -1,10 +1,11 @@
 import React from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
+import moment from "moment";
 import {editProduct} from "../../actions";
 import UpsertForm from "./UpsertForm";
 
-const ProductEdit = ({handleSubmit, editProduct, match, products, initialValues}) => {
+const ProductEdit = ({editProduct, match, initialValues}) => {
 	return (
 		<UpsertForm 
 			onFormSubmit={formValues => editProduct(formValues, match.params.productId)}
@@ -16,8 +17,13 @@ const ProductEdit = ({handleSubmit, editProduct, match, products, initialValues}
 };
 
 const mapStateToProps = (state, ownProps) => {
+	const product = state.products[ownProps.match.params.productId];
+
 	return {
-		initialValues: _.omit(state.products[ownProps.match.params.productId], "image"), 
+		initialValues: {
+			..._.omit(product, "image"),
+			discountDate: moment(product.expireAt).format("YYYY-MM-DD")
+		}, 
 		products: Object.values(state.products)
 	};
 };

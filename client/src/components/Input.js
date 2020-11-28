@@ -1,7 +1,7 @@
 import React from "react"
 
-const Input = ({input, meta, label, inputType, min, step, icon, hiddenPlaceholder}) => {
-	const placeholder = hiddenPlaceholder ? "" : label;
+const Input = ({input, meta, label, placeholder, inputType, min, max, step, required, icon}) => {
+	const finalPlaceholder = placeholder && placeholder.length > 0 ? placeholder : label;
 	//Renders error if error exists and user tried to fill in input
 	const error = meta.error && meta.touched ? "red" : "";
 	
@@ -11,17 +11,24 @@ const Input = ({input, meta, label, inputType, min, step, icon, hiddenPlaceholde
 		};
 	};
 
+	const renderInput = () => {
+		return (
+			<input 
+				{...input} 
+				type={inputType} 
+				placeholder={finalPlaceholder} 
+				min={min || 0}
+				max={max}
+				step={step || "any"}
+				required={!required ? false : true} />
+		);
+	};
+
 	if(icon) {
 		//Icon Input
 		return (
 			<div className={`${error} ui left icon input field`}>
-				<input 
-					{...input} 
-					type={inputType} 
-					placeholder={placeholder} 
-					min={min || 0}
-					step={step || "any"}
-					required />
+				{renderInput()}
 				<i className={`${icon} icon`} />
 				{renderError()}
 			</div>
@@ -31,13 +38,7 @@ const Input = ({input, meta, label, inputType, min, step, icon, hiddenPlaceholde
 		return (
 			<div className={`${error} field`}>
 				<label>{label}</label>
-				<input 
-					{...input} 
-					type={inputType} 
-					placeholder={placeholder}
-					min={min || 0}
-					step={step || "any"} 
-					required />
+				{renderInput()}
 				{renderError()}
 			</div>
 		);

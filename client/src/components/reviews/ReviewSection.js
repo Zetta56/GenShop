@@ -4,8 +4,10 @@ import {Link} from "react-router-dom";
 import {createReview} from "../../actions";
 import ReviewForm from "./ReviewForm";
 import Review from "./Review";
+import "./ReviewSection.css";
 
 const ReviewSection = ({createReview, product, reviews, user}) => {
+	//Render new review form or sign in button
 	const renderTop = () => {
 		if(!user.isLoggedIn) {
 			return (
@@ -26,6 +28,7 @@ const ReviewSection = ({createReview, product, reviews, user}) => {
 		}
 	};
 
+	//Renders list of reviews
 	const renderReviews = () => {
 		return reviews.map(review => {
 			return (

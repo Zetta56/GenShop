@@ -9,6 +9,7 @@ import avatar from "../../assets/defaultAvatar.jpg";
 const Review = ({editReview, deleteReview, product, review, user}) => {
 	const [editing, setEditing] = useState(null);
 
+	//Renders list of 5 stars
 	const renderStars = (rating) => {
 		const el = [];
 
@@ -23,6 +24,7 @@ const Review = ({editReview, deleteReview, product, review, user}) => {
 		return <React.Fragment>{el}</React.Fragment>
 	};
 
+	//Renders edit form or comment text
 	const renderComment = (review, editing) => {
 		if(editing === review._id) {
 			return <ReviewForm 
@@ -41,6 +43,7 @@ const Review = ({editReview, deleteReview, product, review, user}) => {
 		};
 	};
 
+	//Renders review actions menu
 	const renderManipulate = (review) => {
 		if(user._id === review.user.id && !editing) {
 			return (

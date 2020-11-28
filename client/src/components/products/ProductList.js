@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import moment from "moment";
 import {fetchProducts} from "../../actions";
+import Price from "../Price";
 import "./ProductList.css";
 
 const ProductList = ({fetchProducts, products, loading, location}) => {
@@ -20,16 +22,25 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 						<div className="header">
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
 						</div>
-						<div className="meta">${product.price}</div>
+						<div className="meta">
+							<Price product={product} />
+							{product.discount &&
+								<div className="discountDate">Until {moment(product.expireAt).format("MMM Do")}</div>
+							}
+						</div>
 					</div>
 				</div>
 			);
 		});
 	};
 
-	if(!products || loading) {
+	if(loading) {
 		return <div className="ui active centered inline loader"></div>
 	};
+
+	if(location && products.length < 1) {
+		return <div className="searchMessage">No products were found that match your search.</div>
+	}
 
 	return (
 		<div className="ui stackable four cards" id="productList">

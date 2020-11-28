@@ -4,19 +4,14 @@ require("dotenv").config();
 const express = require("express"),
 	  app = express(),
 	  http = require("http").createServer(app),
-	  io = require("socket.io")(http, {cors: {origin: "*"}}),
 	  path = require("path"),
 	  cors = require("cors"),
 	  mongoose = require("mongoose"),
 	  bodyParser = require("body-parser"),
 	  cookieParser = require("cookie-parser"),
-	  multer = require("multer"),
-	  fs = require("fs")
-	  jwt = require("jsonwebtoken"),
 	  passport = require("passport"),
 	  LocalStrategy = require("passport-local"),
-	  JwtStrategy = require("passport-jwt").Strategy,
-	  passportLocalMongoose = require("passport-local-mongoose");
+	  JwtStrategy = require("passport-jwt").Strategy;
 
 //Models
 const User = require("./models/User");
@@ -67,18 +62,6 @@ app.use((req, res, next) => {
 		next();
 	})(req, res);
 });
-
-// io.on("connection", socket => {
-// 	console.log("Connected");
-// 	socket.on("message", (msg) => {
-// 		io.emit("message", msg);
-// 	});
-
-// 	socket.on("disconnect", () => {
-// 		console.log("Client Disconnected");
-// 	});
-// });
-
 
 //Run Routes
 app.use("/api", indexRoutes);

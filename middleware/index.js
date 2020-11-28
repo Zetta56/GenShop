@@ -1,21 +1,22 @@
 const passport = require("passport"),
 	  mongoose = require("mongoose"),
-	  Product = require("../models/Product"),
 	  multer = require("multer"),
-	  path = require("path");
+	  path = require("path"),
+	  Product = require("../models/Product");
 
 const middleware = {};
 
-//Stores temporary image in uploads
 middleware.upload = multer({
+	//Stores image in uploads folder
 	storage: multer.diskStorage({ 
 	    destination: (req, file, cb) => {
 	    	cb(null, "uploads")
 	    }, 
 	    filename: (req, file, cb) => {
-	    	cb(null, file.fieldname + "-" + Date.now() + ".png")
+	    	cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
 	    }
 	}),
+	//Checks file is an image
 	fileFilter: (req, file, cb) => {
 		const allowedTypes = /jpeg|jpg|png/;
 		const extension = path.extname(file.originalname).toLowerCase();
@@ -42,9 +43,7 @@ middleware.isLoggedIn = (req, res, next) => {
 
 middleware.hasProductInfo = async (req, res, next) => {
 	const foundProducts = await Product.find({});
-	const ownProduct = req.params 
-		? await Product.findById(req.params.productId)
-		: {title: null};
+	const ownProduct = req.params ? await Product.findById(req.params.productId) : {title: null};
 
 	if(!req.file || !req.body.title || !req.body.description || !req.body.price) {
 		return res.status(400).json("Missing required fields.");

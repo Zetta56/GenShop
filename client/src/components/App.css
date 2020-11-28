@@ -17,6 +17,11 @@
 	margin-top: 15rem;
 }
 
+.strikeThrough {
+	margin: 0 .5rem;
+	text-decoration: line-through;
+}
+
 .hidden {
 	display: none;
 }
@@ -27,7 +32,7 @@ a {
 
 @media only screen and (min-width: 1600px) {
 	.main.container {
-		width: 75%;
+		width: 65%;
 	}
 
 	#header {
@@ -47,6 +52,11 @@ a {
 	border-radius: 0;
 	font-size: 20px;
 	padding: .5rem 0;
+}
+
+.ui.form .field input[type="number"] {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
 }
 
 .ui.form .field .errorLabel {
@@ -86,7 +96,8 @@ body {
 	background-color: #f54747; /*red*/
 }
 
-.errorLabel {
+.errorLabel,
+.red {
 	color: red;
 }
 
@@ -105,6 +116,7 @@ body {
 #header .resultBox,
 #userForm,
 #productForm,
+.searchMessage,
 #productList .image,
 #productDetails .details,
 #productDetails .reviews {
@@ -123,6 +135,12 @@ body {
 #productForm .react-tagsinput-remove,
 #productDetails .login.button {
 	background-color: #eeeeee;	/*light-gray*/
+}
+
+#userForm h2,
+#productForm h2,
+.ui.form label {
+	color: #4a4a4a !important;	/*gray*/
 }
 
 #productList .meta,

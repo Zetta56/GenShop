@@ -1,11 +1,22 @@
+.searchMessage {
+	font-size: 20px;
+	padding: 3rem;
+	text-align: center;
+}
+
 #productList .content {
 	font-size: 16px;
 	overflow-wrap: break-word;
 }
 
 #productList .meta {
-	font-size: 24px;
+	font-size: 22px;
 	margin-top: 1rem;
+}
+
+#productList .discountDate {
+	font-size: 16px;
+	margin: .5rem;
 }
 
 @media only screen and (min-width: 768px) {

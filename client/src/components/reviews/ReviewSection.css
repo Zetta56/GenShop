@@ -1,0 +1,61 @@
+/*Reviews*/
+#productDetails .reviews {
+	margin-top: 5rem;
+}
+
+#productDetails .ui.comments {
+	max-width: 100%;
+}
+
+#productDetails .comment .avatar {
+	margin-top: .75rem;
+	width: 3rem;
+	height: 3rem;
+}
+
+#productDetails .comment .body {
+	margin-top: 1rem;
+}
+
+#productDetails .comment .dropdown .fa-ellipsis-v {
+	width: 2rem;
+}
+
+#productDetails .comment .dropdown:hover .menu {
+	display: block;
+}
+
+#productDetails .comment .dropdown .menu {
+	top: 1.85rem;
+	left: -.25rem;
+}
+
+/*Review Form*/
+#productDetails .login.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+	height: 10rem;
+}
+
+#productDetails .reviews .create.button {
+	margin-top: 1rem;
+}
+
+#productDetails .ratings {
+	font-size: 20px;
+	margin: 1rem 0;
+}
+
+#productDetails .ratings * {
+	display: inline;
+}
+
+#productDetails .ratings input {
+	display: none;
+}
+
+#productDetails .ratings label {
+	cursor: pointer;
+}

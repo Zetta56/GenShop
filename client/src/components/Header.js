@@ -41,7 +41,7 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 
 	//Renders product create button for admins
 	const renderCreate = (atTop) => {
-		const createText = atTop ? <i className="plus icon" /> : "Create New Product";
+		const createText = atTop ? <i className="plus icon" /> : "Create Listing";
 		
 		if(isAdmin) {
 			return <Link to="/products/new" className="create item">{createText}</Link>

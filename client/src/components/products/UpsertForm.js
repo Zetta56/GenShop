@@ -1,26 +1,21 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {reduxForm, Field} from "redux-form";
+import React, {useEffect, useCallback} from "react";
+import {reduxForm, Field, formValueSelector} from "redux-form";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import ImageUpload from "react-images-upload";
 import VariationsInput from "react-tagsinput";
+import moment from "moment";
 import {fetchProducts} from "../../actions";
 import Input from "../Input";
 import "react-tagsinput/react-tagsinput.css";
 import "./UpsertForm.css";
 
-const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, ownProduct, loading, header, buttonText, initial}) => {
-	const [variations, setVariations] = useState(ownProduct.variations || []);
+const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, initialValues, loading, header, buttonText}) => {
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
-
+	
 	useEffect(() => {
 		fetchProducts();
 	}, [fetchProducts]);
-
-	const onOptionChange = (input, option) => {
-		setVariations(option);
-		input.onChange(option);
-	};
 
 	const renderError = (meta) => {
 		if(meta.touched && meta.error) {
@@ -33,12 +28,27 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, ownProduct, load
 			<div className="field">
 				<label>{label}</label>
 				<textarea {...input} placeholder={label} maxLength={2000} required>
-					{ownProduct.description}
+					{formValues.description}
 				</textarea>
 				{renderError(meta)}
 			</div>
 		);
-	}, [ownProduct]);
+		//eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const renderVariationsInput = useCallback(({input, label}) => {
+		return (
+			<div className="options field">
+				<label>{label}</label>
+				<VariationsInput
+					value={formValues.variations || initialValues.variations}
+					onChange={option => input.onChange(option)}
+					addOnBlur={true}
+					addOnPaste={true}
+					inputProps={{placeholder: "Add option..."}} />
+            </div>
+		);
+	}, [formValues, initialValues]);
 
 	const renderImageUpload = useCallback(({input, meta, label}) => {
 		return (
@@ -56,20 +66,16 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, ownProduct, load
 		);
 	}, []);
 
-	const renderVariationsInput = useCallback(({input, label}) => {
-		return (
-			<div className="options field">
-				<label>{label}</label>
-				<VariationsInput
-					value={variations}
-					onChange={option => onOptionChange(input, option)}
-					addOnBlur={true}
-					addOnPaste={true}
-					inputProps={{placeholder: "Add option..."}} />
-            </div>
-		);
-	}, [variations]);
-
+	const renderDiscountDate = () => {
+		if(formValues.discount) {
+			return (
+				<Field name="discountDate" component={Input} label={"Until (date)"} inputType="date" />
+			)
+		} else {
+			return null;
+		};
+	};
+	
 	return (
 		<div className="ui one column stackable grid" id="productForm">
 			<div className="column">
@@ -82,6 +88,8 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, ownProduct, load
 					<Field name="title" component={Input} label="Name" inputType="text" />
 					<Field name="description" component={renderTextArea} label="Description" />
 					<Field name="price" component={Input} label="Price" inputType="number" min={0} />
+					<Field name="discount" component={Input} label="Discount % (Optional)" placeholder="Discount" inputType="number" min={1} max={100} step={1} required={false} />
+					{renderDiscountDate()}
 					<Field name="variations" component={renderVariationsInput} label="Variations (Optional)" />
 					<Field name="image" component={renderImageUpload} label="Image" />
 					<button className="ui blue button">{buttonContent}</button>
@@ -92,14 +100,14 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, ownProduct, load
 	);
 };
 
-const validate = ({title, description, price, image}, {products, ownProduct}) => {
+const validate = ({title, description, price, image, discount, discountDate}, {products, initialValues}) => {
 	const err = {};
 
 	if(!title) {
 		err.title = "You must enter a name for your product."
 	}
-
-	if(products && products.filter(product => product.title === title && ownProduct.title !== product.title).length > 0) {
+	
+	if(products && products.filter(product => product.title === title && initialValues.title !== product.title).length > 0) {
 		err.title = "That name is already taken.";
 	}
 
@@ -113,6 +121,14 @@ const validate = ({title, description, price, image}, {products, ownProduct}) =>
 
 	if(price < 0) {
 		err.price = "Invalid price"
+	}
+	
+	if(discount && !discountDate) {
+		err.discountDate = "You must set an expiration date for your discount."
+	}
+
+	if(discountDate && moment(discountDate).utc()._d < moment(Date.now()).utc()._d) {
+		err.discountDate = "Your discount's expiration date has already passed."
 	}
 
 	if(!image) {
@@ -128,14 +144,12 @@ const formWrapped = reduxForm({
 })(UpsertForm);
 
 const mapStateToProps = (state, ownProps) => {
-	const ownProduct = ownProps.match
-		? Object.values(state.products).find(product => product._id === ownProps.match.params.productId)
-		: {title: null, variations: [], description: null}
+	const selector = formValueSelector("UpsertProduct");
 
 	return {
-		initialValues: ownProps.initial,
+		initialValues: ownProps.initial || {title: null, variations: [], description: null, discount: null},
+		formValues: selector(state, "variations", "discount", "description"),
 		products: Object.values(state.products),
-		ownProduct: ownProduct,
 		loading: state.alert.loading
 	};
 };

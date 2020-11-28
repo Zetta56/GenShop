@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {alterCart} from "../../actions";
+import Price from "../Price";
 
 const CartTable = ({alterCart, products, user, total}) => {
 	const renderVariation = (cartItem) => {
@@ -29,7 +30,8 @@ const CartTable = ({alterCart, products, user, total}) => {
 						{renderVariation(cartItem)}
 					</td>
 					<td className="price">
-						<span className="label">Price: </span>${product.price}
+						<span className="label">Price: </span>
+						<Price product={product} />
 					</td>
 					<td className="quantity">
 						<span className="label">Quantity: </span>{cartItem.quantity}

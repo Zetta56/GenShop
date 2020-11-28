@@ -4,6 +4,7 @@ import {Field, reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
 import {alterCart} from "../../actions";
 import Input from "../Input";
+import Price from "../Price";
 
 const CartForm = ({handleSubmit, alterCart, match, product, user, loading}) => {
 	const addButtonContent = loading 
@@ -16,29 +17,24 @@ const CartForm = ({handleSubmit, alterCart, match, product, user, loading}) => {
 		alterCart(false, match.params.productId, null);
 	};
 
-	const renderRadioInput = useCallback(({input, label}) => {
+	const renderDropdown = useCallback(({input, label}) => {
 		if(product.variations && product.variations.length > 0) {
 			return (
-				<div className="grouped fields">
+				<span>
 					<label>{label}</label>
-					{product.variations.map(option => {
-						return (
-							<div className="field" key={option}>
-								<div className="ui radio checkbox">
-									<input 
-										{...input} 
-										type="radio" 
-										name="variation"
-										value={option}
-										onChange={() => input.onChange(option)} 
-										required />
-									<label>{option}</label>
-								</div>
-							</div>
-						);
-					})}
-				</div>
-			);
+					<select {...input} className="ui selection dropdown menu">
+						{
+							product.variations.map(variation => {
+								return (
+									<option className="item" value={variation} key={variation}>
+										{variation}
+									</option>
+								);
+							})
+						}
+					</select>
+				</span>
+			)
 		} else {
 			return null;
 		}
@@ -59,17 +55,16 @@ const CartForm = ({handleSubmit, alterCart, match, product, user, loading}) => {
 
 	return (
 		<form className="cartForm" onSubmit={handleSubmit(formValues => alterCart(true, match.params.productId, formValues))}>
-			<div className="price">Unit Price: ${product.price}</div>
-			<Field
-				name="variation"
-				component={renderRadioInput}
-				label="Select An Option: "
-				required />
+			<div className="price">
+				Unit Price: 
+				<Price product={product} />
+			</div>
+			<Field name="variation" component={renderDropdown} label="Variation:" />
 			<Field 
 				name="quantity" 
 				component={Input} 
-				label="Quantity: " 
-				hiddenPlaceholder={true}
+				label="Quantity: "
+				placeholder="Qty." 
 				inputType="number"
 				min={0}
 				step={1}

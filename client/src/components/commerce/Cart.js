@@ -53,12 +53,12 @@ const Cart = ({fetchProducts, error, user, products, total}) => {
 const mapStateToProps = (state, ownProps) => {
 	const cartIds = state.user.cart.map(item => item.product);
 	
-	//Calculates grand total based on quantities and matching prices
+	//Adds product of each product's price and quantity to get grand total
 	let total = 0;
 	for(const item of state.user.cart) {
 		const matchingProduct = Object.values(state.products).filter(product => product._id === item.product);
 		if(matchingProduct[0]) {
-			total += item.quantity * matchingProduct[0].price;
+			total += item.quantity * (matchingProduct[0].price - matchingProduct[0].price * (matchingProduct[0].discount / 100));
 		}
 	};
 

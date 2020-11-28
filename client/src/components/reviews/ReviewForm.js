@@ -5,6 +5,7 @@ import {reduxForm, Field, reset, formValueSelector} from "redux-form";
 const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) => {
 	const [hoverRatings, setHoverRatings] = useState(null);
 
+	//Closes the form on cancel button click
 	const onCancelClick = (e) => {
 		e.preventDefault();
 		cancel();
@@ -20,11 +21,13 @@ const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) =
 		};
 	};
 
+	//Renders 5-star rating with radio buttons
 	const renderRatings = () => {
 		const el = [];
 		for(let i = 1; i <= 5; i++) {
 			const yellow = i <= ratings ? "yellow" : "";
 			const orange = i <= hoverRatings ? "orange" : "";
+			const intRating = ratings && typeof ratings === "string" ? Number.parseInt(ratings) : ratings ;
 
 			el.push(
 				<React.Fragment key={i}>
@@ -33,7 +36,13 @@ const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) =
 						onMouseLeave={() => setHoverRatings(null)}
 						onClick={() => setHoverRatings(null)}
 					>
-						<Field name="ratings" component="input" type="radio" value={i} />
+						<Field 
+							name="ratings" 
+							component="input" 
+							type="radio"
+							value={i}
+							checked={i === intRating}
+							required />
 						<i className={`${yellow} ${orange} fas fa-star`}></i>
 					</label>
 				</React.Fragment>

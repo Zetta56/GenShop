@@ -16,7 +16,8 @@
 	margin-bottom: .5rem;
 }
 
-#productForm input[type="number"] {
+#productForm input[type="number"],
+#productForm input[type="date"] {
 	width: 12.5rem !important;
 }
 

@@ -15,11 +15,9 @@ import ProductCreate from "./products/ProductCreate";
 import ProductEdit from "./products/ProductEdit";
 import ProductDetails from "./products/ProductDetails";
 import ProductDelete from "./products/ProductDelete";
-// import SocketIO from "./SocketIO.js";
 import "./App.css";
 
 const App = ({error, confirm, resetAlerts, login, logout}) => {
-	const [loadClient, setLoadClient] = useState(true);
 	const loadAuth = useCallback(() => {
 		const loadAuth = async () => {
 			await axios.post("/api/refresh");
@@ -70,10 +68,6 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 			{renderMessage()}
 			<Header />
 			<div className="main container">
-				{/*<button onClick={() => setLoadClient(!loadClient)}>
-			        STOP CLIENT
-			    </button>
-			    {loadClient ? <SocketIO /> : null}*/}
 				<Switch>
 					<Route path="/" exact component={ProductList}></Route>
 					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>

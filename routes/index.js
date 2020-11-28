@@ -7,6 +7,7 @@ const express = require("express"),
 	  middleware = require("../middleware"),
 	  User = require("../models/User"),
 	  Token = require("../models/Token"),
+	  Discount = require("../models/Discount"),
 	  Product = require("../models/Product");
 
 router.post("/register", (req, res) => {
@@ -145,22 +146,27 @@ router.post("/checkout", async (req, res) => {
 
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
-			line_items: foundUser.cart.map(item => {
-				const productName = item.variation && item.variation.length > 0
-					? item.product.title + " (" + item.variation + ")"
-					: item.product.title;
+			line_items: await Promise.all(
+				foundUser.cart.map(async item => {
+					const productName = item.variation && item.variation.length > 0
+						? item.product.title + " (" + item.variation + ")"
+						: item.product.title;
+					
+					const foundDiscount = await Discount.findOne({product: item.product._id});
+					const discountPercent = foundDiscount ? foundDiscount.percent : 0;
 
-				return {
-					price_data: {
-						currency: "usd",
-						product_data: {
-							name: productName
+					return {
+						price_data: {
+							currency: "usd",
+							product_data: {
+								name: productName
+							},
+							unit_amount_decimal: (item.product.price * 100) - (item.product.price * discountPercent)
 						},
-						unit_amount_decimal: (item.product.price * 100)
-					},
-					quantity: item.quantity
-				}
-			}),
+						quantity: item.quantity
+					}
+				})
+			),
 			mode: "payment",
 			success_url: `${process.env.BASE_URL}/checkout?success=true`,
 			cancel_url: `${process.env.BASE_URL}/checkout?cancel=true`
