@@ -29,7 +29,7 @@ export const fetchProduct = (productId) => {
 				payload: response.data
 			});
 		} catch(err) {
-			await history.push("/products");
+			await history.push("/");
 			dispatch(error(err.response.data.message));
 		}
 	};
@@ -53,9 +53,9 @@ export const createProduct = (formValues) => {
 			});
 			dispatch(finishLoading());
 
-			history.push("/products");
+			history.push("/");
 		} catch(err) {
-			await history.push("/products");
+			await history.push("/");
 			dispatch(error(err.response.data.message));
 		}
 	};
@@ -82,7 +82,7 @@ export const editProduct = (formValues, productId) => {
 
 			history.push(`/products/${productId}`);
 		} catch(err) {
-			await history.push("/products");
+			await history.push("/");
 			dispatch(error(err.response.data.message));
 		}
 	};
@@ -100,9 +100,9 @@ export const deleteProduct = (productId) => {
 			});
 			dispatch(finishLoading());
 
-			history.push("/products");
+			history.push("/");
 		} catch(err) {
-			await history.push("/products");
+			await history.push("/");
 			dispatch(error(err.response.data.message));
 		}
 	};

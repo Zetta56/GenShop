@@ -80,7 +80,7 @@ const formWrapped = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		initialValues: {quantity: 1},
+		initialValues: {quantity: 1, variation: ownProps.product.variations ? ownProps.product.variations[0] : null },
 		loading: state.alert.loading
 	};
 };

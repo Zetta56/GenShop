@@ -41,7 +41,9 @@ router.post("/login", async (req, res) => {
 				});
 				//Finds user by google id
 				const googleUser = await User.findOne({googleId: ticket.getPayload().sub});
-				currentUser = googleUser ? googleUser : await User.create({googleId: ticket.getPayload().sub});
+				currentUser = googleUser 
+					? googleUser
+					: await User.create({username: ticket.getPayload().name, googleId: ticket.getPayload().sub});
 			} catch(err) {
 				return res.status(500).json(err);
 			};

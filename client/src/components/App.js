@@ -75,7 +75,6 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 					<ProtectedRoute path="/login" exact component={Login}></ProtectedRoute>
 					<ProtectedRoute path="/cart" exact component={Cart} authenticateReq></ProtectedRoute>
 					<ProtectedRoute path="/checkout" exact component={Checkout} authenticateReq></ProtectedRoute>
-					<Route path="/products" exact component={ProductList}></Route>
 					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/edit" exact component={ProductEdit} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/delete" exact component={ProductDelete} adminReq></ProtectedRoute>

@@ -24,7 +24,7 @@
 
 #productDetails .header .dropdown {
 	font-size: 18px;
-	margin-left: .5rem;
+	float: right;
 }
 
 #productDetails .header .fa-star {

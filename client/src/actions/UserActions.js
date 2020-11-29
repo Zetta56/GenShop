@@ -25,7 +25,7 @@ export const login = (formValues, initial) => {
 			});
 			
 			if(!initial) {
-				history.push("/products");
+				history.push("/");
 			}
 		} catch(err) {
 			await history.push("/login");

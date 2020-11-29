@@ -23,7 +23,7 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 						<div className="header">
 							<Link to={`/products/${product._id}`}>{product.title}</Link>
 						</div>
-						{product.ratings.length > 0 &&
+						{product.ratings && product.ratings.length > 0 &&
 							<Stars rating={product.ratings.reduce((a, b) => a + b) / product.ratings.length} />
 						}
 						<div className="meta">
@@ -42,7 +42,7 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 		return <div className="ui active centered inline loader"></div>
 	};
 
-	if(location && products.length < 1) {
+	if(location.search && products.length < 1) {
 		return <div className="emptyMessage">No products were found that match your search.</div>
 	}
 

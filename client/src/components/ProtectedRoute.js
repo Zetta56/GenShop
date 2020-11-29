@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Route, Redirect} from "react-router-dom";
 
 const ProtectedRoute = ({isLoggedIn, isAdmin, authenticateReq, adminReq, path, component}) => {
-	const redirectUrl = isLoggedIn ? "/products" : "/login";
+	const redirectUrl = isLoggedIn ? "/" : "/login";
 		  authenticateReq = authenticateReq ? true : false;
 
 	if(isLoggedIn === null) {

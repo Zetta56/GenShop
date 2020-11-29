@@ -8,7 +8,7 @@ const ProductCreate = ({createProduct}) => {
 				onFormSubmit={formValues => createProduct(formValues)} 
 				header="Create New Listing"
 				buttonText="Create"
-				cancelURL="/products" />
+				cancelURL="/" />
 };
 
 export default connect(null, {createProduct})(ProductCreate);

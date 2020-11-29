@@ -28,12 +28,14 @@ router.post("/", middleware.isLoggedIn, middleware.hasProductId, async (req, res
 
 router.put("/:reviewId", middleware.reviewAuthorized, async (req, res) => {
 	try {
-		if(req.user.isAdmin) {
-			res.status(401).json({message: "You do not have permission to tamper with reviews."});
+		const foundReview = await Review.findById(req.params.reviewId);
+		if(req.user.isAdmin && !foundReview.user.id.equals(req.user._id)) {
+			return res.status(401).json({message: "You do not have permission to tamper with reviews."});
 		};
 		const updatedReview = await Review.findByIdAndUpdate(req.params.reviewId, {...req.body}, {new: true});
 		res.json(updatedReview);
 	} catch(err) {
+		console.log(err)
 		res.status(500).json(err);
 	};
 });

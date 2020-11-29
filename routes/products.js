@@ -100,9 +100,10 @@ router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, a
 			variations: req.body.variations,
 			image: req.file.path
 		});
-
+		
 		//Creates optional discount
-		if(req.body.discount != null) {
+		if(req.body.discount && req.body.discount !== "null") {
+			console.log("hit")
 			await Discount.create({
 				percent: Math.round(req.body.discount * 100) / 100,
 				product: newProduct._id,
@@ -131,7 +132,7 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 		}, {new: true});
 
 		//Upserts discount
-		if(req.body.discount != null) {
+		if(req.body.discount && req.body.discount != "null") {
 			const foundDiscount = await Discount.findOne({product: updatedProduct._id});
 			if(foundDiscount) {
 				await Discount.findOneAndUpdate({product: updatedProduct._id}, {
@@ -150,7 +151,7 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 		//Cleans up uploads folder
 		for(const path of fs.readdirSync("uploads")) {
 			const pathProduct = await Product.findOne({image: "uploads\\" + path});
-			if(!pathProduct) {
+			if(!pathProduct && path !== ".gitkeep") {
 				await fs.unlink("uploads/" + path, (err) => {
 					if(err) {
 						console.log(err)
