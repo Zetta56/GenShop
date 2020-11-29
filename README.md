@@ -37,7 +37,7 @@ It is built with the MERN stack and uses the [Stripe API](https://stripe.com/doc
     (Optional) `REACT_APP_GOOGLE_CLIENTID` set to your [Google API client ID](https://developers.google.com/identity/one-tap/web/guides/get-google-api-clientid).
     Add this if you want to include Google OAuth2.0 authentication.
     
-3. Run `npm install` in your root to add all dependencies. 
+3. Run `npm install` in the root directory to add all server dependencies. 
 
 4. Run `npm run build` to add your admin user and set up the client.
 
