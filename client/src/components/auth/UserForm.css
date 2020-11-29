@@ -15,14 +15,17 @@
 
 #userForm .googleLogin,
 #userForm .ui.button {
-	font-size: 18px;
-	height: 3.5rem;
+	font-size: 16px;
 	margin: .75rem 0;
 	width: 100%;
 }
 
 #userForm .field {
 	width: 100%;
+}
+
+#userForm .field.red > input {
+	border-color: red;
 }
 
 #userForm .errorLabel {
@@ -33,16 +36,15 @@
 
 #userForm .googleLogin {
 	background: white url("../../assets/google-normal.png") no-repeat center;
+	box-shadow: 0 0 3px lightgray;
+	border: 0;
 	border-radius: .3rem;
+	cursor: pointer;
 	height: 3.5rem;
 }
 
 #userForm .googleLogin:hover {
 	background: #eeeeee url("../../assets/google-hover.png") no-repeat center;
-}
-
-#userForm .field.red > input {
-	border-color: red;
 }
 
 @media only screen and (min-width: 992px) {

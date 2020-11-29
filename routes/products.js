@@ -98,8 +98,7 @@ router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, a
 			//Price rounded to 2 decimal places
 			price: Math.round(req.body.price),
 			variations: req.body.variations,
-			image: req.file.path,
-			seller: req.user._id
+			image: req.file.path
 		});
 
 		//Creates optional discount

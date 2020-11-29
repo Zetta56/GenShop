@@ -2,28 +2,13 @@ import React, {useState} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import moment from "moment";
-import {editReview, deleteReview} from "../../actions";
+import {editReview} from "../../actions";
 import ReviewForm from "./ReviewForm";
 import Stars from "../Stars";
 import avatar from "../../assets/defaultAvatar.jpg";
 
-const Review = ({editReview, deleteReview, product, review, user}) => {
+const Review = ({editReview, product, review, user}) => {
 	const [editing, setEditing] = useState(null);
-
-	//Renders list of 5 stars
-	const renderStars = (rating) => {
-		const el = [];
-
-		for(let i = 1; i <= 5; i++) {
-			const yellow = i <= rating ? "yellow" : "";
-
-			el.push(
-				<i key={i} className={`${yellow} fas fa-star`} />
-			);
-		};
-
-		return <React.Fragment>{el}</React.Fragment>
-	};
 
 	//Renders edit form or comment text
 	const renderComment = (review, editing) => {
@@ -46,15 +31,17 @@ const Review = ({editReview, deleteReview, product, review, user}) => {
 
 	//Renders review actions menu
 	const renderManipulate = (review) => {
-		if(user._id === review.user.id && !editing) {
+		if((user._id === review.user.id || user.isAdmin) && !editing) {
 			return (
 				<div className="ui dropdown">
 					<i className="fas fa-ellipsis-v" />
 					<div className="menu">
-						<Link to="#" onClick={() => setEditing(review._id)} className="item">
-							Edit
-						</Link>
-						<Link to="#" onClick={() => deleteReview(product._id, review._id)} className="item">
+						{user._id === review.user.id &&
+							<Link to="#" onClick={() => setEditing(review._id)} className="item">
+								Edit
+							</Link>
+						}
+						<Link to={`/products/${product._id}/reviews/${review._id}/delete`} className="item">
 							Delete
 						</Link>
 					</div>
@@ -82,4 +69,4 @@ const Review = ({editReview, deleteReview, product, review, user}) => {
     );
 };
 
-export default connect(null, {editReview, deleteReview})(Review);
+export default connect(null, {editReview})(Review);

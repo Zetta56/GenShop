@@ -168,8 +168,8 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 				})
 			),
 			mode: "payment",
-			success_url: `${process.env.BASE_URL}/checkout?success=true`,
-			cancel_url: `${process.env.BASE_URL}/checkout?cancel=true`
+			success_url: `${process.env.FRONTEND_URL}/checkout?success=true`,
+			cancel_url: `${process.env.FRONTEND_URL}/checkout?cancel=true`
 		})
 		res.json(session.id);
 	} catch(err) {

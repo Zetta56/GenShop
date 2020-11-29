@@ -1,5 +1,6 @@
 import axios from "axios";
 import {error, loading, finishLoading} from "./AlertActions";
+import history from "../history";
 
 export const fetchReviews = (productId) => {
 	return async (dispatch) => {
@@ -63,6 +64,7 @@ export const deleteReview = (productId, reviewId) => {
 				payload: response.data
 			});
 			dispatch(finishLoading());
+			history.push(`/products/${productId}`);
 		} catch(err) {
 			dispatch(error(err.response.data.message));
 		}

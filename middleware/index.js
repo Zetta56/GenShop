@@ -91,7 +91,7 @@ middleware.reviewAuthorized = async (req, res, next) => {
 	if(!foundReview) {
 		return res.status(404).json({message: "Review does not exist."});
 	};
-	if(!foundReview.user.id.equals(req.user._id)) {
+	if(!foundReview.user.id.equals(req.user._id) && !req.user.isAdmin) {
 		return res.status(401).json({message: "You do not have permission to do that."});
 	};
 	next();

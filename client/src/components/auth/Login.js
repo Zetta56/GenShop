@@ -16,8 +16,8 @@ const Login = ({handleSubmit, login, match}) => {
 
 			return (
 				<React.Fragment>
+					<div className="ui horizontal divider">Or</div>
 					<button className="googleLogin" onClick={() => onGoogleClick()}></button>
-					<div className="ui inverted horizontal divider">Or</div>
 				</React.Fragment>
 			);
 		};
@@ -27,12 +27,12 @@ const Login = ({handleSubmit, login, match}) => {
 		<div className="ui one column stackable grid" id="userForm">
 			<div className="column">
 				<h2>Login</h2>
-				{renderGoogle()}
 				<form className="ui form" onSubmit={handleSubmit((formValues) => login(formValues))}>
 					<Field name="username" component={Input} label="Username" inputType="text" icon="user" />
 					<Field name="password" component={Input} label="Password" inputType="password" icon="lock" />
 					<button className="ui blue submit button" id="submitButton">Submit</button>
 				</form>
+				{renderGoogle()}
 			</div>
 		</div>
 	);

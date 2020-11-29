@@ -2,7 +2,6 @@ import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {alterCart} from "../../actions";
-import Price from "../Price";
 
 const CartTable = ({alterCart, products, user, total}) => {
 	const renderVariation = (cartItem) => {
@@ -14,6 +13,7 @@ const CartTable = ({alterCart, products, user, total}) => {
 	const renderItems = () => {
 		return products.map(product => {
 			const cartItem = user.cart.find(item => item.product === product._id);
+			const discountPercent = product.discount ? product.discount : 0;
 
 			return (
 				<tr key={product._id}>
@@ -31,7 +31,7 @@ const CartTable = ({alterCart, products, user, total}) => {
 					</td>
 					<td className="price">
 						<span className="label">Price: </span>
-						${Math.round((product.price - product.price * (product.discount / 100)) * 100) / 100}
+						${Math.round((product.price - product.price * (discountPercent / 100)) * 100) / 100}
 					</td>
 					<td className="quantity">
 						<span className="label">Quantity: </span>{cartItem.quantity}

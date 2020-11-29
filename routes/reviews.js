@@ -28,6 +28,9 @@ router.post("/", middleware.isLoggedIn, middleware.hasProductId, async (req, res
 
 router.put("/:reviewId", middleware.reviewAuthorized, async (req, res) => {
 	try {
+		if(req.user.isAdmin) {
+			res.status(401).json({message: "You do not have permission to tamper with reviews."});
+		};
 		const updatedReview = await Review.findByIdAndUpdate(req.params.reviewId, {...req.body}, {new: true});
 		res.json(updatedReview);
 	} catch(err) {

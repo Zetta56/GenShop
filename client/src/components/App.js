@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Router, Switch, Route} from "react-router-dom";
 import {connect} from "react-redux";
 import axios from "axios"
@@ -15,6 +15,7 @@ import ProductCreate from "./products/ProductCreate";
 import ProductEdit from "./products/ProductEdit";
 import ProductDetails from "./products/ProductDetails";
 import ProductDelete from "./products/ProductDelete";
+import ReviewDelete from "./reviews/ReviewDelete";
 import "./App.css";
 
 const App = ({error, confirm, resetAlerts, login, logout}) => {
@@ -78,6 +79,7 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/edit" exact component={ProductEdit} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/delete" exact component={ProductDelete} adminReq></ProtectedRoute>
+					<ProtectedRoute path="/products/:productId/reviews/:reviewId/delete" exact component={ReviewDelete} authenticateReq></ProtectedRoute>
 					<Route path="/products/:productId" exact component={ProductDetails}></Route>
 				</Switch>
 			</div>
