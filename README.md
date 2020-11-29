@@ -31,7 +31,7 @@ It is built with the MERN stack and uses the [Stripe API](https://stripe.com/doc
     
     `REACT_APP_STRIPE_PUBLISHABLE` set to your Stripe account's [publishable key](https://stripe.com/docs/keys).
     
-    (Testing) `REACT_APP_BACKEND_URL` set to your server's url. Set this if you intend to run the client on a React Development Server.
+    (Testing) `REACT_APP_BACKEND_URL` set to your server's url if you intend to run the client on the React Development Server.
     This url will be used to proxy your requests to the server.
     
     (Optional) `REACT_APP_GOOGLE_CLIENTID` set to your [Google API client ID](https://developers.google.com/identity/one-tap/web/guides/get-google-api-clientid).
