@@ -38,7 +38,7 @@ const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, us
 				<h1 className="ui header">
 					{product.title}
 					{renderAdmin()}
-					{product.ratings.length > 0 &&
+					{product.ratings && product.ratings.length > 0 &&
 						<Stars rating={product.ratings.reduce((a, b) => a + b) / product.ratings.length} />
 					}
 				</h1>
