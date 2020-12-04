@@ -81,11 +81,19 @@ const formWrapped = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
 	const cartItem = state.user.cart ? state.user.cart.find(item => item.product === ownProps.product._id) : null;
+	let initialVariations;
+	if(cartItem) {
+		initialVariations = cartItem.variation;
+	} else if(ownProps.product.variations) {
+		initialVariations = ownProps.product.variations[0];
+	} else {
+		initialVariations = null;
+	}
 
 	return {
 		initialValues: {
 			quantity: cartItem ? cartItem.quantity : 1, 
-			variation: ownProps.product.variations ? ownProps.product.variations[0] : null 
+			variation: initialVariations
 		},
 		loading: state.alert.loading
 	};
