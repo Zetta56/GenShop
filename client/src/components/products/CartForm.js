@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 import {alterCart} from "../../actions";
 import Input from "../Input";
 import Price from "../Price";
-import { stat } from "fs";
 
 const CartForm = ({handleSubmit, alterCart, match, product, user, loading}) => {
 	const addButtonContent = loading 
@@ -81,11 +80,11 @@ const formWrapped = reduxForm({
 })(CartForm);
 
 const mapStateToProps = (state, ownProps) => {
-	const quantity = state.user.cart ? state.user.cart.find(item => item.product === ownProps.product._id).quantity : null;
+	const cartItem = state.user.cart ? state.user.cart.find(item => item.product === ownProps.product._id) : null;
 
 	return {
 		initialValues: {
-			quantity: quantity ? quantity : 1, 
+			quantity: cartItem ? cartItem.quantity : 1, 
 			variation: ownProps.product.variations ? ownProps.product.variations[0] : null 
 		},
 		loading: state.alert.loading
