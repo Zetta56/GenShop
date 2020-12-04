@@ -53,7 +53,7 @@ const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, us
 					</div>
 					<div className="eight wide image column">
 						<div className="ui fluid image">
-							<img src={`data:${product.image.contentType};base64,${product.image}`} alt={product.title} />
+							<img src={product.image.url} alt={product.title} />
 						</div>
 					</div>
 				</div>

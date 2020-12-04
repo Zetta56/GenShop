@@ -5,18 +5,13 @@ import {connect} from "react-redux";
 import ImageUpload from "react-images-upload";
 import VariationsInput from "react-tagsinput";
 import moment from "moment";
-import {fetchProducts} from "../../actions";
 import Input from "../Input";
 import "react-tagsinput/react-tagsinput.css";
 import "./UpsertForm.css";
 
-const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, initialValues, loading, header, buttonText, cancelURL}) => {
+const UpsertForm = ({handleSubmit, onFormSubmit, formValues, initialValues, loading, header, buttonText, cancelURL}) => {
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
 	const variationsRef = useRef(null);
-
-	useEffect(() => {
-		fetchProducts();
-	}, [fetchProducts]);
 
 	//Re-focuses variations input on re-render(ex. when Enter key is pressed)
 	useEffect(() => {
@@ -63,7 +58,7 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
 			<div className="field">
 				<label>{label}</label>
 				<ImageUpload
-	                onChange={pics => input.onChange(pics[0])}
+	                onChange={files => input.onChange(files[0])}
 	                singleImage={true}
 	                imgExtension={[".jpg", ".gif", ".png"]}
 	                buttonText="Select Image"
@@ -81,7 +76,6 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
 				<form 
 					className="ui form"
 					onSubmit={handleSubmit(formValues => onFormSubmit(formValues))} 
-					encType="multipart/form-data"
 				>
 					<Field name="title" component={Input} label="Name" inputType="text" />
 					<Field name="description" component={renderTextArea} label="Description" />
@@ -100,15 +94,11 @@ const UpsertForm = ({handleSubmit, onFormSubmit, fetchProducts, formValues, init
 	);
 };
 
-const validate = ({title, description, price, image, discount, discountDate}, {products, initialValues}) => {
+const validate = ({title, description, price, image, discount, discountDate}) => {
 	const err = {};
 
 	if(!title) {
 		err.title = "You must enter a name for your product."
-	}
-	
-	if(products && products.filter(product => product.title === title && initialValues.title !== product.title).length > 0) {
-		err.title = "That name is already taken.";
 	}
 
 	if(!description) {
@@ -149,9 +139,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		initialValues: ownProps.initial || {title: null, variations: [], description: null, discount: null},
 		formValues: selector(state, "variations", "discount", "description"),
-		products: Object.values(state.products),
 		loading: state.alert.loading
 	};
 };
 
-export default connect(mapStateToProps, {fetchProducts})(formWrapped);
+export default connect(mapStateToProps)(formWrapped);

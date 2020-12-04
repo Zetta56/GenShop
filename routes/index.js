@@ -161,7 +161,8 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 						price_data: {
 							currency: "usd",
 							product_data: {
-								name: productName
+								name: productName,
+								images: [item.product.image.url]
 							},
 							unit_amount_decimal: (item.product.price * 100) - (item.product.price * discountPercent)
 						},
@@ -175,6 +176,7 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 		})
 		res.json(session.id);
 	} catch(err) {
+		console.log(err)
 		res.status(500).json(err);
 	}
 });

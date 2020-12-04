@@ -39,13 +39,13 @@ export const createProduct = (formValues) => {
 	return async (dispatch) => {
 		try {
 			dispatch(loading());
-			const fd = new FormData();
-			for(const key in formValues) {
-				Array.isArray(formValues[key])
-					? formValues[key].forEach(item => fd.append(key + "[]", item))
-					: fd.append(key, formValues[key]);
-			};
-			const response = await axios.post("/api/products", fd, {headers: {"Content-Type": "multipart/form-data"}});
+			//Converts image into data url and returns result synchronously
+			const imageData = await new Promise(resolve => {
+				const reader = new FileReader();
+				reader.onloadend = () => resolve(reader.result);
+				reader.readAsDataURL(formValues.image);
+			});
+			const response = await axios.post("/api/products", {...formValues, image: imageData});
 
 			dispatch({
 				type: "CREATE_PRODUCT",
@@ -55,6 +55,7 @@ export const createProduct = (formValues) => {
 
 			history.push("/");
 		} catch(err) {
+			console.log(err)
 			await history.push("/");
 			dispatch(error(err.response.data.message));
 		}
@@ -65,14 +66,12 @@ export const editProduct = (formValues, productId) => {
 	return async (dispatch) => {
 		try {
 			dispatch(loading());
-			const fd = new FormData();
-			for(const key in formValues) {
-				Array.isArray(formValues[key])
-					? formValues[key].forEach(item => fd.append(key + "[]", item))
-					: fd.append(key, formValues[key]);
-			};
-
-			const response = await axios.put(`/api/products/${productId}`, fd, {headers: {"Content-Type": "multipart/form-data"}});
+			const imageData = await new Promise(resolve => {
+				const reader = new FileReader();
+				reader.onloadend = () => resolve(reader.result);
+				reader.readAsDataURL(formValues.image);
+			});
+			const response = await axios.put(`/api/products/${productId}`, {...formValues, image: imageData});
 
 			dispatch({
 				type: "EDIT_PRODUCT",

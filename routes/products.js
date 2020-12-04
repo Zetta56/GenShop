@@ -1,7 +1,6 @@
 const express = require("express"),
 	  router = express.Router(),
-	  path = require("path"),
-	  fs = require("fs"),
+	  cloudinary = require("cloudinary"),
 	  mongoose = require("mongoose"),
 	  middleware = require("../middleware"),
 	  Product = require("../models/Product"),
@@ -27,27 +26,24 @@ router.get("/", async (req, res) => {
 			foundProducts = await Product.find();
 		};
 
+		//Retreives associated discount
 		const loadedProducts = await Promise.all(
 			foundProducts.map(async product => {
-				//Retreives associated discount
 				const foundDiscount = await Discount.findOne({product: product._id});
 				const foundReviews = await Review.find({product: product._id});
 				
-				//Discount keys are the same as product upsert form fieldnames
+				//Includes discount details depending on if discount was found
 				if(foundDiscount) {
 					return {
 						...product.toObject(), 
 						ratings: foundReviews.map(review => review.ratings),
 						discount: foundDiscount.percent,
-						expireAt: foundDiscount.expireAt,
-						//Reads and encodes image from file system
-						image: Buffer.from(fs.readFileSync(path.join(__dirname + "/../" + product.image)), "binary").toString("base64")
+						expireAt: foundDiscount.expireAt
 					};
 				} else {
 					return {
 						...product.toObject(), 
-						ratings: foundReviews.map(review => review.ratings),
-						image: Buffer.from(fs.readFileSync(path.join(__dirname + "/../" + product.image)), "binary").toString("base64")
+						ratings: foundReviews.map(review => review.ratings)
 					}
 				}
 			})
@@ -66,21 +62,18 @@ router.get("/:productId", middleware.hasProductId, async (req, res) => {
 		const foundDiscount = await Discount.findOne({product: foundProduct._id});
 		const foundReviews = await Review.find({product: foundProduct._id});
 
-		//Gets discount and image
+		//Adds discount to product if it exists
 		if(foundDiscount) {
 			res.json({
 				...foundProduct.toObject(),
 				ratings: foundReviews.map(review => review.ratings),
 				discount: foundDiscount.percent,
-				expireAt: foundDiscount.expireAt,
-				//Reads and encodes image from file system
-				image: Buffer.from(fs.readFileSync(path.join(__dirname + "/../" + foundProduct.image)), "binary").toString("base64")
+				expireAt: foundDiscount.expireAt
 			});
 		} else {
 			res.json({
 				...foundProduct.toObject(), 
-				ratings: foundReviews.map(review => review.ratings),
-				image: Buffer.from(fs.readFileSync(path.join(__dirname + "/../" + foundProduct.image)), "binary").toString("base64")
+				ratings: foundReviews.map(review => review.ratings)
 			});
 		};
 	} catch(err) {
@@ -89,78 +82,74 @@ router.get("/:productId", middleware.hasProductId, async (req, res) => {
 	};
 });
 
-router.post("/", middleware.upload.single("image"), middleware.hasProductInfo, async (req, res) => {
+router.post("/", middleware.hasProductInfo, (req, res) => {
 	try {
-		//Creates product
-		const newProduct = await Product.create({
-			title: req.body.title,
-			description: req.body.description,
-			//Price rounded to 2 decimal places
-			price: Math.round(req.body.price),
-			variations: req.body.variations,
-			image: req.file.path
-		});
-		
-		//Creates optional discount
-		if(req.body.discount && req.body.discount !== "null") {
-			console.log("hit")
-			await Discount.create({
-				percent: Math.round(req.body.discount * 100) / 100,
-				product: newProduct._id,
-				expireAt: new Date(`${req.body.discountDate}T23:59:00Z`)
+		//Uploads image to cloudinary and creates product
+		cloudinary.v2.uploader.upload(req.body.image, {folder: process.env.CLOUDINARY_FOLDER}, async (err, result) => {
+			const newProduct = await Product.create({
+				title: req.body.title,
+				description: req.body.description,
+				//Price rounded to 2 decimal places
+				price: Math.round(req.body.price * 100) / 100,
+				variations: req.body.variations,
+				image: {
+					url: result.secure_url,
+					publicId: result.public_id
+				}
 			});
-		};
-		
-		res.json(newProduct);
-	} catch(err) {
-		console.log(err)
-		res.status(500).json(err);
-	};
-});
 
-router.put("/:productId", middleware.upload.single("image"), middleware.hasProductId, middleware.hasProductInfo, async (req, res) => {
-	try {
-		//Undoes formdata conversion between empty array and null
-		const variations = req.body.variations != null ? req.body.variations : [];
-		//Updates product
-		const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, {
-			title: req.body.title,
-			description: req.body.description,
-			price: Math.round(req.body.price * 100) / 100,
-			variations: variations,
-			image: req.file.path
-		}, {new: true});
-
-		//Upserts discount
-		if(req.body.discount && req.body.discount != "null") {
-			const foundDiscount = await Discount.findOne({product: updatedProduct._id});
-			if(foundDiscount) {
-				await Discount.findOneAndUpdate({product: updatedProduct._id}, {
-					percent: Math.round(req.body.discount),
-					expireAt: new Date(`${req.body.discountDate}T23:59:00Z`)
-				}, {new: true});
-			} else {
+			if(req.body.discount && req.body.discount !== "null") {
 				await Discount.create({
-					percent: Math.round(req.body.discount),
-					expireAt: new Date(`${req.body.discountDate}T23:59:00Z`),
-					product: updatedProduct._id
+					percent: Math.round(req.body.discount * 100) / 100,
+					product: newProduct._id,
+					expireAt: new Date(`${req.body.discountDate}T23:59:00Z`)
 				});
 			};
-		};
 
-		//Cleans up uploads folder
-		for(const path of fs.readdirSync("uploads")) {
-			const pathProduct = await Product.findOne({image: "uploads\\" + path});
-			if(!pathProduct && path !== ".gitkeep") {
-				await fs.unlink("uploads/" + path, (err) => {
-					if(err) {
-						console.log(err)
+			res.json(newProduct);
+		});
+	} catch(err) {
+		console.log(err)
+		res.status(500).json(err);
+	};
+});
+
+router.put("/:productId", middleware.hasProductId, middleware.hasProductInfo, async (req, res) => {
+	try {
+		const foundProduct = await Product.findById(req.params.productId);
+		//Uploads image to cloudinary and updates product
+		cloudinary.v2.uploader.upload(
+			req.body.image, 
+			{public_id: foundProduct.image.publicId, overwrite: true}, 
+			async(err, result) => {
+				const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, {
+					title: req.body.title,
+					description: req.body.description,
+					price: Math.round(req.body.price * 100) / 100,
+					variations: req.body.variations,
+					"image.url": result.secure_url
+				}, {new: true});
+		
+				//Upserts discount
+				if(req.body.discount && req.body.discount != "null") {
+					const foundDiscount = await Discount.findOne({product: updatedProduct._id});
+					if(foundDiscount) {
+						await Discount.findOneAndUpdate({product: updatedProduct._id}, {
+							percent: Math.round(req.body.discount),
+							expireAt: new Date(`${req.body.discountDate}T23:59:00Z`)
+						}, {new: true});
+					} else {
+						await Discount.create({
+							percent: Math.round(req.body.discount),
+							expireAt: new Date(`${req.body.discountDate}T23:59:00Z`),
+							product: updatedProduct._id
+						});
 					};
-				});
-			};
-		};
+				};
 
-		res.json(updatedProduct);
+				res.json(updatedProduct);
+			}
+		);
 	} catch(err) {
 		console.log(err)
 		res.status(500).json(err);
@@ -169,14 +158,18 @@ router.put("/:productId", middleware.upload.single("image"), middleware.hasProdu
 
 router.delete("/:productId", middleware.isAdmin, middleware.hasProductId, async (req, res) => {
 	try {
-		//Pulls product from all users' carts
-		await User.updateMany({"cart.product": {$in: req.params.productId}}, {
-			$pull: {cart: {product: mongoose.Types.ObjectId(req.params.productId)}}
+		const foundProduct = await Product.findById(req.params.productId);
+		cloudinary.v2.uploader.destroy(foundProduct.image.publicId, async () => {
+			//Pulls product from all users' carts
+			await User.updateMany({"cart.product": {$in: req.params.productId}}, {
+				$pull: {cart: {product: mongoose.Types.ObjectId(req.params.productId)}}
+			});
+			
+			await Discount.findOneAndDelete({product: req.params.productId});
+			await Review.deleteMany({product: req.params.productId});
+			await Product.findByIdAndDelete(req.params.productId);
+			res.json(req.params.productId);
 		});
-		await Product.findByIdAndDelete(req.params.productId);
-		await Discount.findOneAndDelete({product: req.params.productId});
-		await Review.deleteMany({product: req.params.productId});
-		res.json(req.params.productId);
 	} catch(err) {
 		console.log(err)
 		res.status(500).json(err);

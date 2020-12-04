@@ -17,7 +17,7 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 			return (
 				<div className="card" key={product._id}>
 					<Link to={`/products/${product._id}`} className="image">
-							<img src={`data:${product.image.contentType};base64,${product.image}`} alt={product.title} />
+							<img src={product.image.url} alt={product.title} />
 					</Link>
 					<div className="content">
 						<div className="header">

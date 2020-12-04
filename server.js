@@ -29,8 +29,8 @@ mongoose.set('useCreateIndex', true);
 //App Config
 app.use(cors({credentials: true, origin: true}));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "30mb"}));
+app.use(bodyParser.urlencoded({extended: true, limit: "30mb"}));
 app.use(express.static("client/build"));
 
 //Authentication Config

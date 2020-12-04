@@ -19,7 +19,7 @@ const CartTable = ({alterCart, products, user, total}) => {
 				<tr key={product._id}>
 					<td className="image">
 						<img 
-							src={`data:${product.image.contentType};base64,${product.image}`} 
+							src={product.image.url} 
 							alt={product.title}
 							id="productImage" />
 					</td>
