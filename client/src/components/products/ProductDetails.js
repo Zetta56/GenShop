@@ -74,7 +74,6 @@ const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, us
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		initialValues: {quantity: 1},
 		product: state.products[ownProps.match.params.productId], 
 		reviews: state.reviews,
 		user: state.user

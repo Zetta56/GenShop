@@ -49,6 +49,7 @@
 	line-height: 2em;
 	padding: 2rem;
 	word-wrap: break-word;
+	white-space: pre;
 }
 
 /*Cart Form*/

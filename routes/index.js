@@ -164,7 +164,7 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 								name: productName,
 								images: [item.product.image.url]
 							},
-							unit_amount_decimal: (item.product.price * 100) - (item.product.price * discountPercent)
+							unit_amount_decimal: Math.round((item.product.price * 100) - (item.product.price * discountPercent))
 						},
 						quantity: item.quantity
 					}

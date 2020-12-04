@@ -14,6 +14,7 @@ const CartTable = ({alterCart, products, user, total}) => {
 		return products.map(product => {
 			const cartItem = user.cart.find(item => item.product === product._id);
 			const discountPercent = product.discount ? product.discount : 0;
+			const itemTotal = Math.round((product.price - product.price * (discountPercent / 100)) * 100) / 100;
 
 			return (
 				<tr key={product._id}>
@@ -31,13 +32,13 @@ const CartTable = ({alterCart, products, user, total}) => {
 					</td>
 					<td className="price">
 						<span className="label">Price: </span>
-						${Math.round((product.price - product.price * (discountPercent / 100)) * 100) / 100}
+						${itemTotal}
 					</td>
 					<td className="quantity">
 						<span className="label">Quantity: </span>{cartItem.quantity}
 					</td>
 					<td className="subtotal">
-						<span className="label">Subtotal: </span>${cartItem.quantity * product.price}
+						<span className="label">Subtotal: </span>${cartItem.quantity * itemTotal}
 					</td>
 					<td className="remove">
 						<button onClick={e => alterCart(false, product._id, null)} className="ui red button">
