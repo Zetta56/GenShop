@@ -67,7 +67,7 @@ const Header = ({searchList, searchProperty, destination}) => {
 					placeholder="Search..." 
 					value={term} 
 					onFocus={() => setFocused(true)}
-					onBlur={() => setFocused(false)}
+					onBlur={() => setTimeout(() => setFocused(false), 100)}
 					onChange={e => setTerm(e.target.value)}
 					onKeyPress={e => onSearchPress(e)} />
 				<i className="ui search icon" />
