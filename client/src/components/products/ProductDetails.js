@@ -31,7 +31,7 @@ const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, us
 	if(!product) {
 		return <div className="ui active centered inline loader"></div>
 	};
-
+	
 	return (
 		<div id="productDetails">
 			<div className="details">

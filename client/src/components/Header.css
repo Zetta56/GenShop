@@ -10,7 +10,18 @@
 	padding: 1.25rem 1rem;
 }
 
-#header .search {
+#header .right.menu {
+	flex-basis: 10rem;
+}
+
+#header div.search,
+#header .search .icon.input,
+#header .search .resultBox {
+	width: 16rem;
+	transition: 500ms;
+}
+
+#header div.search {
 	display: flex;
 	align-items: center;
 	font-size: 18px;
@@ -56,15 +67,30 @@
 		margin-left: 1rem;
 	}
 
+	#header .stretch {
+		width: 80% !important;
+	}
+
 	#header .hamburger,
 	#sidebar {
 		display: none;
 	}
 }
 
+@media only screen and (min-width: 1200px) { 
+	#header .stretch {
+		width: 60% !important;
+	}
+}
+
 @media only screen and (max-width: 768px) {
 	#header {
 		padding: 0;
+	}
+	
+	#header div.search,
+	#header .search .icon.input {
+		width: 95%;
 	}
 
 	#header .right.menu {

@@ -5,7 +5,11 @@
 }
 
 #userForm > .column {
-	padding: 3.25rem;
+	padding: 3.25rem !important;
+}
+
+#userForm *:not(i) {
+	width: 100%;
 }
 
 #userForm h2 {
@@ -13,15 +17,9 @@
 	text-align: center;
 }
 
-#userForm .googleLogin,
 #userForm .ui.button {
 	font-size: 16px;
 	margin: .75rem 0;
-	width: 100%;
-}
-
-#userForm .field {
-	width: 100%;
 }
 
 #userForm .field.red > input {
@@ -38,8 +36,8 @@
 	background: white url("../../assets/google-normal.png") no-repeat center;
 	box-shadow: 0 0 3px lightgray;
 	border: 0;
-	border-radius: .3rem;
 	cursor: pointer;
+	margin-top: .75rem;
 	height: 3.5rem;
 }
 
@@ -54,10 +52,6 @@
 }
 
 @media only screen and (max-width: 992px) {
-	#userForm > .column {
-		padding:  2rem !important;
-	}
-
 	#userForm .field .errorLabel {
 		top: 3.5rem;
 	}

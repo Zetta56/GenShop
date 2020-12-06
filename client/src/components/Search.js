@@ -7,36 +7,23 @@ const Header = ({searchList, searchProperty, destination}) => {
 	const [term, setTerm] = useState("");
 	const [debouncedTerm, setDebouncedTerm] = useState(term);
 	const [suggestions, setSuggestions] = useState([]);
-	const [showSuggestions, setShowSuggestions] = useState(false);
+	const [focused, setFocused] = useState(false);
 	const searchRef = useRef();
+	const stretch = focused ? "stretch" : "";
 
-	//Hides suggestions on page click
-	useEffect(() => {
-		const onBodyClick = e => {
-			if(!searchRef.current.contains(e.target)) {
-				setShowSuggestions(false);
-			};
-		};
-		document.body.addEventListener("click", onBodyClick);
-
-		//Cleans up click listener when app is closed
-		return () => {
-			document.body.removeEventListener("click", onBodyClick)
-		}
-	}, []);
-
-	//Debounces search term and fetches search suggestions
+	//Debounces search term
 	useEffect(() => {
 		const debounceId = setTimeout(() => setDebouncedTerm(term), 500);
 		return () => clearTimeout(debounceId)
 	}, [term]);
+	//Suggests products that match given search term
 	useEffect(() => {
 		if(debouncedTerm.length > 0) {
 			//Escapes characters only when finding suggestions
 			const search = debouncedTerm.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-			const searchRe = new RegExp("^" + search);
+			const searchRe = new RegExp("^" + search.toLowerCase());
 			const matches = searchList.filter(item => {
-				return searchRe.test(item[searchProperty]);
+				return searchRe.test(item[searchProperty].toLowerCase());
 			});
 
 			setSuggestions(matches.length > 5 ? matches.slice(0, 5) : matches);
@@ -54,13 +41,17 @@ const Header = ({searchList, searchProperty, destination}) => {
 		};
 	};
 
+	//Renders array of suggestions
 	const renderSuggestions = () => {
-		if(showSuggestions) {
+		if(focused) {
 			return suggestions.map(suggestion => {
 				const ellipsis = suggestion[searchProperty].length >= 15 ? "..." : "";
 
 				return (
-					<Link to={`${destination}?search=${suggestion[searchProperty]}`} key={suggestion._id}>
+					<Link 
+						to={`${destination}?search=${suggestion[searchProperty]}`}
+						key={suggestion._id}
+					>
 						{suggestion[searchProperty].substring(0, 15) + ellipsis}
 					</Link>
 				);
@@ -69,18 +60,19 @@ const Header = ({searchList, searchProperty, destination}) => {
 	};
 
 	return (
-		<div className="ui search">
-			<div className="ui icon input" ref={searchRef}>
+		<div className={`ui search ${stretch}`}>
+			<div className={`ui icon input ${stretch}`} ref={searchRef}>
 				<input 
 					type="text" 
 					placeholder="Search..." 
 					value={term} 
-					onFocus={() => setShowSuggestions(true)}
+					onFocus={() => setFocused(true)}
+					onBlur={() => setFocused(false)}
 					onChange={e => setTerm(e.target.value)}
 					onKeyPress={e => onSearchPress(e)} />
 				<i className="ui search icon" />
 			</div>
-			<ul className="resultBox">{renderSuggestions()}</ul>
+			<ul className={`resultBox ${stretch}`}>{renderSuggestions()}</ul>
 		</div>
 	);
 };

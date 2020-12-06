@@ -5,6 +5,7 @@ import axios from "axios"
 import history from "../history";
 import {resetAlerts, login, logout} from "../actions";
 import ProtectedRoute from "./ProtectedRoute";
+import GoogleAuth from "./GoogleAuth";
 import Header from "./Header";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
@@ -19,34 +20,18 @@ import ReviewDelete from "./reviews/ReviewDelete";
 import "./App.css";
 
 const App = ({error, confirm, resetAlerts, login, logout}) => {
-	const loadAuth = useCallback(() => {
-		const loadAuth = async () => {
-			await axios.post("/api/refresh");
-			const response = await axios.get("/api/access");
+	const loadAuth = useCallback(async () => {
+		await axios.post("/api/refresh");
+		const response = await axios.get("/api/access");
 
-			if(response.data) {
-				login(response.data, true);
-			} else if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
-				login({googleId: window.gapi.auth2.getAuthInstance().currentUser.get()});
-			} else {
-				logout();
-			};
-		};
-		
-		//Loads auth2 client and checks login status
-		if(process.env.REACT_APP_GOOGLE_CLIENTID) {
-			window.gapi.load("client:auth2", () => {
-				window.gapi.client.init({
-					clientId: process.env.REACT_APP_GOOGLE_CLIENTID,
-					scope: "email"
-				}).then(() => loadAuth());
-			});
+		if(response.data) {
+			login(response.data, true);
 		} else {
-			loadAuth();
+			logout();
 		};
-		
+
 		//Removes error messages upon navigation
-		history.listen(async (location) => {
+		history.listen(async () => {
 			resetAlerts();
 		});
 	}, [resetAlerts, login, logout]);
@@ -67,18 +52,19 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 	return (
 		<Router history={history}>
 			{renderMessage()}
+			<GoogleAuth />
 			<Header />
 			<div className="main container">
 				<Switch>
 					<Route path="/" exact component={ProductList}></Route>
-					<ProtectedRoute path="/register" exact component={Register}></ProtectedRoute>
-					<ProtectedRoute path="/login" exact component={Login}></ProtectedRoute>
-					<ProtectedRoute path="/cart" exact component={Cart} authenticateReq></ProtectedRoute>
-					<ProtectedRoute path="/checkout" exact component={Checkout} authenticateReq></ProtectedRoute>
+					<ProtectedRoute path="/register" exact component={Register} noAuthenticateReq></ProtectedRoute>
+					<ProtectedRoute path="/login" exact component={Login} noAuthenticateReq></ProtectedRoute>
+					<ProtectedRoute path="/cart" exact component={Cart}></ProtectedRoute>
+					<ProtectedRoute path="/checkout" exact component={Checkout}></ProtectedRoute>
 					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/edit" exact component={ProductEdit} adminReq></ProtectedRoute>
 					<ProtectedRoute path="/products/:productId/delete" exact component={ProductDelete} adminReq></ProtectedRoute>
-					<ProtectedRoute path="/products/:productId/reviews/:reviewId/delete" exact component={ReviewDelete} authenticateReq></ProtectedRoute>
+					<ProtectedRoute path="/products/:productId/reviews/:reviewId/delete" exact component={ReviewDelete}></ProtectedRoute>
 					<Route path="/products/:productId" exact component={ProductDetails}></Route>
 				</Switch>
 			</div>

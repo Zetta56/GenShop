@@ -15,18 +15,21 @@ export const createUser = (formValues) => {
 };
 
 export const login = (formValues, initial) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
-			const response = await axios.post("/api/login", formValues);
-			
-			dispatch({
-				type: "LOGIN",
-				payload: response.data
-			});
-			
-			if(!initial) {
-				history.push("/");
-			}
+			//Stop duplicate login requests
+			if(!getState().user.isLoggedIn) {
+				const response = await axios.post("/api/login", formValues);
+				
+				dispatch({
+					type: "LOGIN",
+					payload: response.data
+				});
+				
+				if(!initial) {
+					history.push("/");
+				}
+			};
 		} catch(err) {
 			await history.push("/login");
 			await dispatch(error(err.response.data.message));

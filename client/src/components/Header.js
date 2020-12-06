@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import history from "../history";
 import {fetchProducts, logout} from "../actions";
+import GoogleAuth from "./GoogleAuth";
 import Search from "./Search";
 import "./Header.css";
 
@@ -29,16 +29,6 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 		}
 	}, [fetchProducts]);
 
-	//Logs user out
-	const onLogoutClick = (e) => {
-		e.preventDefault();
-		logout();
-		if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
-			window.gapi.auth2.getAuthInstance().signOut();
-		};
-		history.push("/");
-	};
-
 	//Renders product create button for admins
 	const renderCreate = (atTop) => {
 		const createText = atTop ? <i className="plus icon" /> : "Create Listing";
@@ -48,8 +38,16 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 		};
 	};
 
+	const renderLogout = () => {
+		if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
+			return <GoogleAuth type="logout" />
+		} else {
+			return <Link to="/" className="item" onClick={() => logout()}>Logout</Link>
+		};
+	};
+
 	//Renders right-side buttons
-	const renderAuth = (top) => {
+	const renderRight = (top) => {
 		const cartText = top ? <i className="shopping cart icon"/> : "Cart";
 
 		if(isLoggedIn === null) {
@@ -58,7 +56,7 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 			return (
 				<React.Fragment>
 					<Link to="/cart" className="item">{cartText}</Link>
-					<Link to="#" className="item" onClick={(e) => onLogoutClick(e)}>Logout</Link>
+					{renderLogout()}
 				</React.Fragment>
 			);
 		} else {
@@ -81,7 +79,7 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 					destination="/" />
 				<div className="right menu">
 					{renderCreate(true)}
-					{renderAuth(true)}
+					{renderRight(true)}
 				</div>
 				<Link to="#" className="hamburger item" ref={hamburgerRef} onClick={() => setSideOpen(!sideOpen)}>
 					<i className="fas fa-bars"></i>
@@ -89,7 +87,7 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 			</div>
 			<div className={`ui ${sideVisible} right sidebar vertical menu`} id="sidebar">
 				{renderCreate(false)}
-				{renderAuth(false)}
+				{renderRight(false)}
 			</div>
 		</React.Fragment>
 	);

@@ -12,12 +12,6 @@ export const confirm = (confirm) => {
 	};
 };
 
-export const resetAlerts = () => {
-	return {
-		type: "RESET_ALERTS"
-	};
-};
-
 export const loading = () => {
 	return {
 		type: "LOADING"
@@ -27,5 +21,11 @@ export const loading = () => {
 export const finishLoading  = () => {
 	return {
 		type: "FINISH_LOADING"
+	};
+};
+
+export const resetAlerts = () => {
+	return {
+		type: "RESET_ALERTS"
 	};
 };
