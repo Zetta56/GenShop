@@ -1,12 +1,12 @@
 import React from "react";
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
-import {login} from "../../actions";
-import GoogleAuth from "../GoogleAuth";
-import Input from "../Input";
+import {login} from "../actions";
+import GoogleAuth from "../components/GoogleAuth";
+import Input from "../components/Input";
 import "./UserForm.css";
 
-const Login = ({handleSubmit, login, match}) => {
+const Login = ({handleSubmit, login}) => {
 	return (
 		<div className="ui one column stackable grid" id="userForm">
 			<div className="column">

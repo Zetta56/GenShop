@@ -2,12 +2,12 @@ import React from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
 import moment from "moment";
-import {editProduct} from "../../actions";
-import UpsertForm from "./UpsertForm";
+import {editProduct} from "../actions";
+import ProductForm from "../components/ProductForm";
 
 const ProductEdit = ({editProduct, match, initialValues}) => {
 	return (
-		<UpsertForm 
+		<ProductForm 
 			onFormSubmit={formValues => editProduct(formValues, match.params.productId)}
 			initial={initialValues}
 			match={match}

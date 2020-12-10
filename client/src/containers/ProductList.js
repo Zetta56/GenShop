@@ -1,10 +1,7 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
-import moment from "moment";
-import {fetchProducts} from "../../actions";
-import Price from "../Price";
-import Stars from "../Stars";
+import {fetchProducts} from "../actions";
+import ProductCard from "../components/ProductCard";
 import "./ProductList.css";
 
 const ProductList = ({fetchProducts, products, loading, location}) => {
@@ -14,27 +11,7 @@ const ProductList = ({fetchProducts, products, loading, location}) => {
 
 	const renderList = () => {
 		return products.map(product => {
-			return (
-				<div className="card" key={product._id}>
-					<Link to={`/products/${product._id}`} className="image">
-							<img src={product.image.url} alt={product.title} />
-					</Link>
-					<div className="content">
-						<div className="header">
-							<Link to={`/products/${product._id}`}>{product.title}</Link>
-						</div>
-						{product.ratings && product.ratings.length > 0 &&
-							<Stars rating={product.ratings.reduce((a, b) => a + b) / product.ratings.length} />
-						}
-						<div className="meta">
-							<Price product={product} />
-							{product.discount &&
-								<div className="discountDate">Until {moment(product.expireAt).format("MMM Do")}</div>
-							}
-						</div>
-					</div>
-				</div>
-			);
+			return <ProductCard product={product} key={product._id} />
 		});
 	};
 

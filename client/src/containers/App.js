@@ -4,19 +4,19 @@ import {connect} from "react-redux";
 import axios from "axios"
 import history from "../history";
 import {resetAlerts, login, logout} from "../actions";
-import ProtectedRoute from "./ProtectedRoute";
-import GoogleAuth from "./GoogleAuth";
-import Header from "./Header";
-import Register from "./auth/Register";
-import Login from "./auth/Login";
-import Cart from "./commerce/Cart";
-import Checkout from "./commerce/Checkout";
-import ProductList from "./products/ProductList";
-import ProductCreate from "./products/ProductCreate";
-import ProductEdit from "./products/ProductEdit";
-import ProductDetails from "./products/ProductDetails";
-import ProductDelete from "./products/ProductDelete";
-import ReviewDelete from "./reviews/ReviewDelete";
+import ProtectedRoute from "../components/ProtectedRoute";
+import GoogleAuth from "../components/GoogleAuth";
+import Header from "../components/Header";
+import Register from "./Register";
+import Login from "./Login";
+import Cart from "./CartContainer";
+import Checkout from "./Checkout";
+import ProductList from "./ProductList";
+import ProductCreate from "./ProductCreate";
+import ProductEdit from "./ProductEdit";
+import ProductDetails from "./ProductDetails";
+import ProductDelete from "./ProductDelete";
+import ReviewDelete from "./ReviewDelete";
 import "./App.css";
 
 const App = ({error, confirm, resetAlerts, login, logout}) => {

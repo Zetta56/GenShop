@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import history from "../../history";
-import {deleteReview} from "../../actions";
-import Modal from "../Modal";
+import history from "../history";
+import {deleteReview} from "../actions";
+import Modal from "../components/Modal";
 
 const ReviewDelete = ({deleteReview, match}) => {
 	const renderButtons = () => {

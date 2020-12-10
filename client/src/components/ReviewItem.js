@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import moment from "moment";
-import {editReview} from "../../actions";
+import {editReview} from "../actions";
 import ReviewForm from "./ReviewForm";
-import Stars from "../Stars";
-import avatar from "../../assets/defaultAvatar.jpg";
+import Stars from "./Stars";
+import avatar from "../assets/defaultAvatar.jpg";
 
 const Review = ({editReview, product, review, user}) => {
 	const [editing, setEditing] = useState(null);

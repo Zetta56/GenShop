@@ -2,13 +2,12 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import axios from "axios";
 import {loadStripe} from "@stripe/stripe-js";
-import {fetchProducts, error} from "../../actions";
-import CartTable from "./CartTable";
-import "./Cart.css";
+import {fetchProducts, error} from "../actions";
+import Cart from "../components/Cart";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE);
 
-const Cart = ({fetchProducts, error, user, products, total}) => {
+const CartContainer = ({fetchProducts, error, user, products, total}) => {
 	useEffect(() => {
 		if(user) {
 			fetchProducts({user: user._id});
@@ -29,26 +28,11 @@ const Cart = ({fetchProducts, error, user, products, total}) => {
 		}
 	};
 
-	const renderCheckoutButton = () => {
-		if(products.length > 0) {
-			return (
-				<button className="ui blue button" onClick={onCheckoutClick}>
-					Checkout <i className="angle right icon" />
-				</button>
-			);
-		}
-	};
-
-	if(!products || products.length < 1) {
-		return <div className="emptyMessage">Your cart is empty.</div>
-	};
-
-	return (
-		<div id="cart">
-			<CartTable products={products} user={user} total={total} />
-			<div className="checkout">{renderCheckoutButton()}</div>
-		</div>
-	);
+	return <Cart 
+				user={user} 
+				products={products} 
+				total={total} 
+				onCheckoutClick={() => onCheckoutClick()} />
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -71,4 +55,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, {fetchProducts, error})(Cart);
+export default connect(mapStateToProps, {fetchProducts, error})(CartContainer);

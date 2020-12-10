@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {createReview} from "../../actions";
+import {createReview} from "../actions";
 import ReviewForm from "./ReviewForm";
-import Review from "./Review";
+import Review from "./ReviewItem";
 import "./ReviewSection.css";
 
 const ReviewSection = ({createReview, product, reviews, user}) => {

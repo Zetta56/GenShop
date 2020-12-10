@@ -74,6 +74,19 @@
 		text-align: left;
 	}
 
+	#cart .table tr {
+		padding: 0;
+	}
+
+	#cart .table .name * {
+		display: inline;
+	}
+
+	#cart .image,
+	#cart .remove {
+		padding: 0 !important;
+	}
+
 	#cart img,
 	#cart .remove .ui.button {
 		width: 100%;

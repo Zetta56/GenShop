@@ -1,8 +1,8 @@
 import React from "react";
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
-import {createUser} from "../../actions";
-import Input from "../Input";
+import {createUser} from "../actions";
+import Input from "../components/Input";
 import "./UserForm.css";
 
 const Register = ({handleSubmit, createUser}) => {

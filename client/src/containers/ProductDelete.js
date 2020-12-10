@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import history from "../../history";
-import {fetchProduct, deleteProduct} from "../../actions";
-import Modal from "../Modal";
+import history from "../history";
+import {fetchProduct, deleteProduct} from "../actions";
+import Modal from "../components/Modal";
 
 const ProductDelete = ({fetchProduct, deleteProduct, match, product, loading}) => {
 	const buttonContent = loading ? <div className="ui mini active inline loader"></div> : "Confirm";

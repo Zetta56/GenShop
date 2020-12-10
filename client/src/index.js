@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 import axios from "axios"
 
 import reducers from "./reducers";
-import App from "./components/App";
+import App from "./containers/App";
 
 let refreshCooldown = false;
 window.setInterval(() => refreshCooldown = false, 180000);

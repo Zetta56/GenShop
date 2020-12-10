@@ -5,9 +5,10 @@ import {connect} from "react-redux";
 import ImageUpload from "react-images-upload";
 import VariationsInput from "react-tagsinput";
 import moment from "moment";
-import Input from "../Input";
+import Input from "./Input";
+import TextArea from "./TextArea";
 import "react-tagsinput/react-tagsinput.css";
-import "./UpsertForm.css";
+import "./ProductForm.css";
 
 const UpsertForm = ({handleSubmit, onFormSubmit, formValues, initialValues, loading, header, buttonText, cancelURL}) => {
 	const buttonContent = loading ? <div className="ui mini active inverted inline loader"></div> : buttonText;
@@ -25,19 +26,6 @@ const UpsertForm = ({handleSubmit, onFormSubmit, formValues, initialValues, load
 			return <div className="errorLabel">{meta.error}</div>
 		};
 	};
-
-	const renderTextArea = useCallback(({input, meta, label}) => {
-		return (
-			<div className="field">
-				<label>{label}</label>
-				<textarea {...input} placeholder={label} maxLength={2000} required>
-					{formValues.description}
-				</textarea>
-				{renderError(meta)}
-			</div>
-		);
-		//eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	const renderVariationsInput = useCallback(({input, label}) => {
 		return (
@@ -78,7 +66,7 @@ const UpsertForm = ({handleSubmit, onFormSubmit, formValues, initialValues, load
 					onSubmit={handleSubmit(formValues => onFormSubmit(formValues))} 
 				>
 					<Field name="title" component={Input} label="Name" inputType="text" />
-					<Field name="description" component={renderTextArea} label="Description" />
+					<Field name="description" component={TextArea} label="Description" placeholder="Description" maxLength={200} />
 					<Field name="price" component={Input} label="Price" inputType="number" min={0} />
 					<Field name="discount" component={Input} label="Discount % (Optional)" placeholder="Discount" inputType="number" min={1} max={100} step={1} required={false} />
 					{formValues.discount && 
