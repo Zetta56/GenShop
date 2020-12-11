@@ -1,4 +1,8 @@
 /*General*/
+body {
+	background-color: #e6eef9;
+}
+
 .main.container {
 	margin: 0 auto;
 	padding: 8rem 0;
@@ -18,6 +22,7 @@
 }
 
 .emptyMessage {
+	background-color: white;
 	font-size: 20px;
 	padding: 3rem;
 	text-align: center;
@@ -36,14 +41,69 @@ a {
 	outline: none;
 }
 
+.blue {
+	background-color: #4982d5 !important;	/*blue*/
+}
+
+.red {
+	color: red;
+}
+
 @media only screen and (min-width: 1600px) {
 	.main.container {
 		width: 65%;
 	}
+}
 
-	#header {
-		padding: 0 12.5%;
-	}
+/*Stars*/
+.fa-star {
+	color: #aaaaaa;		/*dark gray*/
+}
+
+.fa-star.yellow {
+	color:  #ffd822;	/*yellow*/
+}
+
+.fa-star.orange {
+	color: #fdbe02;		/*orange*/
+}
+
+.ratings:not(:checked) > label:hover,
+.ratings:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+
+/*Three-dots*/
+.three-dot.dropdown .fa-ellipsis-v {
+	color: #aaaaaa;		/*light-gray*/
+	width: 2rem;
+}
+
+.three-dot.dropdown *:not(.fa-ellipsis-v) {
+	color: #333333;		/*black*/
+}
+
+.three-dot.dropdown:hover .menu {
+	display: block;
+}
+
+/*Watchlist*/
+#watchlist {
+	background-color: white;
+	padding: 2rem;
+}
+
+#watchlist .three-dot.dropdown {
+	margin-left: .5rem;
+}
+
+#watchlist .card {
+	box-shadow: none;
+}
+
+#watchlist .ui.red.button {
+	margin-top: 1rem;
+	width: 100%;	
 }
 
 /*Form Theme*/
@@ -66,8 +126,13 @@ a {
 }
 
 .ui.form .field .errorLabel {
+	color: red;
 	font-size: 14px;
 	margin-bottom: .5rem;
+}
+
+.ui.form label {
+	color: #4a4a4a !important;	/*gray*/
 }
 
 /*Modal*/
@@ -83,81 +148,4 @@ a {
 .ui.active.modal .content,
 .ui.active.modal .ui.button {
 	font-size: 16px;
-}
-
-/*Colors*/
-body {
-	background-color: #e6eef9;
-}
-
-#header {
-	background-color: #586cdc;  /*indigo*/
-}
-
-.blue {
-	background-color: #4982d5 !important;	/*blue*/
-}
-
-#productForm .fileUploader .deleteImage {
-	background-color: #f54747; /*red*/
-}
-
-.errorLabel,
-.red {
-	color: red;
-}
-
-.fa-star {
-	color: #aaaaaa;		/*dark gray*/
-}
-
-.fa-star.yellow {
-	color:  #ffd822;	/*yellow*/
-}
-
-.fa-star.orange {
-	color: #fdbe02;		/*orange*/
-}
-
-.emptyMessage,
-#header .resultBox,
-#userForm,
-#productForm,
-.searchMessage,
-#productList .image,
-#productDetails .details,
-#reviews {
-	background-color: white;
-}
-
-#header .item {
-	color: white !important;
-}
-
-#productForm .react-tagsinput-tag,
-#productForm .react-tagsinput-remove,
-#productDetails .login.button {
-	background-color: #eeeeee;	/*lighter-gray*/
-}
-
-#productDetails .dropdown .fa-ellipsis-v {
-	color: #aaaaaa;		/*light-gray*/
-}
-
-#userForm h2,
-#productForm h2,
-.ui.form label {
-	color: #4a4a4a !important;	/*gray*/
-}
-
-#productList .meta,
-#productForm .react-tagsinput-tag,
-#productForm .react-tagsinput-remove,
-#productDetails .dropdown *:not(.fa-ellipsis-v) {
-	color: #333333;		/*black*/
-}
-
-.ratings:not(:checked) > label:hover,
-.ratings:not(:checked) > label:hover ~ label {
-    color: #deb217;  
 }

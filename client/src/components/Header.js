@@ -29,15 +29,6 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 		}
 	}, [fetchProducts]);
 
-	//Renders product create button for admins
-	const renderCreate = (atTop) => {
-		const createText = atTop ? <i className="plus icon" /> : "Create Listing";
-		
-		if(isAdmin) {
-			return <Link to="/products/new" className="create item">{createText}</Link>
-		};
-	};
-
 	const renderLogout = () => {
 		if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
 			return <GoogleAuth type="logout" />
@@ -48,6 +39,8 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 
 	//Renders right-side buttons
 	const renderRight = (top) => {
+		const createText = top ? <i className="plus icon" /> : "Create Listing";
+		const watchlistText = top ? <i className="list icon" /> : "Watchlist";
 		const cartText = top ? <i className="shopping cart icon"/> : "Cart";
 
 		if(isLoggedIn === null) {
@@ -55,6 +48,10 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 		} else if(isLoggedIn) {
 			return (
 				<React.Fragment>
+					{isAdmin &&
+						<Link to="/products/new" className="create item">{createText}</Link>
+					}
+					<Link to="/watchlist" className="item">{watchlistText}</Link>
 					<Link to="/cart" className="item">{cartText}</Link>
 					{renderLogout()}
 				</React.Fragment>
@@ -73,20 +70,13 @@ const Header = ({isLoggedIn, isAdmin, products, fetchProducts, logout}) => {
 		<React.Fragment>
 			<div className="ui inverted top fixed secondary pointing menu" id="header">
 				<Link to="/" className="item">GenShop</Link>
-				<Search 
-					searchList={products} 
-					searchProperty="title"
-					destination="/" />
-				<div className="right menu">
-					{renderCreate(true)}
-					{renderRight(true)}
-				</div>
+				<Search searchList={products} searchProperty="title" destination="/" />
+				<div className="right menu">{renderRight(true)}</div>
 				<Link to="#" className="hamburger item" ref={hamburgerRef} onClick={() => setSideOpen(!sideOpen)}>
 					<i className="fas fa-bars"></i>
 				</Link>
 			</div>
 			<div className={`ui ${sideVisible} right sidebar vertical menu`} id="sidebar">
-				{renderCreate(false)}
 				{renderRight(false)}
 			</div>
 		</React.Fragment>

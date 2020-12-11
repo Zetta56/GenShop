@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {fetchProducts} from "../actions";
 import ProductCard from "../components/ProductCard";
-import "./ProductList.css";
 
 const ProductList = ({fetchProducts, products, loading, location}) => {
 	useEffect(() => {

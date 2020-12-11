@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {alterCart} from "../actions";
+import {editCart} from "../actions";
 
-const cartItem = ({alterCart, product, variation, quantity, itemTotal}) => {
+const cartRow = ({editCart, product, variation, quantity, itemTotal}) => {
     return (
         <tr>
             <td className="image">
@@ -31,7 +31,7 @@ const cartItem = ({alterCart, product, variation, quantity, itemTotal}) => {
                 <span className="label">Subtotal: </span>${(quantity * itemTotal).toFixed(2)}
             </td>
             <td className="remove">
-                <button onClick={() => alterCart(false, product._id, null)} className="ui red button">
+                <button onClick={() => editCart(product._id, null)} className="ui red button">
                     <i className="trash icon" />
                 </button>
             </td>
@@ -39,4 +39,4 @@ const cartItem = ({alterCart, product, variation, quantity, itemTotal}) => {
     );
 };
 
-export default connect(null, {alterCart})(cartItem);
+export default connect(null, {editCart})(cartRow);

@@ -1,19 +1,12 @@
 /*General*/
 #productDetails .details {
+	background-color: white;
 	padding: 2.5rem;
 }
 
 #productDetails .ui.stackable.grid {
 	margin-left: 0;
 	width: 100%;
-}
-
-#productDetails .dropdown .fa-ellipsis-v {
-	width: 2rem;
-}
-
-#productDetails .dropdown:hover .menu {
-	display: block;
 }
 
 /*Product Details*/
@@ -53,11 +46,15 @@
 }
 
 /*Cart Form*/
+#productDetails .login.button {
+	background-color: #eeeeee;	/*lighter-gray*/
+}
+
 #productDetails .cartForm {
 	font-size: 16px;
 }
 
-#productDetails .cartForm > * {
+#productDetails .cartForm > *{
 	display: block;
 	margin: 1.5rem 0;
 }
@@ -70,9 +67,13 @@
 	width: 9rem;
 }
 
-
 #productDetails .cartForm .ui.button {
+	margin: .5rem 0;
 	width: 100%;
+}
+
+#productDetails .watchlist.button {
+	filter: saturate(.75);
 }
 
 @media only screen and (min-width: 1500px) {

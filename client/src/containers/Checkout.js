@@ -1,16 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Redirect, Link} from "react-router-dom";
-import {resetCart} from "../actions";
+import {deleteCart} from "../actions";
 import Modal from "../components/Modal";
 
-const Checkout = ({resetCart, match}) => {
+const Checkout = ({deleteCart}) => {
 	let message = "";
 
 	switch(window.location.search) {
 		case "?success=true":
 			message = "Your order has been placed! Thanks for shopping!";
-			resetCart();
+			deleteCart();
 			break;
 		case "?cancel=true":
 			message = "Order canceled. Please come back when you're ready!"
@@ -31,4 +31,4 @@ const Checkout = ({resetCart, match}) => {
 	);
 };
 
-export default connect(null, {resetCart})(Checkout);
+export default connect(null, {deleteCart})(Checkout);

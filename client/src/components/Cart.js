@@ -1,5 +1,5 @@
 import React from "react";
-import CartItem from "./CartItem";
+import CartRow from "./CartRow";
 import "./Cart.css";
 
 const Cart = ({user, products, total, onCheckoutClick}) => {
@@ -7,9 +7,9 @@ const Cart = ({user, products, total, onCheckoutClick}) => {
 		return products.map(product => {
 			const {variation, quantity} = user.cart.find(item => item.product === product._id);
 			const discountPercent = product.discount ? product.discount : 0;
-			const itemTotal = Math.round((product.price - product.price * (discountPercent / 100)) * 100) / 100;
+			const itemTotal = product.price - product.price * (discountPercent / 100);
 
-			return <CartItem 
+			return <CartRow 
 						product={product}
 						variation={variation} 
 						quantity={quantity}
@@ -37,16 +37,19 @@ const Cart = ({user, products, total, onCheckoutClick}) => {
 				<tbody>
 					{renderItems()}
 					<tr>
-						<td colSpan="5">
-							<div className="total">Total: ${total.toFixed(2)}</div>
+						<td colSpan="6" className="bottomRow">
+							<div className="total">
+								Total: ${total.toFixed(2)}
+								<button className="ui blue checkout button" onClick={() => onCheckoutClick()}>
+									Checkout <i className="angle right icon" />
+								</button>
+							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div className="checkout">
-				<button className="ui blue button" onClick={() => onCheckoutClick()}>
-					Checkout <i className="angle right icon" />
-				</button>
+				
 			</div>
 		</div>
 	);

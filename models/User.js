@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
 	password: String,
 	googleId: String,
 	isAdmin: {type: Boolean, default: false},
+	watchlist: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Product"
+		}
+	],
 	cart: [
 		{
 			product: {

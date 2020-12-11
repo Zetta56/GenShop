@@ -9,6 +9,7 @@ import GoogleAuth from "../components/GoogleAuth";
 import Header from "../components/Header";
 import Register from "./Register";
 import Login from "./Login";
+import Watchlist from "./Watchlist";
 import Cart from "./CartContainer";
 import Checkout from "./Checkout";
 import ProductList from "./ProductList";
@@ -59,6 +60,7 @@ const App = ({error, confirm, resetAlerts, login, logout}) => {
 					<Route path="/" exact component={ProductList}></Route>
 					<ProtectedRoute path="/register" exact component={Register} noAuthenticateReq></ProtectedRoute>
 					<ProtectedRoute path="/login" exact component={Login} noAuthenticateReq></ProtectedRoute>
+					<ProtectedRoute path="/watchlist" exact component={Watchlist}></ProtectedRoute>
 					<ProtectedRoute path="/cart" exact component={Cart}></ProtectedRoute>
 					<ProtectedRoute path="/checkout" exact component={Checkout}></ProtectedRoute>
 					<ProtectedRoute path="/products/new" exact component={ProductCreate} adminReq></ProtectedRoute>

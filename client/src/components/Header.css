@@ -1,4 +1,5 @@
 #header {
+	background-color: #586cdc;  /*indigo*/
 	border: 0;
 	box-shadow: 0;
 	font-size: 20px;
@@ -7,6 +8,7 @@
 }
 
 #header .item {
+	color: white !important;
 	padding: 1.25rem 1rem;
 }
 
@@ -33,6 +35,7 @@
 }
 
 #header .search .resultBox {
+	background-color: white;
 	position: absolute;
 	top: 2rem;
 	left: 0;
@@ -80,6 +83,12 @@
 @media only screen and (min-width: 1200px) { 
 	#header .stretch {
 		width: 60% !important;
+	}
+}
+
+@media only screen and (min-width: 1600px) {
+	#header {
+		padding: 0 12.5%;
 	}
 }
 

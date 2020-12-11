@@ -11,12 +11,13 @@ const express = require("express"),
 router.get("/", async (req, res) => {
 	try {
 		let foundProducts = [];
-		//Populate user's cart
+		//Populate user's products
 		if(req.query.user && mongoose.Types.ObjectId.isValid(req.query.user)) {
 			const foundUser = await User.findById(req.query.user);
 			if(!foundUser) {
 				return res.status(404).json({message: "User does not exist."});
 			};
+			
 			for(const item of foundUser.cart) {
 				const product = await Product.findById(item.product);
 				foundProducts.push(product);
@@ -163,6 +164,10 @@ router.delete("/:productId", middleware.isAdmin, middleware.hasProductId, async 
 			//Pulls product from all users' carts
 			await User.updateMany({"cart.product": {$in: req.params.productId}}, {
 				$pull: {cart: {product: mongoose.Types.ObjectId(req.params.productId)}}
+			});
+
+			await User.updateMany({watchlist: {$in: req.params.productId}}, {
+				$pull: {watchlist: req.params.productId}
 			});
 			
 			await Discount.findOneAndDelete({product: req.params.productId});

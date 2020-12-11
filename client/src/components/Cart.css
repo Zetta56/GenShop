@@ -39,58 +39,17 @@
 	margin: 0;
 }
 
-#cart .total {
-	padding: 1rem 0;
-	text-align: right;
+#cart .bottomRow {
+	padding: 1.5rem 2rem;
 }
 
-#cart .checkout {
-	text-align: right;
+#cart .bottomRow .total {
+	line-height: 2.5rem;
+	text-align: left;
 }
 
-#cart .checkout .button {
-	position: relative;
-	margin: 1rem;
-}
-
-@media only screen and (max-width: 1200px) {
-	#cart {
-		width: 90%;
-	}
-}
-
-@media only screen and (max-width: 992px) {
-	#cart .table,
-	#cart .table *:not(span) {
-		display: block;
-	}
-
-	#cart .table thead {
-		display: none;
-	}
-
-	#cart .table td:not(.image):not(.remove) {
-		margin: .5rem 1rem;
-		text-align: left;
-	}
-
-	#cart .table tr {
-		padding: 0;
-	}
-
-	#cart .table .name * {
-		display: inline;
-	}
-
-	#cart .image,
-	#cart .remove {
-		padding: 0 !important;
-	}
-
-	#cart img,
-	#cart .remove .ui.button {
-		width: 100%;
-	}
+#cart .bottomRow .checkout.button {
+	float: right;
 }
 
 @media only screen and (min-width: 993px) {
@@ -125,5 +84,50 @@
 @media only screen and (min-width: 1200px) {
 	#cart .name {
 		max-width: 25rem;
+	}
+}
+
+@media only screen and (max-width: 1200px) {
+	#cart {
+		width: 90%;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	#cart .table,
+	#cart .table *:not(span) {
+		display: block;
+	}
+
+	#cart .table thead {
+		display: none;
+	}
+
+	#cart .table td:not(.image):not(.remove) {
+		margin: .5rem 1rem;
+		text-align: left;
+	}
+
+	#cart .table tr {
+		padding: 0;
+	}
+
+	#cart .table .name *,
+	#cart .table .checkout * {
+		display: inline;
+	}
+
+	#cart .image,
+	#cart .remove {
+		padding: 0 !important;
+	}
+
+	#cart img,
+	#cart .remove .ui.button {
+		width: 100%;
+	}
+
+	#cart .bottomRow {
+		padding: 1rem !important;
 	}
 }

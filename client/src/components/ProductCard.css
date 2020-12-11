@@ -1,40 +1,45 @@
-#productList .card {
+.product.card {
 	box-shadow: none;
 }
 
-#productList .content {
+.product.card .content {
 	overflow-wrap: break-word;
 }
 
-#productList .meta {
-	font-size: 18px;
+.product.card .image {
+	background-color: white !important;
+}
+
+.product.card .meta {
+	color: #333333 !important;		/*black*/
+	font-size: 18px !important;
 	letter-spacing: .05rem;
 	margin-top: 1.5rem;
 }
 
-#productList .discountDate {
+.product.card .discountDate {
 	font-size: 14px;
 	margin: .5rem;
 }
 
 @media only screen and (min-width: 768px) {
-	#productList img {
-		height: 20rem;
+	.product.card img {
+		height: 20rem !important;
 		padding: 1.5rem;
 		object-fit: contain;
 	}
 }
 
 @media only screen and (max-width: 1200px) {
-	#productList .card {
+	.product.card {
 		margin: 1rem 1.6%;
-		width: 30%;
+		width: 30% !important;
 	}
 }
 
 @media only screen and (max-width: 992px) {
-	#productList .card {
+	.product.card {
 		margin: 1rem 3%;
-		width: 44%;
+		width: 44% !important;
 	}
 }

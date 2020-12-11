@@ -5,7 +5,7 @@ import history from "../history";
 import {fetchProduct, deleteProduct} from "../actions";
 import Modal from "../components/Modal";
 
-const ProductDelete = ({fetchProduct, deleteProduct, match, product, loading}) => {
+const ProductDelete = ({fetchProduct, deleteProduct, match, loading}) => {
 	const buttonContent = loading ? <div className="ui mini active inline loader"></div> : "Confirm";
 
 	useEffect(() => {
@@ -18,27 +18,22 @@ const ProductDelete = ({fetchProduct, deleteProduct, match, product, loading}) =
 				<button onClick={() => deleteProduct(match.params.productId)} className="ui red button">
 					{buttonContent}
 				</button>
-				<Link to={`/products/${product._id}`} className="ui button">Cancel</Link>
+				<Link to={`/products/${match.params.productId}`} className="ui button">Cancel</Link>
 			</React.Fragment>
 		);
-	};
-
-	if(!product) {
-		return null;
 	};
 
 	return (
 		<Modal 
 			header="Confirm Deletion" 
-			content={`Are you sure you want to permanently delete '${product.title}'? This action cannot be undone.`}
+			content={`Are you sure you want to permanently delete this product? This action cannot be undone.`}
 			actions={renderButtons()}
-			onDismiss={() => history.push(`/products/${product._id}`)} />
+			onDismiss={() => history.push(`/products/${match.params.productId}`)} />
 	);
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 	return {
-		product: state.products[ownProps.match.params.productId], 
 		loading: state.alert.loading
 	};
 };

@@ -1,9 +1,14 @@
 #productForm {
+	background-color: white;
 	margin: 6rem 0;
 }
 
 #productForm > .column {
 	padding: 2rem 2.75rem;
+}
+
+#productForm h2 {
+	color: #4a4a4a !important;	/*gray*/
 }
 
 /*Text Inputs*/
@@ -32,6 +37,12 @@
 	border: 0;
 }
 
+#productForm .react-tagsinput-tag,
+#productForm .react-tagsinput-remove {
+	color: #333333;		/*black*/
+	background-color: #eeeeee;	/*lighter-gray*/
+}
+
 #productForm .react-tagsinput-input {
 	width: 20rem;
 }
@@ -48,6 +59,7 @@
 }
 
 #productForm .fileUploader .deleteImage {
+	background-color: #f54747; /*red*/
 	top: 0;
 	right: 0;
 	font-size: 20px;

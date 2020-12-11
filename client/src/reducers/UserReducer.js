@@ -4,9 +4,10 @@ const userReducer = (state = {isLoggedIn: null}, action) => {
 			return {...state, isLoggedIn: true, ...action.payload};
 		case "LOGOUT":
 			return {isLoggedIn: false};
-		case "ALTER_CART":
-			return {...state, ...action.payload};
-		case "RESET_CART":
+		case "EDIT_CART":
+		case "DELETE_CART":
+		case "EDIT_WATCHLIST":
+		case "DELETE_WATCHLIST":
 			return {...state, ...action.payload};
 		default:
 			return state;

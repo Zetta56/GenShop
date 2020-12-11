@@ -3,10 +3,11 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import Price from "./Price";
 import Stars from "./Stars";
+import "./ProductCard.css";
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, children}) => {
     return (
-        <div className="card">
+        <div className="product card">
             <Link to={`/products/${product._id}`} className="image">
                     <img src={product.image.url} alt={product.title} />
             </Link>
@@ -23,6 +24,7 @@ const ProductCard = ({product}) => {
                         <div className="discountDate">Until {moment(product.expireAt).format("MMM Do")}</div>
                     }
                 </div>
+                {children}
             </div>
         </div>
     );

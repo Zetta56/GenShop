@@ -5,19 +5,13 @@ import StarsInput from "./StarsInput";
 import TextArea from "./TextArea";
 
 const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) => {
-	//Closes the form on cancel button click
-	const onCancelClick = (e) => {
-		e.preventDefault();
-		cancel();
-	};
-
 	return (
 		<form className="ui form" onSubmit={handleSubmit(formValues => onFormSubmit(formValues))}>
 			<StarsInput ratings={ratings} />
 			<Field name="comment" component={TextArea} placeholder="Add a comment..." required />
 			<button className="ui blue create button">{buttonText}</button>
 			{cancel &&
-				<button onClick={(e) => onCancelClick(e)} className="ui button">Cancel</button>
+				<button type="button" onClick={() => cancel()} className="ui button">Cancel</button>
 			}
 		</form>
 	);

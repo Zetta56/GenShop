@@ -37,7 +37,7 @@ export const login = (formValues, initial) => {
 	};
 };
 
-export const logout = (initial) => {
+export const logout = () => {
 	return async (dispatch) => {
 		await axios.get("/api/logout");
 		
@@ -47,14 +47,14 @@ export const logout = (initial) => {
 	};
 };
 
-export const alterCart = (adding, productId, formValues) => {
+export const editCart = (productId, formValues) => {
 	return async (dispatch) => {
 		try {
 			dispatch(loading());
-			const response = await axios.post(`/api/alter-cart/${productId}`, formValues);
+			const response = await axios.put(`/api/user/cart/${productId}`, formValues);
 
 			dispatch({
-				type: "ALTER_CART",
+				type: "EDIT_CART",
 				payload: response.data
 			});
 			dispatch(finishLoading());
@@ -64,13 +64,45 @@ export const alterCart = (adding, productId, formValues) => {
 	}
 };
 
-export const resetCart = () => {
+export const deleteCart = () => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.post("/api/reset-cart");
+			const response = await axios.delete("/api/user/cart");
 			
 			dispatch({
-				type: "RESET_CART",
+				type: "DELETE_CART",
+				payload: response.data
+			});
+		} catch(err) {
+			await dispatch(error(err.response.data.message));
+		}
+	};
+};
+
+export const editWatchlist = (productId) => {
+	return async (dispatch) => {
+		try {
+			dispatch(loading());
+			const response = await axios.put(`/api/user/watchlist/${productId}`);
+
+			dispatch({
+				type: "EDIT_WATCHLIST",
+				payload: response.data
+			});
+			dispatch(finishLoading());
+		} catch(err) {
+			await dispatch(error(err.response.data.message));
+		}
+	}
+};
+
+export const deleteWatchlist = () => {
+	return async (dispatch) => {
+		try {
+			const response = await axios.delete("/api/user/watchlist");
+			
+			dispatch({
+				type: "DELETE_WATCHLIST",
 				payload: response.data
 			});
 		} catch(err) {

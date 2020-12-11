@@ -10,7 +10,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE);
 const CartContainer = ({fetchProducts, error, user, products, total}) => {
 	useEffect(() => {
 		if(user) {
-			fetchProducts({user: user._id});
+			fetchProducts(user._id, "cart");
 		};
 	}, [fetchProducts, user]);
 
@@ -35,7 +35,7 @@ const CartContainer = ({fetchProducts, error, user, products, total}) => {
 				onCheckoutClick={() => onCheckoutClick()} />
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 	const cartIds = state.user.cart.map(item => item.product);
 	
 	//Adds product of each product's price and quantity to get grand total

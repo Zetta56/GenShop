@@ -106,40 +106,40 @@ router.post("/refresh", (req, res) => {
 	});
 });
 
-router.post("/alter-cart/:productId", middleware.isLoggedIn, async(req, res) => {
-	try{
-		const foundUser = await User.findById(req.user._id);
-		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
+// router.post("/alter-cart/:productId", middleware.isLoggedIn, async(req, res) => {
+// 	try{
+// 		const foundUser = await User.findById(req.user._id);
+// 		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
 		
-		if(cartIndex >= 0) {
-			await foundUser.cart.splice(cartIndex, 1);
-		} else {
-			await foundUser.cart.push({
-				product: req.params.productId, 
-				quantity: req.body.quantity,
-				variation: req.body.variation
-			});
-		}
+// 		if(cartIndex >= 0) {
+// 			await foundUser.cart.splice(cartIndex, 1);
+// 		} else {
+// 			await foundUser.cart.push({
+// 				product: req.params.productId, 
+// 				quantity: req.body.quantity,
+// 				variation: req.body.variation
+// 			});
+// 		}
 
-		foundUser.save();
-		res.json(foundUser);
-	} catch(err) {
-		console.log(err)
-		res.status(500).json(err);
-	}
-});
+// 		foundUser.save();
+// 		res.json(foundUser);
+// 	} catch(err) {
+// 		console.log(err)
+// 		res.status(500).json(err);
+// 	}
+// });
 
-router.post("/reset-cart", middleware.isLoggedIn, async(req, res) => {
-	try{
-		const foundUser = await User.findById(req.user._id);
+// router.post("/reset-cart", middleware.isLoggedIn, async(req, res) => {
+// 	try{
+// 		const foundUser = await User.findById(req.user._id);
 
-		foundUser.cart = [];
-		foundUser.save();
-		res.json(foundUser);
-	} catch(err) {
-		res.status(500).json(err);
-	}
-});
+// 		foundUser.cart = [];
+// 		foundUser.save();
+// 		res.json(foundUser);
+// 	} catch(err) {
+// 		res.status(500).json(err);
+// 	}
+// });
 
 //Stripe Logic
 router.post("/checkout", middleware.isLoggedIn, async (req, res) => {

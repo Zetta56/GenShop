@@ -33,7 +33,7 @@ const Review = ({editReview, product, review, user}) => {
 	const renderManipulate = (review) => {
 		if((user._id === review.user.id || user.isAdmin) && !editing) {
 			return (
-				<div className="ui dropdown">
+				<div className="ui three-dot dropdown">
 					<i className="fas fa-ellipsis-v" />
 					<div className="menu">
 						{user._id === review.user.id &&

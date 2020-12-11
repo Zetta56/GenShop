@@ -1,13 +1,13 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import ProductCartForm from "../containers/CartFormContainer";
+import CartForm from "./CartForm";
 import Stars from "./Stars";
 
-const ProductInfo = ({product, user, match}) => {
+const ProductInfo = ({product, user}) => {
     const renderAdmin = () => {
 		if(user.isAdmin) { 
 			return (
-				<div className="ui dropdown">
+				<div className="ui three-dot dropdown">
 					<i className="fas fa-ellipsis-v" />
 					<div className="menu">
 						<Link to={`/products/${product._id}/edit`} className="item">Edit</Link>
@@ -31,10 +31,7 @@ const ProductInfo = ({product, user, match}) => {
             <div className="ui stackable grid">
                 <div className="eight wide details column">
                     <div className="ui contentTop divider"></div>
-                    <ProductCartForm 
-                        product={product} 
-                        user={user} 
-                        match={match} />
+                    <CartForm product={product} user={user} />
                 </div>
                 <div className="eight wide image column">
                     <div className="ui fluid image">
