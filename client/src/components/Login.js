@@ -16,7 +16,7 @@ const Login = ({handleSubmit, login}) => {
 					<Field name="password" component={Input} label="Password" inputType="password" icon="lock" />
 					<button className="ui blue submit button" id="submitButton">Submit</button>
 				</form>
-				<GoogleAuth type="login" />
+				<GoogleAuth actionType="login" />
 			</div>
 		</div>
 	);

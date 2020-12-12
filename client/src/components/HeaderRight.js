@@ -10,7 +10,7 @@ const HeaderRight = ({isLoggedIn, isAdmin, logout, top}) => {
 
 	const renderLogout = () => {
 		if(process.env.REACT_APP_GOOGLE_CLIENTID && window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
-			return <GoogleAuth type="logout" />
+			return <GoogleAuth actionType="logout" />
 		} else {
 			return <Link to="/" className="item" onClick={() => logout()}>Logout</Link>
 		};
