@@ -40,7 +40,6 @@
 	padding: 2rem;
 	word-wrap: break-word;
 	white-space: pre-wrap;
-	width: 50rem;
 }
 
 @media only screen and (max-width: 768px) {
