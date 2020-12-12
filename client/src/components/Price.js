@@ -6,7 +6,7 @@ const Price = ({product}) => {
             <React.Fragment>
                 <span className="strikeThrough">${product.price}</span>
                 <span className="red">
-                    ${(Math.round((product.price - product.price * (product.discount / 100)) * 100) / 100).toFixed(2)}
+                    ${(product.price - Math.round(product.price * product.discount) / 100).toFixed(2)}
                     ({product.discount}% off)
                 </span>
             </React.Fragment>

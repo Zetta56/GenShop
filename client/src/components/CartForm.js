@@ -7,9 +7,11 @@ import {editCart, editWatchlist} from "../actions";
 import Input from "./Input";
 import Price from "./Price";
 import Dropdown from "./Dropdown";
+import "./CartForm.css";
 
-const CartForm = ({handleSubmit, product, user, loading, editCart, editWatchlist}) => {
-	//Conditionally renders button in cart form
+//Props: product
+const CartForm = ({handleSubmit, user, editCart, editWatchlist, product}) => {
+	//Conditionally render buttons in cart form
 	const renderCartButton = () => {
 		if(!user.isLoggedIn) {
 			return <Link to="/login" className="ui button">Sign in to add to cart</Link>
@@ -76,7 +78,7 @@ const mapStateToProps = (state, ownProps) => {
 			quantity: cartItem ? cartItem.quantity : 1, 
 			variation: initialVariations
 		},
-		loading: state.alert.loading
+		user: state.user
 	};
 };
 

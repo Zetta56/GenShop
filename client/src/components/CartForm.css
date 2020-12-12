@@ -1,0 +1,30 @@
+/*Cart Form*/
+.cartForm {
+	font-size: 18px;
+	width: 80%;
+}
+
+.cartForm > *:not(.button) {
+	margin: 1rem 0;
+}
+
+.cartForm input,
+.cartForm .dropdown.menu {
+	margin-left: .5rem;
+	padding: .3rem .5rem;
+	min-width: 9rem;
+	width: 9rem;
+}
+
+.cartForm .button {
+	margin: .25rem 0;
+	width: 100%;
+}
+
+.cartForm .login.button {
+	background-color: #eeeeee;	/*lighter-gray*/
+}
+
+.cartForm .watchlist.button {
+	filter: saturate(.75);
+}

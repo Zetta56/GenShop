@@ -6,6 +6,7 @@ import ReviewForm from "./ReviewForm";
 import Review from "./ReviewItem";
 import "./ReviewSection.css";
 
+//Props: product, reviews, user
 const ReviewSection = ({createReview, product, reviews, user}) => {
 	//Render new review form or sign in button
 	const renderTop = () => {

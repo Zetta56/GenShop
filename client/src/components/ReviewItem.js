@@ -7,6 +7,7 @@ import ReviewForm from "./ReviewForm";
 import Stars from "./Stars";
 import avatar from "../assets/defaultAvatar.jpg";
 
+//Props: product, review, user
 const Review = ({editReview, product, review, user}) => {
 	const [editing, setEditing] = useState(null);
 

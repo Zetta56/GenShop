@@ -3,7 +3,10 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {editCart} from "../actions";
 
-const cartRow = ({editCart, product, variation, quantity, itemTotal}) => {
+const CartRow = ({editCart, product, variation, quantity}) => {
+    const discountPercent = product.discount ? product.discount : 0;
+	const itemTotal = product.price - Math.round(product.price * discountPercent) / 100;
+    
     return (
         <tr>
             <td className="image">
@@ -39,4 +42,4 @@ const cartRow = ({editCart, product, variation, quantity, itemTotal}) => {
     );
 };
 
-export default connect(null, {editCart})(cartRow);
+export default connect(null, {editCart})(CartRow);

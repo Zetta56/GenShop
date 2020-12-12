@@ -55,6 +55,20 @@ a {
 	}
 }
 
+/*Three-dots*/
+.three-dot.dropdown .fa-ellipsis-v {
+	color: #aaaaaa;		/*light-gray*/
+	width: 2rem;
+}
+
+.three-dot.dropdown *:not(.fa-ellipsis-v) {
+	color: #333333;		/*black*/
+}
+
+.three-dot.dropdown:hover .menu {
+	display: block;
+}
+
 /*Stars*/
 .fa-star {
 	color: #aaaaaa;		/*dark gray*/
@@ -71,20 +85,6 @@ a {
 .ratings:not(:checked) > label:hover,
 .ratings:not(:checked) > label:hover ~ label {
     color: #deb217;  
-}
-
-/*Three-dots*/
-.three-dot.dropdown .fa-ellipsis-v {
-	color: #aaaaaa;		/*light-gray*/
-	width: 2rem;
-}
-
-.three-dot.dropdown *:not(.fa-ellipsis-v) {
-	color: #333333;		/*black*/
-}
-
-.three-dot.dropdown:hover .menu {
-	display: block;
 }
 
 /*Watchlist*/

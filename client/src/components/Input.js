@@ -1,45 +1,41 @@
-import React from "react"
+import React from "react";
 
-const Input = ({input, meta, label, placeholder, inputType, min, max, step, required, icon}) => {
-	const finalPlaceholder = placeholder && placeholder.length > 0 ? placeholder : label;
-	//Renders error if error exists and user tried to fill in input
-	const error = meta.error && meta.touched ? "red" : "";
-	
-	const renderError = () => {
-		if(meta.touched && meta.error) {
-			return <div className="errorLabel">{meta.error}</div>
-		};
-	};
+//Props: input, meta, input attributes
+const Input = (props) => {
+	const error = props.meta.error && props.meta.touched ? "red" : "";
 
 	const renderInput = () => {
 		return (
-			<input 
-				{...input} 
-				type={inputType} 
-				placeholder={finalPlaceholder} 
-				min={min || 0}
-				max={max}
-				step={step || "any"}
-				required={!required ? false : true} />
+			<React.Fragment>
+				<input 
+					{...props.input} 
+					type={props.inputType} 
+					placeholder={props.placeholder || props.label} 
+					min={props.min || 0}
+					max={props.max}
+					step={props.step || "any"}
+					required={!props.required ? false : true} />
+				{props.meta.touched && props.meta.error &&
+					<div className="errorLabel">{props.meta.error}</div>
+				}
+			</React.Fragment>
 		);
 	};
 
-	if(icon) {
+	if(props.icon) {
 		//Icon Input
 		return (
 			<div className={`${error} ui left icon input field`}>
 				{renderInput()}
-				<i className={`${icon} icon`} />
-				{renderError()}
+				<i className={`${props.icon} icon`} />
 			</div>
 		);
 	} else {
 		//Text Label Input
 		return (
 			<div className={`${error} field`}>
-				<label>{label}</label>
+				<label>{props.label}</label>
 				{renderInput()}
-				{renderError()}
 			</div>
 		);
 	}

@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import CartForm from "./CartForm";
 import Stars from "./Stars";
+import "./ProductInfo.css";
 
 const ProductInfo = ({product, user}) => {
     const renderAdmin = () => {
@@ -19,7 +20,7 @@ const ProductInfo = ({product, user}) => {
 	};
 
     return (
-        <div className="details">
+        <div className="info">
             <h1 className="ui header">
                 {product.title}
                 {renderAdmin()}
@@ -29,9 +30,9 @@ const ProductInfo = ({product, user}) => {
             </h1>
             <div className="ui divider"></div>
             <div className="ui stackable grid">
-                <div className="eight wide details column">
+                <div className="eight wide text column">
                     <div className="ui contentTop divider"></div>
-                    <CartForm product={product} user={user} />
+                    <CartForm product={product} />
                 </div>
                 <div className="eight wide image column">
                     <div className="ui fluid image">

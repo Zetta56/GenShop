@@ -29,7 +29,7 @@ const CartContainer = ({fetchProducts, error, user, products, total}) => {
 	};
 
 	return <Cart 
-				user={user} 
+				cart={user.cart} 
 				products={products} 
 				total={total} 
 				onCheckoutClick={() => onCheckoutClick()} />

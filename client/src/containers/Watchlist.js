@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import {fetchProducts, editWatchlist, deleteWatchlist} from "../actions";
 import ProductCard from "../components/ProductCard";
 
@@ -31,7 +32,7 @@ const Watchlist = ({products, user, fetchProducts, editWatchlist, deleteWatchlis
                 <div className="ui three-dot dropdown">
 					<i className="fas fa-ellipsis-v" />
 					<div className="menu">
-						<a href="#" className="item" onClick={() => deleteWatchlist()}>Reset</a>
+						<Link to="#" className="item" onClick={() => deleteWatchlist()}>Reset</Link>
 					</div>
 				</div>
             </h2>

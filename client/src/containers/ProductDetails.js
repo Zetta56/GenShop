@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import {fetchProduct, fetchReviews} from "../actions";
 import ProductInfo from "../components/ProductInfo";
 import ReviewSection from "../components/ReviewSection";
-import "./ProductDetails.css";
 
 const ProductDetails = ({fetchProduct, fetchReviews, match, product, reviews, user}) => {
 	useEffect(() => {

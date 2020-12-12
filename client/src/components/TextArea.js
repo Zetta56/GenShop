@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextArea = ({input, meta, label, placeholder, maxLength, initial}) => {
+const TextArea = ({input, meta, initial, label, placeholder, maxLength}) => {
     return (
         <div className="field">
             <label>{label}</label>

@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {login, logout} from "../actions";
 
-const GoogleAuth = ({login, logout, type}) => {
+//Set actionType to none to only load oauth2 client
+const GoogleAuth = ({login, logout, actionType}) => {
     useEffect(() => {
         if(process.env.REACT_APP_GOOGLE_CLIENTID) {
             window.gapi.load("client:auth2", () => {
@@ -33,8 +34,7 @@ const GoogleAuth = ({login, logout, type}) => {
         return null;
     };
     
-    //Set type to none to load oauth2 client and not return anything
-    switch(type) {
+    switch(actionType) {
         case "login":
             return (
                 <React.Fragment>

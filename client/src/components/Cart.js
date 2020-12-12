@@ -2,18 +2,15 @@ import React from "react";
 import CartRow from "./CartRow";
 import "./Cart.css";
 
-const Cart = ({user, products, total, onCheckoutClick}) => {
+const Cart = ({cart, products, total, onCheckoutClick}) => {
 	const renderItems = () => {
 		return products.map(product => {
-			const {variation, quantity} = user.cart.find(item => item.product === product._id);
-			const discountPercent = product.discount ? product.discount : 0;
-			const itemTotal = product.price - product.price * (discountPercent / 100);
+			const {variation, quantity} = cart.find(item => item.product === product._id);
 
 			return <CartRow 
 						product={product}
 						variation={variation} 
 						quantity={quantity}
-						itemTotal={itemTotal}
 						key={product._id} />
 		});
 	};

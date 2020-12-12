@@ -2,8 +2,8 @@ import React from "react";
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
 import {login} from "../actions";
-import GoogleAuth from "../components/GoogleAuth";
-import Input from "../components/Input";
+import GoogleAuth from "./GoogleAuth";
+import Input from "./Input";
 import "./UserForm.css";
 
 const Login = ({handleSubmit, login}) => {

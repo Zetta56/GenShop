@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {Route, Redirect} from "react-router-dom";
 
+//Props: noAuthenticateReq, adminReq, path, component
 const ProtectedRoute = ({isLoggedIn, isAdmin, noAuthenticateReq, adminReq, path, component}) => {
 	if(isLoggedIn === null) {
 		return null;

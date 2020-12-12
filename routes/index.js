@@ -106,41 +106,6 @@ router.post("/refresh", (req, res) => {
 	});
 });
 
-// router.post("/alter-cart/:productId", middleware.isLoggedIn, async(req, res) => {
-// 	try{
-// 		const foundUser = await User.findById(req.user._id);
-// 		const cartIndex = await foundUser.cart.findIndex(item => item.product.equals(req.params.productId));
-		
-// 		if(cartIndex >= 0) {
-// 			await foundUser.cart.splice(cartIndex, 1);
-// 		} else {
-// 			await foundUser.cart.push({
-// 				product: req.params.productId, 
-// 				quantity: req.body.quantity,
-// 				variation: req.body.variation
-// 			});
-// 		}
-
-// 		foundUser.save();
-// 		res.json(foundUser);
-// 	} catch(err) {
-// 		console.log(err)
-// 		res.status(500).json(err);
-// 	}
-// });
-
-// router.post("/reset-cart", middleware.isLoggedIn, async(req, res) => {
-// 	try{
-// 		const foundUser = await User.findById(req.user._id);
-
-// 		foundUser.cart = [];
-// 		foundUser.save();
-// 		res.json(foundUser);
-// 	} catch(err) {
-// 		res.status(500).json(err);
-// 	}
-// });
-
 //Stripe Logic
 router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 	try {
@@ -164,7 +129,7 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 								name: productName,
 								images: [item.product.image.url]
 							},
-							unit_amount_decimal: Math.round((item.product.price * 100) - (item.product.price * discountPercent))
+							unit_amount_decimal: item.product.price * 100 - Math.round(item.product.price * discountPercent)
 						},
 						quantity: item.quantity
 					}

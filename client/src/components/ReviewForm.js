@@ -4,6 +4,7 @@ import {reduxForm, Field, reset, formValueSelector} from "redux-form";
 import StarsInput from "./StarsInput";
 import TextArea from "./TextArea";
 
+//Props: ratings, buttonText, cancel
 const ReviewForm = ({handleSubmit, onFormSubmit, ratings, buttonText, cancel}) => {
 	return (
 		<form className="ui form" onSubmit={handleSubmit(formValues => onFormSubmit(formValues))}>

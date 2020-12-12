@@ -3,11 +3,11 @@ import {connect} from "react-redux";
 import _ from "lodash";
 import moment from "moment";
 import {editProduct} from "../actions";
-import ProductForm from "../components/ProductForm";
+import ProductFormContainer from "./ProductFormContainer";
 
 const ProductEdit = ({editProduct, match, initialValues}) => {
 	return (
-		<ProductForm 
+		<ProductFormContainer 
 			onFormSubmit={formValues => editProduct(formValues, match.params.productId)}
 			initial={initialValues}
 			match={match}
