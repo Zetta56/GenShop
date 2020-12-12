@@ -5,8 +5,12 @@
 }
 
 .info .header {
-	font-size: 24px;
-	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.info .header .title {
+	display: block;
+	width: 95%;
 }
 
 .info .header .dropdown {
@@ -30,11 +34,13 @@
 }
 
 .info .description {
+	display: block;
 	font-size: 18px;
-	line-height: 2em;
+	line-height: 2.5rem;
 	padding: 2rem;
 	word-wrap: break-word;
-	white-space: pre;
+	white-space: pre-wrap;
+	width: 50rem;
 }
 
 @media only screen and (max-width: 768px) {

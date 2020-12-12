@@ -20,8 +20,8 @@ const ProductInfo = ({product, user}) => {
     return (
         <div className="info">
             <h1 className="ui header">
-                {product.title}
                 {renderKebab()}
+                <span className="title">{product.title}</span>
                 {product.ratings && product.ratings.length > 0 &&
                     <Stars rating={product.ratings.reduce((a, b) => a + b) / product.ratings.length} />
                 }

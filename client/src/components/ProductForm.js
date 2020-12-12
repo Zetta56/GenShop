@@ -51,7 +51,7 @@ const ProductForm = ({formValues, initialValues, variationsRef, ...props}) => {
 					onSubmit={props.handleSubmit(formValues => props.onFormSubmit(formValues))} 
 				>
 					<Field name="title" component={Input} label="Name" inputType="text" />
-					<Field name="description" component={TextArea} label="Description" placeholder="Description" maxLength={200} />
+					<Field name="description" component={TextArea} label="Description" placeholder="Description" />
 					<Field name="price" component={Input} label="Price" inputType="number" min={0} />
 					<Field name="discount" component={Input} label="Discount % (Optional)" placeholder="Discount" inputType="number" min={1} max={100} step={1} required={false} />
 					{formValues.discount && 
