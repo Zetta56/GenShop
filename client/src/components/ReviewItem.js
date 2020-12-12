@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import {editReview} from "../actions";
 import ReviewForm from "./ReviewForm";
+import KebabMenu from "./KebabMenu";
 import Stars from "./Stars";
 import avatar from "../assets/defaultAvatar.jpg";
 
@@ -31,22 +32,19 @@ const Review = ({editReview, product, review, user}) => {
 	};
 
 	//Renders review actions menu
-	const renderManipulate = (review) => {
+	const renderKebab = (review) => {
 		if((user._id === review.user.id || user.isAdmin) && !editing) {
 			return (
-				<div className="ui three-dot dropdown">
-					<i className="fas fa-ellipsis-v" />
-					<div className="menu">
-						{user._id === review.user.id &&
-							<Link to="#" onClick={() => setEditing(review._id)} className="item">
-								Edit
-							</Link>
-						}
-						<Link to={`/products/${product._id}/reviews/${review._id}/delete`} className="item">
-							Delete
+				<KebabMenu>
+					{user._id === review.user.id &&
+						<Link to="#" onClick={() => setEditing(review._id)} className="item">
+							Edit
 						</Link>
-					</div>
-				</div>
+					}
+					<Link to={`/products/${product._id}/reviews/${review._id}/delete`} className="item">
+						Delete
+					</Link>
+				</KebabMenu>
 			);
 		}
     };
@@ -62,7 +60,7 @@ const Review = ({editReview, product, review, user}) => {
                     <span className="date">
                         {moment(review.created).fromNow()}
                     </span>
-                    {renderManipulate(review)}
+                    {renderKebab(review)}
                 </div>
                 {renderComment(review, editing)}
             </div>

@@ -28,3 +28,9 @@
 .cartForm .watchlist.button {
 	filter: saturate(.75);
 }
+
+@media only screen and (max-width: 576px) {
+	.cartForm {
+		width: 100%;
+	}
+}

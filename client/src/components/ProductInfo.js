@@ -1,20 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import CartForm from "./CartForm";
+import KebabMenu from "./KebabMenu";
 import Stars from "./Stars";
 import "./ProductInfo.css";
 
 const ProductInfo = ({product, user}) => {
-    const renderAdmin = () => {
+    const renderKebab = () => {
 		if(user.isAdmin) { 
 			return (
-				<div className="ui three-dot dropdown">
-					<i className="fas fa-ellipsis-v" />
-					<div className="menu">
-						<Link to={`/products/${product._id}/edit`} className="item">Edit</Link>
-						<Link to={`/products/${product._id}/delete`} className="item">Delete</Link>
-					</div>
-				</div>
+				<KebabMenu>
+					<Link to={`/products/${product._id}/edit`} className="item">Edit</Link>
+					<Link to={`/products/${product._id}/delete`} className="item">Delete</Link>
+                </KebabMenu>
 			);
 		};
 	};
@@ -23,7 +21,7 @@ const ProductInfo = ({product, user}) => {
         <div className="info">
             <h1 className="ui header">
                 {product.title}
-                {renderAdmin()}
+                {renderKebab()}
                 {product.ratings && product.ratings.length > 0 &&
                     <Stars rating={product.ratings.reduce((a, b) => a + b) / product.ratings.length} />
                 }

@@ -9,6 +9,10 @@
 	max-width: 100%;
 }
 
+#reviews .comment {
+	font-size: 16px;
+}
+
 #reviews .comment .avatar {
 	margin-top: .75rem;
 	width: 3rem;

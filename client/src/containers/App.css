@@ -28,17 +28,21 @@ body {
 	text-align: center;
 }
 
+a {
+	outline: none;
+}
+
 .strikeThrough {
 	margin: 0 .5rem 0 0;
 	text-decoration: line-through;
 }
 
-.hidden {
-	display: none;
+.block {
+	display: block !important;
 }
 
-a {
-	outline: none;
+.hidden {
+	display: none;
 }
 
 .blue {
@@ -56,17 +60,18 @@ a {
 }
 
 /*Three-dots*/
-.three-dot.dropdown .fa-ellipsis-v {
+.kebab.dropdown .fa-ellipsis-v {
 	color: #aaaaaa;		/*light-gray*/
-	width: 2rem;
 }
 
-.three-dot.dropdown *:not(.fa-ellipsis-v) {
+.kebab.dropdown *:not(.fa-ellipsis-v) {
 	color: #333333;		/*black*/
 }
 
-.three-dot.dropdown:hover .menu {
-	display: block;
+@media only screen and (max-width: 768px) {
+	.kebab.dropdown .menu .item {
+		padding: .6rem !important;
+	}
 }
 
 /*Stars*/
@@ -93,7 +98,7 @@ a {
 	padding: 2rem;
 }
 
-#watchlist .three-dot.dropdown {
+#watchlist .kebab.dropdown {
 	margin-left: .5rem;
 }
 

@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {fetchProducts, editWatchlist, deleteWatchlist} from "../actions";
+import KebabMenu from "../components/KebabMenu";
 import ProductCard from "../components/ProductCard";
 
 const Watchlist = ({products, user, fetchProducts, editWatchlist, deleteWatchlist}) => {
@@ -29,12 +30,9 @@ const Watchlist = ({products, user, fetchProducts, editWatchlist, deleteWatchlis
         <div id="watchlist">
             <h2>
                 My Watchlist
-                <div className="ui three-dot dropdown">
-					<i className="fas fa-ellipsis-v" />
-					<div className="menu">
-						<Link to="#" className="item" onClick={() => deleteWatchlist()}>Reset</Link>
-					</div>
-				</div>
+                <KebabMenu>
+					<Link to="#" className="item" onClick={() => deleteWatchlist()}>Reset</Link>
+				</KebabMenu>
             </h2>
             <div className="ui stackable cards">{renderList()}</div>
         </div>

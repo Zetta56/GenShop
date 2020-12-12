@@ -99,6 +99,7 @@
 	
 	#header div.search,
 	#header .search .icon.input {
+		min-width: 7.5rem;
 		width: 95%;
 	}
 
