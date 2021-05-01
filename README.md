@@ -1,4 +1,7 @@
 # GenShop
+
+![Home Page](/docs/images/home.PNG)
+
 This is a general-purpose e-commerce app that can be repurposed to fit a specific product type. 
 It is built with the MERN stack and uses the [Stripe API](https://stripe.com/docs/api) to handle payments.
 
