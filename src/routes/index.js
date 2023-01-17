@@ -7,8 +7,7 @@ const express = require("express"),
 	  middleware = require("../middleware"),
 	  User = require("../models/User"),
 	  Token = require("../models/Token"),
-	  Discount = require("../models/Discount"),
-	  Product = require("../models/Product");
+	  Discount = require("../models/Discount");
 
 router.post("/register", (req, res) => {
 	const user = {email: req.body.email, username: req.body.username};
@@ -110,31 +109,9 @@ router.post("/refresh", (req, res) => {
 router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 	try {
 		const foundUser = await User.findById(req.user._id).populate({path: "cart", populate: {path: "product"}});
-
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
-			line_items: await Promise.all(
-				foundUser.cart.map(async item => {
-					const productName = item.variation && item.variation.length > 0
-						? item.product.title + " (" + item.variation + ")"
-						: item.product.title;
-					
-					const foundDiscount = await Discount.findOne({product: item.product._id});
-					const discountPercent = foundDiscount ? foundDiscount.percent : 0;
-
-					return {
-						price_data: {
-							currency: "usd",
-							product_data: {
-								name: productName,
-								images: [item.product.image.url]
-							},
-							unit_amount_decimal: item.product.price * 100 - Math.round(item.product.price * discountPercent)
-						},
-						quantity: item.quantity
-					}
-				})
-			),
+			line_items: await Promise.all(foundUser.cart.map(populateItem)),
 			mode: "payment",
 			success_url: `${process.env.FRONTEND_URL}/checkout?success=true`,
 			cancel_url: `${process.env.FRONTEND_URL}/checkout?cancel=true`
@@ -145,5 +122,25 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 		res.status(500).json(err);
 	}
 });
+
+const populateItem = async (item) => {
+	const productName = item.variation && item.variation.length > 0
+		? item.product.title + " (" + item.variation + ")"
+		: item.product.title;
+	const foundDiscount = await Discount.findOne({product: item.product._id});
+	const discountPercent = foundDiscount ? foundDiscount.percent : 0;
+	
+	return {
+		price_data: {
+			currency: "usd",
+			product_data: {
+				name: productName,
+				images: [item.product.image.url]
+			},
+			unit_amount_decimal: item.product.price * 100 - Math.round(item.product.price * discountPercent)
+		},
+		quantity: item.quantity
+	}
+}
 
 module.exports = router;

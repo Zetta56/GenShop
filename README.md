@@ -52,6 +52,6 @@ It is built with the MERN stack and uses the [Stripe API](https://stripe.com/doc
 
 4. Run `npm run build` to add your admin user and set up the client.
 
-5. Run `npm start` or `node server.js` to start the server. If you want to start the React Development Server, you can also run `npm start` in the client directory.
+5. Run `npm start` to start the server. If you want to start the React Development Server, you can also run `npm start` in the client directory.
 
 Note: You only need to repeat step 5 on subsequent runs.

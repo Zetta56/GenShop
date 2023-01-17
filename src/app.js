@@ -3,7 +3,6 @@ require("dotenv").config();
 //Packages
 const express = require("express"),
 	  app = express(),
-	  http = require("http").createServer(app),
 	  path = require("path"),
 	  cors = require("cors"),
 	  mongoose = require("mongoose"),
@@ -23,7 +22,10 @@ const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/user");
 
 //DB Config
-mongoose.connect(process.env.DATABASEURL || "mongodb://localhost/genshop", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(
+	process.env.DATABASEURL || "mongodb://localhost/genshop", 
+	{useNewUrlParser: true, useUnifiedTopology: true}
+);
 
 //App Config
 app.use(cors({credentials: true, origin: true}));
@@ -68,10 +70,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/products/:productId/reviews", reviewRoutes);
 app.use((req, res) => {
-	res.sendFile(path.join(__dirname, "./client/build/index.html"));
+	res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-//Start Server
-http.listen(process.env.PORT || 3001, () => {
-	console.log("Server Started");
-});
+module.exports = app;
