@@ -111,7 +111,7 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 		const foundUser = await User.findById(req.user._id).populate({path: "cart", populate: {path: "product"}});
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card"],
-			line_items: await Promise.all(foundUser.cart.map(populateItem)),
+			line_items: await Promise.all(foundUser.cart.map(populateLineItem)),
 			mode: "payment",
 			success_url: `${process.env.FRONTEND_URL}/checkout?success=true`,
 			cancel_url: `${process.env.FRONTEND_URL}/checkout?cancel=true`
@@ -123,7 +123,7 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
 	}
 });
 
-const populateItem = async (item) => {
+const populateLineItem = async (item) => {
 	const productName = item.variation && item.variation.length > 0
 		? item.product.title + " (" + item.variation + ")"
 		: item.product.title;

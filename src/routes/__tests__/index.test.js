@@ -1,10 +1,9 @@
 
 const request = require("supertest");
 const app = require("../../app");
-const helpers = require("../../../tests/helpers.js")
+const helpers = require("../../../tests/helpers.js");
 const Token = require("../../models/Token");
 const User = require("../../models/User");
-const Product = require("../../models/Product");
 
 describe("POST /api/register", () => {
   it("should create a user", async () => {
@@ -17,7 +16,6 @@ describe("POST /api/register", () => {
     const user = await User.findOne({ username: "testName" });
     expect(user).toMatchObject({ email: "test@gmail.com", username: "testName" });
   });
-
   it("should not create a duplicate user", async () => {
     const payload = {
       email: "test@gmail.com",
@@ -38,7 +36,6 @@ describe("POST /api/login", () => {
       password: "testPassword"
     });
   })
-
   it("should log you in with correct credentials", async () => {
     const payload = { username: "testName", password: "testPassword" };
     const res = await request(app).post("/api/login").send(payload);
@@ -49,7 +46,6 @@ describe("POST /api/login", () => {
     expect(res.body["username"]).toEqual("testName");
     expect(token).toBeTruthy();
   })
-
   it("should not log you in with wrong credentials", async () => {
     const wrongUsername = await request(app)
       .post("/api/login")
@@ -75,9 +71,9 @@ describe("GET /api/logout", () => {
 
 describe("GET /api/access", () => {
   it("should send the user object", async () => {
-    const { cookies } = await helpers.getUser();
+    const { user, cookies } = await helpers.getUser();
     const res = await request(app).get("/api/access").set("cookie", cookies);
-    expect(res.body["username"]).toEqual("testName");
+    expect(res.body["username"]).toEqual(user.username);
   })
 })
 
@@ -88,7 +84,6 @@ describe("GET /api/refresh", () => {
     expect(res.headers["set-cookie"][0]).toMatch(new RegExp("^access_token=.*;"));
     expect(res.body).toBeTruthy();
   })
-
   it("should not send a new access token", async () => {
     const res = await request(app).post("/api/refresh").set("cookie", ["access_token=wrong;"]);
     expect(res.body).toBe(false);
@@ -98,17 +93,7 @@ describe("GET /api/refresh", () => {
 describe("POST /api/checkout", () => {
   it("should send the Stripe session id", async () => {
     const { user, cookies } = await helpers.getUser();
-    const newProduct = await Product.create({
-      title: "testTitle",
-      description: "testDescription",
-      //Price rounded to 2 decimal places
-      price: 5.00,
-      variations: ["standard"],
-      image: {
-        url: "test",
-        publicId: "test"
-      }
-    });
+    const newProduct = await helpers.getProduct();
     const foundUser = await User.findById(user._id);
     foundUser.cart.push({ product: newProduct._id, quantity: 1, variation: "standard" });
     foundUser.save();
@@ -116,7 +101,6 @@ describe("POST /api/checkout", () => {
     const res = await request(app).post("/api/checkout").set("cookie", cookies);
     expect(res.body).toEqual(expect.any(String));
   })
-
   it("should fail with an empty cart", async () => {
     const { cookies } = await helpers.getUser();
     const res = await request(app).post("/api/checkout").set("cookie", cookies);

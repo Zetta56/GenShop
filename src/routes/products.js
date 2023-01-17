@@ -83,7 +83,7 @@ router.get("/:productId", middleware.hasProductId, async (req, res) => {
 	};
 });
 
-router.post("/", middleware.hasProductInfo, (req, res) => {
+router.post("/", middleware.isAdmin, middleware.hasProductInfo, (req, res) => {
 	try {
 		//Uploads image to cloudinary and creates product
 		cloudinary.v2.uploader.upload(req.body.image, {folder: process.env.CLOUDINARY_FOLDER}, async (err, result) => {
@@ -115,7 +115,7 @@ router.post("/", middleware.hasProductInfo, (req, res) => {
 	};
 });
 
-router.put("/:productId", middleware.hasProductId, middleware.hasProductInfo, async (req, res) => {
+router.put("/:productId", middleware.isAdmin, middleware.hasProductId, middleware.hasProductInfo, async (req, res) => {
 	try {
 		const foundProduct = await Product.findById(req.params.productId);
 		//Uploads image to cloudinary and updates product
